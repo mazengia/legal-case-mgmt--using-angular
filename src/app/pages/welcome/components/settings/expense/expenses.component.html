@@ -1,0 +1,91 @@
+<div>
+  <h1>Expenses</h1>
+  <nz-divider nzType="horizontal"></nz-divider>
+  <div>
+    <div nz-row style="width: 100%">
+      <div nz-col nzSpan="6" nzOrder="4">
+        <nz-skeleton-element
+          style="float: right;"
+          *ngIf="loading"
+          [nzActive]="true"
+          nzType="button"
+          [nzSize]="'large'"
+          [nzShape]="'default'"
+          width=""
+        ></nz-skeleton-element>
+      </div>
+      <div nz-col nzSpan="6" nzOrder="3"></div>
+      <div nz-col nzSpan="6" nzOrder="2"></div>
+      <div nz-col nzSpan="6" nzOrder="1"></div>
+    </div>
+    <div nz-row>
+      <nz-skeleton
+      [nzLoading]="loading"
+      [nzActive]="true"
+      [nzParagraph]="true"
+      rows="120"
+    >
+    </nz-skeleton>
+    </div>
+
+  </div>
+
+  <nz-table
+    *ngIf="!loading"
+    #basicTable
+    [nzTitle]="Header"
+    [nzData]="expenseTypes"
+  >
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Expense Name</th>
+        <th>Remark</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td>{{ data.expenseId }}</td>
+        <td>
+          <nz-tag [nzColor]="data.expenseTypeColor">
+            <span nz-icon nzType="wallet" nzTheme="outline"></span>
+            <span>{{ data.expenseName }}</span></nz-tag>
+        </td>
+        <td>{{ data.remark }}</td>
+        <td>
+          <a>Details</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <button
+          
+          nz-button
+          nzType="primary"
+          (click)="onUpdateExpenseType(data.expenseId)"
+        >
+          Edit
+        </button>
+          <!-- <a click="onUpdateExpenseType(data.id)">Edit</a> -->
+          <nz-divider nzType="vertical"></nz-divider>
+          <a>Delete</a>
+        </td>
+      </tr>
+    </tbody>
+    <ng-template #Header>
+      <div nz-row style="width: 100%">
+        <div nz-col nzSpan="6" nzOrder="4">
+          <button
+            style="float: right"
+            nz-button
+            nzType="primary"
+            (click)="onCreateExpenseType()"
+          >
+            Create Expense Type
+          </button>
+        </div>
+        <div nz-col nzSpan="6" nzOrder="3"></div>
+        <div nz-col nzSpan="6" nzOrder="2"></div>
+        <div nz-col nzSpan="6" nzOrder="1"></div>
+      </div>
+    </ng-template>
+  </nz-table>
+</div>

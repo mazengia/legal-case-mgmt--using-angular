@@ -1,0 +1,66 @@
+<div nz-row style="width: 100%">
+    <h1>
+      <span *ngIf="isCreateMode">Create Case Type</span>
+      <span *ngIf="!isCreateMode">Update Case Type</span>
+      <nz-divider type="horizontal"></nz-divider>
+    </h1>
+  </div>
+  
+  <div nz-row>
+    <div nz-col nzSpan="2"></div>
+    <div nz-col nzSpan="8" nzOffset="1" style="box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;padding:50px;">
+      <h2>Add Case Type</h2>
+      <nz-divider type="horizontal"></nz-divider>
+      <p>Write a reason you are creating this Case type for</p>
+      <form
+        nz-form
+        [formGroup]="createCaseTypeForm"
+        class="login-form"
+        (ngSubmit)="submitCaseType()"
+      >
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Please input Case Type Name!">
+            <nz-input-group nzPrefixIcon="number">
+              <input
+                type="text"
+                nz-input
+                formControlName="caseTypeName"
+                placeholder="Case Type Name"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Please input your Expense Name!">
+            <textarea
+              nz-input
+              placeholder="Remark"
+              formControlName="remark"
+              [nzAutosize]="{ minRows: 3, maxRows: 5 }"
+            ></textarea>
+          </nz-form-control>
+        </nz-form-item>
+  
+        <button
+          nz-button
+          class="login-form-button login-form-margin"
+          [nzType]="'primary'"
+          style="width: 100%"
+          [nzLoading]="loading"
+        >
+          Save Expense Type
+        </button>
+      </form>
+    </div>
+    <div nz-col nzSpan="8"  nzOffset="1" >
+    <div style="margin-top: 2em;">
+      <h2>Preview</h2>
+      <nz-divider type="horizontal"></nz-divider>
+      <p>Expense Name: {{ createCaseTypeForm.get("caseTypeName")?.value }}</p>
+      <p>Remark: {{ createCaseTypeForm.get("remark")?.value }}</p>
+    </div>
+    </div>
+    <div nz-col nzSpan="2"></div>
+  </div>
+  
+  

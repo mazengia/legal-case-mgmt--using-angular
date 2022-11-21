@@ -1,0 +1,64 @@
+<div nz-row style="width: 100%">
+    <h1>
+      Create Auction Type
+      <nz-divider type="horizontal"></nz-divider>
+    </h1>
+  </div>
+  
+  <div nz-row>
+    <div nz-col nzSpan="2"></div>
+    <div nz-col nzSpan="8" nzOffset="1" style="box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;padding:50px;">
+      <h2>Add Auction Type</h2>
+      <nz-divider type="horizontal"></nz-divider>
+      <p>Write a reason you are creating this Auction type for</p>
+      <form
+        nz-form
+        [formGroup]="createAuctionTypeForm"
+        class="login-form"
+        (ngSubmit)="submitAuction()"
+      >
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Please input your Auction Type Name!">
+            <nz-input-group nzPrefixIcon="number">
+              <input
+                type="text"
+                nz-input
+                formControlName="auctionTypeName"
+                placeholder="Auction Name"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Please input remark!">
+            <textarea
+              nz-input
+              placeholder="Remark"
+              formControlName="remark"
+              [nzAutosize]="{ minRows: 3, maxRows: 5 }"
+            ></textarea>
+          </nz-form-control>
+        </nz-form-item>
+  
+        <button
+          nz-button
+          class="login-form-button login-form-margin"
+          [nzType]="'primary'"
+          style="width: 100%"
+          [nzLoading]="loading"
+        >
+          Save Expense Type
+        </button>
+      </form>
+    </div>
+    <div nz-col nzSpan="8"  nzOffset="1" >
+    <div style="margin-top: 2em;">
+      <h2>Preview</h2>
+      <nz-divider type="horizontal"></nz-divider>
+      <p>Expense Name: {{ createAuctionTypeForm.get("auctionTypeName")?.value }}</p>
+      <p>Remark: {{ createAuctionTypeForm.get("remark")?.value }}</p>
+    </div>
+    </div>
+    <div nz-col nzSpan="2"></div>
+  </div>
+  

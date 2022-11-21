@@ -1,0 +1,451 @@
+<div class="site-page-header-ghost-wrapper">
+  <nz-page-header nzBackIcon [nzGhost]="false">
+    <nz-page-header-title>
+      <span *ngIf="isCreateMode" id="headerTitle">Create Litigation</span>
+      <span *ngIf="!isCreateMode" id="headerTitle"
+        >Update Litigation</span
+      ></nz-page-header-title
+    >
+    <nz-page-header-subtitle
+      >Press the back button to navigate back home</nz-page-header-subtitle
+    >
+  </nz-page-header>
+  <nz-divider style="margin-top: -0.2em"></nz-divider>
+</div>
+
+<form
+  nz-form
+  [formGroup]="litigationForm"
+  class="login-form"
+  (ngSubmit)="submitLitigation()"
+>
+
+  <div nz-row>
+    <div nz-col nzSpan="12">
+      <div nz-row style="margin-bottom: 2em;margin-top:1em">
+        <div nz-col nzSpan="14">
+          <input id="search" nz-input placeholder="Enter Account Number" [ngModelOptions]="{standalone: true}" [(ngModel)]="accountNumber" (keyup)="onSearch(accountNumber)" />
+        </div>
+        <div nz-col nzSpan="10">
+          </div>
+      </div>
+      <nz-row style="margin-bottom: 1em"
+        >
+        <div nz-col nzSpan="12" >
+          <h3 id="formTitle" style="float: left;">Plaintiff Information:</h3>
+        </div>
+        <div nz-col nzSpan="11" >
+          <nz-switch formControlName="isBankPlaintiff" style="margin-right: 10px;margin-top: 12px;" (click)="setBankInfo(!litigationForm.get('isBankPlaintiff')?.value)"></nz-switch><span style="font-weight: 600;">Check if Bank is Plaintiff</span>
+        </div>
+        
+       </nz-row
+      >
+      <div formGroupName="plaintiff">
+        <div nz-row>
+          <div nz-col nzSpan="7" nzOffset="1">
+            <nz-input-group id="input" [nzSuffix]="clearPlaintiffFirstName">
+              <input
+                type="text"
+                nz-input
+                formControlName="firstName"
+                placeholder="Input First Name"
+              />
+            </nz-input-group>
+            <ng-template #clearPlaintiffFirstName>
+              <span
+                nz-icon
+                class="ant-input-clear-icon"
+                nzTheme="fill"
+                nzType="close-circle"
+                *ngIf="litigationForm.get('plaintiff.middleName')?.value"
+                (click)="resetField('plaintiff.middleName')"
+              ></span>
+            </ng-template>
+          </div>
+          <div nz-col nzSpan="7" nzOffset="1">
+            <nz-input-group id="input" [nzSuffix]="clearPlaintiffMiddleName">
+              <input
+                type="text"
+                nz-input
+                formControlName="middleName"
+                placeholder="Input Middle Name"
+              />
+            </nz-input-group>
+            <ng-template #clearPlaintiffMiddleName>
+              <span
+                nz-icon
+                class="ant-input-clear-icon"
+                nzTheme="fill"
+                nzType="close-circle"
+                *ngIf="litigationForm.get('plaintiff.middleName')?.value"
+                (click)="resetField('plaintiff.middleName')"
+              ></span>
+            </ng-template>
+          </div>
+          <div nz-col nzSpan="7" nzOffset="1">
+            <nz-input-group
+              id="input"
+              [nzSuffix]="clearPlaintiffLastName"
+              style="width: 100%"
+            >
+              <input
+                type="text"
+                nz-input
+                formControlName="lastName"
+                placeholder="Input Last Name"
+              />
+            </nz-input-group>
+            <ng-template #clearPlaintiffLastName>
+              <span
+                nz-icon
+                class="ant-input-clear-icon"
+                nzTheme="fill"
+                nzType="close-circle"
+                *ngIf="litigationForm.get('plaintiff.lastName')?.value"
+                (click)="resetField('plaintiff.lastName')"
+              ></span>
+            </ng-template>
+          </div>
+        </div>
+
+        <div nz-row style="margin-top: 1em">
+          <div nz-col nzSpan="7" nzOffset="1" style="width: 100%">
+            <nz-input-group
+            id="input"
+            [nzSuffix]="clearPlaintiffAccountNumber"
+            style="width: 100%"
+          >
+            <input
+              type="text"
+              nz-input
+              formControlName="accountNumber"
+              placeholder="Input Account Number"
+              style="width: 100%"
+            />
+          </nz-input-group>
+          <ng-template #clearPlaintiffAccountNumber>
+            <span
+              nz-icon
+              class="ant-input-clear-icon"
+              nzTheme="fill"
+              nzType="close-circle"
+              *ngIf="litigationForm.get('plaintiff.accountNumber')?.value"
+              (click)="resetField('plaintiff.accountNumber')"
+            ></span>
+          </ng-template>
+          </div>
+          <div nz-col nzSpan="7" nzOffset="1" style="width: 100%">
+            <nz-input-group
+            id="input"
+            [nzSuffix]="clearPlaintiffPhoneNumber"
+            style="width: 100%"
+          >
+            <input
+              type="text"
+              nz-input
+              formControlName="phoneNumber"
+              placeholder="Input Phone Number"
+              style="width: 100%"
+            />
+          </nz-input-group>
+          <ng-template #clearPlaintiffPhoneNumber>
+            <span
+              nz-icon
+              class="ant-input-clear-icon"
+              nzTheme="fill"
+              nzType="close-circle"
+              *ngIf="litigationForm.get('plaintiff.phoneNumber')?.value"
+              (click)="resetField('plaintiff.phoneNumber')"
+            ></span>
+          </ng-template>
+          </div>
+          <div nz-col nzSpan="7" nzOffset="1"></div>
+        </div>
+      </div>
+
+      <!-- Defendernt -->
+      <nz-row style="margin-bottom: 1em; margin-top: 1.5em"
+        ><h3 id="formTitle">Defendet Information:</h3></nz-row
+      >
+      <div formGroupName="defendant">
+        <div nz-row>
+          <div nz-col nzSpan="7" nzOffset="1">
+            <nz-input-group id="input" [nzSuffix]="clearDefendantFirstName">
+              <input
+                type="text"
+                nz-input
+                formControlName="firstName"
+                placeholder="Input First Name"
+              />
+            </nz-input-group>
+            <ng-template #clearDefendantFirstName>
+              <span
+                nz-icon
+                class="ant-input-clear-icon"
+                nzTheme="fill"
+                nzType="close-circle"
+                *ngIf="litigationForm.get('defendant.firstName')?.value"
+                (click)="resetField('defendant.firstName')"
+              ></span>
+            </ng-template>
+          </div>
+          <div nz-col nzSpan="7" nzOffset="1">
+            <nz-input-group id="input" [nzSuffix]="clearDefendantMiddleName">
+              <input
+                type="text"
+                nz-input
+                formControlName="middleName"
+                placeholder="Input Middle Name"
+              />
+            </nz-input-group>
+            <ng-template #clearDefendantMiddleName>
+              <span
+                nz-icon
+                class="ant-input-clear-icon"
+                nzTheme="fill"
+                nzType="close-circle"
+                *ngIf="litigationForm.get('defendant.middleName')?.value"
+                (click)="resetField('defendant.middleName')"
+              ></span>
+            </ng-template>
+          </div>
+          <div nz-col nzSpan="7" nzOffset="1">
+            <nz-input-group
+              id="input"
+              [nzSuffix]="clearDefendantLastName"
+              style="width: 100%"
+            >
+              <input
+                type="text"
+                nz-input
+                formControlName="lastName"
+                placeholder="Input Last Name"
+              />
+            </nz-input-group>
+            <ng-template #clearDefendantLastName>
+              <span
+                nz-icon
+                class="ant-input-clear-icon"
+                nzTheme="fill"
+                nzType="close-circle"
+                *ngIf="litigationForm.get('plaintiff.lastName')?.value"
+                (click)="resetField('plaintiff.lastName')"
+              ></span>
+            </ng-template>
+          </div>
+        </div>
+
+        <div nz-row style="margin-top: 1em">
+          <div nz-col nzSpan="7" nzOffset="1" style="width: 100%">
+            <nz-input-group
+              id="input"
+              [nzSuffix]="clearDefendantAccountNumber"
+              style="width: 100%"
+            >
+              <input
+                type="text"
+                nz-input
+                formControlName="accountNumber"
+                placeholder="Input Account Number"
+                style="width: 100%"
+              />
+            </nz-input-group>
+            <ng-template #clearDefendantAccountNumber>
+              <span
+                nz-icon
+                class="ant-input-clear-icon"
+                nzTheme="fill"
+                nzType="close-circle"
+                *ngIf="litigationForm.get('plaintiff.accountNumber')?.value"
+                (click)="resetField('plaintiff.accountNumber')"
+              ></span>
+            </ng-template>
+          </div>
+          <div nz-col nzSpan="7" nzOffset="1" style="width: 100%">
+            <nz-input-group
+            id="input"
+            [nzSuffix]="clearDefendantPhoneNumber"
+            style="width: 100%"
+          >
+            <input
+              type="text"
+              nz-input
+              formControlName="phoneNumber"
+              placeholder="Input Phone Number"
+              style="width: 100%"
+            />
+          </nz-input-group>
+          <ng-template #clearDefendantPhoneNumber>
+            <span
+              nz-icon
+              class="ant-input-clear-icon"
+              nzTheme="fill"
+              nzType="close-circle"
+              *ngIf="litigationForm.get('plaintiff.phoneNumber')?.value"
+              (click)="resetField('plaintiff.phoneNumber')"
+            ></span>
+          </ng-template>
+            </div>
+          <div nz-col nzSpan="7" nzOffset="1"></div>
+        </div>
+      </div>
+
+      <!-- Other Information -->
+      <nz-row style="margin-bottom: 1em; margin-top: 1.5em"
+        ><h3 id="formTitle">Other Details:</h3></nz-row
+      >
+      <div nz-row>
+        <div nz-col nzSpan="11" nzOffset="1">
+          <nz-input-group id="input" [nzSuffix]="clearCourtAdjudicating">
+            <input
+              type="text"
+              nz-input
+              formControlName="courtAdjudicating"
+              placeholder="Court Adjudicating"
+            />
+          </nz-input-group>
+          <ng-template #clearCourtAdjudicating>
+            <span
+              nz-icon
+              class="ant-input-clear-icon"
+              nzTheme="fill"
+              nzType="close-circle"
+              *ngIf="litigationForm.get('courtAdjudicating')?.value"
+              (click)="resetField('courtAdjudicating')"
+            ></span>
+          </ng-template>
+        </div>
+        <div nz-col nzSpan="11" nzOffset="1">
+          <nz-select
+            id="input"
+            nzShowSearch
+            nzServerSearch
+            nzPlaceHolder="Select Case Type"
+            formControlName="caseType"
+            [nzShowArrow]="false"
+            (nzOnSearch)="search($event)"
+          >
+            <nz-option
+              *ngFor="let ct of caseTypes"
+              [nzLabel]="ct.caseTypeName"
+              [nzValue]="ct"
+            ></nz-option>
+          </nz-select>
+        </div>
+      </div>
+
+      <div nz-row style="margin-top: 1em;">
+        <div nz-col nzSpan="11" nzOffset="1">
+          <nz-input-group
+            [nzSuffix]="textAreaClearTpl"
+            class="ant-input-affix-wrapper-textarea-with-clear-btn"
+            style="width: 100%"
+          >
+            <textarea
+              id="input"
+              nz-input
+              formControlName="remark"
+              placeholder="Please Add remark"
+            ></textarea>
+          </nz-input-group>
+          <ng-template #textAreaClearTpl>
+            <span
+              nz-icon
+              class="ant-input-clear-icon"
+              nzTheme="fill"
+              nzType="close-circle"
+              *ngIf="litigationForm.get('remark')?.value"
+              (click)="resetField('reamrk')"
+            ></span>
+          </ng-template>
+        </div>
+        <div nz-col nzSpan="11" nzOffset="1">
+          <nz-select
+            id="input"
+            style="margin-top: 0.5em;"
+            nzShowSearch
+            nzServerSearch
+            nzPlaceHolder="Select Branch"
+            formControlName="branch"
+            [nzShowArrow]="false"
+            (nzOnSearch)="search($event)"
+          >
+            <nz-option
+              *ngFor="let br of branches"
+              [nzLabel]="br.name"
+              [nzValue]="br"
+            ></nz-option>
+          </nz-select>
+        </div>
+      </div>
+      <div nz-row style="margin-top: 1em;">
+        <div nz-col nzSpan="11" nzOffset="1"></div>
+        <div nz-col nzSpan="11" nzOffset="1">
+          <button
+            style="margin-top: 1em; width: 100%"
+            id="btnStyle"
+            nz-button
+            nzType="primary"
+          >
+            Create Litigation
+          </button>
+        </div>
+      </div>
+    </div>
+    <div nz-col nzSpan="12">
+      <div class="">
+        <div nz-row>
+            <div nz-col nzSpan="2" nzOffset="1"></div>
+            <div nz-col nzSpan="15" nzOffset="1" style="width:100%">
+                <nz-row style="margin-bottom: 1em; margin-top: 1.5em;margin-left: 4em;width: 100%;"
+                ><h3 id="formTitle">Litigation Preview:</h3>
+                
+                </nz-row>
+                <nz-divider></nz-divider>
+            </div>
+            <div nz-col nzSpan="2" nzOffset="1"></div>
+        </div>
+        <div nz-row style="margin-left: 1em;">
+          <div nz-col nzSpan="2" nzOffset="1">
+
+          </div>
+          <div nz-col nzSpan="13" nzOffset="1">
+
+            <div>
+            <h3 id="previewHeader">Plaintiff Preview: </h3>
+            <div style="margin-left: 3em;">
+              <p>First Name: <a style="font-family: none;">{{litigationForm.get('plaintiff.firstName')?.value}}</a></p>
+              <p>Last Name: <a style="font-family: none;">{{litigationForm.get('plaintiff.lastName')?.value}}</a> </p>
+              <p>Phone Number:  <a style="font-family: none;">{{litigationForm.get('plaintiff.phoneNumber')?.value}}</a></p>
+              <p>Email:  <a style="font-family: none;">{{litigationForm.get('plaintiff.email')?.value}}</a></p>
+            </div>
+            </div>
+         
+  
+          <div >
+              <h3 id="previewHeader">Defendant Preview: </h3>
+              <div style="margin-left: 2em;">
+                <p>First Name: <a style="font-family: none;">{{litigationForm.get('defendant.firstName')?.value}}</a></p>
+                <p>Last Name:  <a style="font-family: none;">{{litigationForm.get('defendant.lastName')?.value}}</a></p>
+                <p>Phone Number:  <a style="font-family: none;">{{litigationForm.get('defendant.phoneNumber')?.value}}</a></p>
+                <p>Email:  <a style="font-family: none;">{{litigationForm.get('defendant.email')?.value}}</a></p>
+              </div>
+            </div>
+            <div >
+              <h3 id="previewHeader">Other Preview: </h3>
+              <div style="margin-left: 2em;">
+                <p>Court Adjudicating: <a style="font-family: none;">{{litigationForm.get('courtAdjudicating')?.value}}</a></p>
+                <p>Case Type:  <a style="font-family: none;">{{litigationForm.get('caseType')?.value}}</a></p>
+                <p>Branch:  <a style="font-family: none;">{{litigationForm.get('branch')?.value?.name}}</a></p>
+                <p>Remark:  <a style="font-family: none;">{{litigationForm.get('remark')?.value}}</a></p>
+              </div>
+            </div>
+            </div>
+            <div nz-col nzSpan="3" nzOffset="1">
+
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</form>

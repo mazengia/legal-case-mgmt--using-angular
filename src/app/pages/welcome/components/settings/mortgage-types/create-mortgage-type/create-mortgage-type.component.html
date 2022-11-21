@@ -1,0 +1,80 @@
+<div nz-row style="width: 100%">
+    <h1>
+      <span *ngIf="isCreateMode">Create Case Type</span>
+      <span *ngIf="!isCreateMode">Update Case Type</span>
+      <nz-divider type="horizontal"></nz-divider>
+    </h1>
+  </div>
+  
+  <div nz-row>
+    <div nz-col nzSpan="2"></div>
+    <div nz-col nzSpan="8" nzOffset="1" style="box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;padding:50px;">
+      <h2>Add Case Type</h2>
+      <nz-divider type="horizontal"></nz-divider>
+      <p>Write a reason you are creating this Case type for</p>
+      <form
+        nz-form
+        [formGroup]="createMortgageTypeForm"
+        class="login-form"
+        (ngSubmit)="submitMortgageType()"
+      >
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Please input Case Type Name!">
+            <nz-input-group nzPrefixIcon="number">
+              <input
+                type="text"
+                nz-input
+                formControlName="mortgageTypeName"
+                placeholder="Mortgage Type Name"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-select 
+        style="width: 100%;margin-bottom: 1em;"
+        nzShowSearch
+        nzServerSearch
+        nzPlaceHolder="Search Mail types"
+        formControlName="mailNotificationType"
+        [nzShowArrow]="false"
+        (nzOnSearch)="search($event)"
+        [compareWith]="compareFn"
+      >
+      <!-- (nzOnSearch)="search($event)" -->
+        <nz-option  *ngFor="let mt of mailTypes" [nzLabel]="mt.mailTypeName" [nzValue]="mt"></nz-option>
+      </nz-select>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Please input your Expense Name!">
+            <textarea
+              nz-input
+              placeholder="Remark"
+              formControlName="remark"
+              [nzAutosize]="{ minRows: 3, maxRows: 5 }"
+            ></textarea>
+          </nz-form-control>
+        </nz-form-item>
+  
+        <button
+          nz-button
+          class="login-form-button login-form-margin"
+          [nzType]="'primary'"
+          style="width: 100%"
+          [nzLoading]="loading"
+        >
+          Save Expense Type
+        </button>
+      </form>
+    </div>
+    <div nz-col nzSpan="8"  nzOffset="1" >
+    <div style="margin-top: 2em;">
+      <h2>Preview</h2>
+      <nz-divider type="horizontal"></nz-divider>
+      <p>Expense Name: {{ createMortgageTypeForm.get("mortgageTypeName")?.value }}</p>
+      <p>Notification Type: {{ createMortgageTypeForm.get("mailNotificationType")?.value }}</p>
+      <p>Remark: {{ createMortgageTypeForm.get("remark")?.value }}</p>
+    </div>
+    </div>
+    <div nz-col nzSpan="2"></div>
+  </div>
+  
+  

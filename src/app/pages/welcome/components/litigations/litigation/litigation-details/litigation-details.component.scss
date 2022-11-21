@@ -1,0 +1,85 @@
+#headerTitle {
+    color: #000000;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: Roboto, sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    // height: 36px;
+    justify-content: center;
+    letter-spacing: 0.089em;
+    line-height: normal;
+    min-width: 64px;
+    outline: none;
+    overflow: visible;
+    padding: 0 16px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  
+
+  #formTitle {
+    color: #000000;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: Roboto, sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    // height: 36px;
+    justify-content: center;
+    letter-spacing: 0.089em;
+    line-height: normal;
+    min-width: 64px;
+    outline: none;
+    overflow: visible;
+    padding: 0 16px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    margin-left: 1em;
+    margin-top: 1em;
+  }
+
+  #input{
+    background-color: rgb(250, 251, 252);
+    border-color: rgb(223, 225, 230);
+    color: rgb(9, 30, 66);
+    cursor: text;
+    border-radius: 3px;
+    border-width: 2px;
+    border-style: solid;
+    box-sizing: border-box;
+    font-size: 14px;
+    transition: background-color 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s;
+    line-height: 1.42857; 
+    padding: 8px 6px;
+    // height: 36px;
+
+  }
+
+
+#input:hover{
+    background-color: rgb(235, 236, 240);
+}
+#input:focus{
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(76, 154, 255);
+}
+
+#fab{
+  position: fixed;
+  // right: 30px;
+  // bottom: 30px;
+}
+
+.nz-step nzDescription{
+  width: 100%;
+}
+
+  
+
+  
+  
