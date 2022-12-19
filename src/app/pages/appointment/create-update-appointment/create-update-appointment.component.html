@@ -1,0 +1,37 @@
+<form nzLayout="vertical" nz-form [formGroup]="appointmentForm" (ngSubmit)="onSubmit()"
+      xmlns="http://www.w3.org/1999/html">
+
+  <nz-form-item>
+    <nz-form-label nzRequired>Litigation</nz-form-label>
+    <div formGroupName="litigation">
+      <nz-form-control [nzSpan]="24" nzErrorTip="please select litigation! ">
+        <nz-select class="input" formControlName="litigationId"
+                   nzAllowClear
+                   nzShowSearch
+                   nzPlaceHolder="litigation ">
+          <nz-option
+            nzCustomContent
+            *ngFor="let data of litigation" [nzValue]="data.litigationId"
+            nzLabel="{{data.litigationType}}">
+            <nz-divider nzType="vertical"></nz-divider>
+            <strong>{{data.litigationType}}  (CaseType-> {{data.caseType?.caseTypeName}})</strong>
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </div>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label>Appointment Date</nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please write appointment date! ">
+      <nz-date-picker formControlName="appointmentDate"  nzShowTime></nz-date-picker>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label>Appointment Reason</nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please write appointmentReason! ">
+      <textarea class="input" nz-input formControlName="appointmentReason" placeholder="appointment reason"></textarea>
+    </nz-form-control>
+  </nz-form-item>
+  <button nz-button nzType="primary" [disabled]="!appointmentForm.valid">Save</button>
+</form>

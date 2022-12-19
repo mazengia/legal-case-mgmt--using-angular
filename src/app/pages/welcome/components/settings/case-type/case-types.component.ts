@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { CaseTypeService } from 'src/app/pages/services/case-type/case-type.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {CaseTypeService} from 'src/app/services/case-type/case-type.service';
 
 @Component({
   selector: 'app-case-types',
@@ -39,11 +39,11 @@ export class CaseTypesComponent implements OnInit {
   };
 
   onCreateCaseType = () => {
-    this.route.navigate(['/home/create-case-type']);
+    this.route.navigate(['/create-case-type']);
   };
 
   onUpdateCaseType = (caseTypeId: number) => {
     console.log(caseTypeId);
-    this.route.navigate(['/home/update-case-type/', caseTypeId]);
+    this.route.navigate(['/update-case-type/', caseTypeId]);
   };
 }

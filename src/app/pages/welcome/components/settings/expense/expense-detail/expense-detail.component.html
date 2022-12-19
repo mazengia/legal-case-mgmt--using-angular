@@ -1,0 +1,84 @@
+<div>
+  <nz-row>
+    <h3 Id="headerTitle"><span nz-icon nzType="folder-open" nzTheme="outline" style="margin-right: 10px;"></span>
+      Expense-Detail</h3>
+    <nz-divider style="margin-top: -0.4em;"></nz-divider>
+  </nz-row>
+  <nz-table
+    *ngIf="!loading"
+    #basicTable
+    [nzTitle]="Header"
+    [nzData]="expenseDetails"
+    [nzFrontPagination]="false"
+    [nzTotal]="totalElements"
+    [(nzPageIndex)]="pageIndex"
+    [(nzPageSize)]="pageSize"
+    nzShowPagination
+    nzShowSizeChanger
+    nzShowQuickJumper
+    (nzPageIndexChange)="getExpenseDetail()"
+    (nzPageSizeChange)="getExpenseDetail(true)"
+  >
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>Expense</th>
+      <th>amount</th>
+      <!--      <th>motorNumber</th>-->
+      <!--      <th>shansiNumber</th>-->
+      <th>miscellaneous</th>
+      <th>litigation</th>
+      <th> appointmentDate</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of basicTable.data; let i=index">
+      <td>{{ i+1 }}</td>
+      <td>
+        <span>{{ data.expense?.expenseName }}</span>
+      </td>
+      <td>
+        <nz-tag  [nzColor]="'red'">
+          <span>{{ data.amount }}</span></nz-tag>
+      </td>
+      <!--      <td>{{data.motorNumber}}</td>-->
+      <!--      <td>{{data.shansiNumber}}</td>-->
+      <td>{{data.miscellaneous}}</td>
+            <td>{{data.judicialAppointment?.litigation?.litigationType}}</td>
+      <td>{{data.judicialAppointment?.appointmentDate | date:"YYYY/mm/dd hh:mm"}}</td>
+      <td>
+        <button   nz-button (click)="onOpenMortgageDetailDetails(data.expense_detail_id)">Details</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button
+          id="editBtn"
+          nz-button
+          nzType="primary"
+          (click)="openDrawer(data.expense_detail_id)"
+        >
+          Edit
+        </button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a>Delete</a>
+      </td>
+    </tr>
+    </tbody>
+    <ng-template #Header>
+
+      <div nz-row>
+        <div nz-col [nzSpan]="6" [nzPush]="18">
+          <button
+            style="float: right"
+            id="btnStyle"
+            nz-button
+            nzType="primary"
+            (click)="openDrawer(undefined)"
+          >
+            <span nz-icon nzType="plus" nzTheme="outline"></span>
+            Create Expense-Detail
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </nz-table>
+</div>

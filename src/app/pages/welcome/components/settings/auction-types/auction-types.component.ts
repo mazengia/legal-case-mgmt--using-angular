@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuctionTypeService } from 'src/app/pages/services/auction-type/auction-type.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {AuctionTypeService} from 'src/app/services/auction-type/auction-type.service';
 
 @Component({
   selector: 'app-auction-types',
@@ -39,11 +39,11 @@ export class AuctionTypesComponent implements OnInit {
   };
 
   onCreateAuctionType = () => {
-    this.route.navigate(['/home/create-auction-type']);
+    this.route.navigate(['/create-auction-type']);
   };
 
   onUpdateAuctionType = (auctionTypeId: number) => {
     console.log(auctionTypeId);
-    this.route.navigate(['/home/update-auction-type/', auctionTypeId]);
+    this.route.navigate(['/update-auction-type/', auctionTypeId]);
   };
 }

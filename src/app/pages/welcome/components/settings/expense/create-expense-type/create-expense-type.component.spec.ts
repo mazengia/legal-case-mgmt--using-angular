@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CreateExpenseTypeComponent } from './create-expense-type.component';
+import {CreateExpenseTypeComponent} from './create-expense-type.component';
 
 describe('CreateExpenseTypeComponent', () => {
   let component: CreateExpenseTypeComponent;

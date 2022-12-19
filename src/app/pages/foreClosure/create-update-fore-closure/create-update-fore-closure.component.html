@@ -1,0 +1,79 @@
+<form nzLayout="vertical" nz-form [formGroup]="foreClosureForm" (ngSubmit)="onSubmit()"
+      xmlns="http://www.w3.org/1999/html">
+  <nz-form-item>
+    <nz-form-label nzRequired>Mortgage detail and borrower</nz-form-label>
+    <div formGroupName="mortgageDetail">
+      <nz-form-control [nzSpan]="24" nzErrorTip="Please select Mortgage detail and borrower! ">
+        <nz-select class="input" formControlName="mortgageDetailId"
+                   nzAllowClear
+                   nzShowSearch
+                   nzPlaceHolder="Mortgage detail and borrower!">
+          <nz-option
+            nzCustomContent
+            *ngFor="let data of mortgageDetail" [nzValue]="data.mortgageDetailId"
+            nzLabel="{{data.mortgageType?.mortgageTypeName}} mortgagor->{{data.mortgagor}}">
+            <nz-divider nzType="vertical"></nz-divider>
+            <strong>{{data.mortgageType?.mortgageTypeName}} {{data.mortgagor}}</strong>
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </div>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzRequired>Auction Type</nz-form-label>
+    <div formGroupName="auctionType">
+      <nz-form-control [nzSpan]="24" nzErrorTip="please select auction type! ">
+        <nz-select class="input" formControlName="auctionTypeId"
+                   nzAllowClear
+                   nzShowSearch
+                   nzPlaceHolder="auction type">
+          <nz-option
+            nzCustomContent
+            *ngFor="let data of auctionType" [nzValue]="data.auctionTypeId"
+            nzLabel="{{data.auctionTypeName}}">
+            <nz-divider nzType="vertical"></nz-divider>
+            <strong>{{data.auctionTypeName}} {{data.remark}}</strong>
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </div>
+  </nz-form-item>
+  <nz-form-item  >
+    <nz-form-label>date auction announced</nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please write date auction announced! ">
+      <nz-date-picker formControlName="dateAuctionAnnounced" nzShowTime></nz-date-picker>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item  >
+    <nz-form-label>date auction will be conducted</nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please write date auction will be conducted! ">
+      <nz-date-picker formControlName="dateAuctionConducted" nzShowTime></nz-date-picker>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired>Status</nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please select Status! ">
+      <nz-select class="input" formControlName="status"
+                 nzAllowClear
+                 nzShowSearch
+                 nzPlaceHolder="Status">
+        <nz-option nzCustomContent nzValue="Loan Settled" nzLabel="Loan Settled">Loan Settled</nz-option>
+        <nz-option nzCustomContent nzValue="Collateral sold" nzLabel="Collateral sold">Collateral sold</nz-option>
+        <nz-option nzCustomContent nzValue="Collateral Acquired" nzLabel="Collateral Acquired">Collateral Acquired</nz-option>
+      </nz-select>
+
+
+
+
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label>Remark</nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please write remarl! ">
+      <textarea class="input" nz-input formControlName="remark" placeholder="Write remark here"></textarea>
+    </nz-form-control>
+  </nz-form-item>
+  <button nz-button nzType="primary" [disabled]="!foreClosureForm.valid">Save</button>
+</form>

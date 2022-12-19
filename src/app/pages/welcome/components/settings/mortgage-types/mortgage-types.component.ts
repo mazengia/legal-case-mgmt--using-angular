@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { MortgageTypeService } from 'src/app/pages/services/mortgage-type/mortgage-type.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {MortgageTypeService} from 'src/app/services/mortgage-type/mortgage-type.service';
 
 @Component({
   selector: 'app-mortgage-types',
@@ -15,23 +15,28 @@ export class MortgageTypesComponent implements OnInit {
 
   loading!: boolean;
   mortgageTypes: any[] = [];
-  pageIndex: number = 0;
+  pageIndex: number = 1;
   pageSize: number = 10;
+  totalElements = 0;
 
   ngOnInit(): void {
     this.onGetCaseTypes();
   }
 
-  onGetCaseTypes = () => {
+  onGetCaseTypes (reset: boolean = false) {
+    if (reset) {
+      this.pageIndex = 1;
+    }
     this.loading = true;
     this.mortgageTypeService
-      .getMortgageTypes(this.pageIndex, this.pageSize)
+      .getMortgageTypes(this.pageIndex - 1, this.pageSize)
       .subscribe(
         (res: any) => {
           setTimeout(() => {
             this.loading = false;
             this.mortgageTypes = res?._embedded?.mortgageTypeDtoes;
-            console.log(this.mortgageTypes);
+            this.totalElements = res.page.totalElements;
+            // console.log(this.mortgageTypes);
           }, 1000);
         },
         (error: any) => {
@@ -41,11 +46,11 @@ export class MortgageTypesComponent implements OnInit {
   };
 
   onCreateMortgageType = () => {
-    this.route.navigate(['/home/create-mortgage-type']);
+    this.route.navigate(['/create-mortgage-type']);
   };
 
   onUpdateMortgageType = (mortgageTypeId: number) => {
     console.log(mortgageTypeId);
-    this.route.navigate(['/home/update-mortgage-type/', mortgageTypeId]);
+    this.route.navigate(['/update-mortgage-type/', mortgageTypeId]);
   };
 }

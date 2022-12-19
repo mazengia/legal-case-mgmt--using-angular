@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
-import { Router, NavigationStart, NavigationEnd, Event } from '@angular/router';
-import { OAuthService } from 'angular-oauth2-oidc';
-import { authConfig } from './config/authConfig';
-import { AuthService } from './pages/services/auth/auth.service';
-import { EmployeeService } from './pages/services/employee/employee.service';
-import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
+import {Component} from '@angular/core';
+import {Event, NavigationEnd, NavigationStart, Router} from '@angular/router';
+import {OAuthService} from 'angular-oauth2-oidc';
+import {authConfig} from './config/authConfig';
+import {AuthService} from './services/auth/auth.service';
+import {EmployeeService} from './services/employee/employee.service';
+import {JwksValidationHandler} from 'angular-oauth2-oidc-jwks';
 
 @Component({
   selector: 'app-root',
@@ -48,7 +48,7 @@ export class AppComponent {
       this.getRoles();
       //  this.getEmployeeId();
       this.getEmployee();
-      this.router.navigate(['/home']);
+      this.router.navigate(['/']).then(r => {});
     });
     this.oauthService.setStorage(localStorage);
     this.oauthService.setupAutomaticSilentRefresh();
@@ -82,7 +82,7 @@ export class AppComponent {
   getEmployee() {
     const employeeId = this.authService.getEmployeeId();
     this.employeeService
-      .getEmployeeByemployeeId(employeeId)
+      .getEmployeeByEmployeeId(employeeId)
       .subscribe((data: any) => {
         this.branchName = data.branch.name;
         this.employeeId = data.id;

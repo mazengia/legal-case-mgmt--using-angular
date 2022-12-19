@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AuctionTypesComponent } from './auction-types.component';
+import {AuctionTypesComponent} from './auction-types.component';
 
 describe('AuctionTypesComponent', () => {
   let component: AuctionTypesComponent;

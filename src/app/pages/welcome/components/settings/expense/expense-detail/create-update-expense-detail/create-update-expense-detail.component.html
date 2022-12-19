@@ -1,0 +1,86 @@
+<form nzLayout="vertical" nz-form [formGroup]="expenseDetailForm" (ngSubmit)="onSubmit()"
+      xmlns="http://www.w3.org/1999/html">
+
+  <nz-form-item>
+    <nz-form-label nzRequired>Litigation Type</nz-form-label>
+    <div formGroupName="litigation">
+      <nz-form-control [nzSpan]="24" nzErrorTip="please select Litigation! ">
+        <nz-select  (ngModelChange)="getAppointment($event)"
+                   class="input" formControlName="litigationId"
+                   nzAllowClear
+                   nzShowSearch
+                   nzPlaceHolder="litigation ">
+          <nz-option
+            nzCustomContent
+            *ngFor="let data of litigation" [nzValue]="data.litigationId"
+            nzLabel="{{data.litigationType}}">
+            <nz-divider nzType="vertical"></nz-divider>
+            <strong>{{data.litigationType}} {{data.caseType?.caseTypeName}}</strong>
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </div>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired>Appointment</nz-form-label>
+    <div formGroupName="judicialAppointment">
+      <nz-form-control [nzSpan]="24" nzErrorTip="please select JudicialAppointment! ">
+        <nz-select class="input" formControlName="appointmentId"
+                   nzAllowClear
+                   nzShowSearch
+                   nzPlaceHolder="Judicial appointment ">
+          <nz-option
+
+            nzCustomContent
+            *ngFor="let data of appointment" [nzValue]="data.appointmentId"
+            nzLabel="{{data.appointmentReason}}">
+            <nz-divider nzType="vertical"></nz-divider>
+            <strong>{{data.appointmentReason}} ( {{data.appointmentDate|date}})</strong>
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </div>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzRequired>Expense Type</nz-form-label>
+    <div formGroupName="expense">
+      <nz-form-control [nzSpan]="24" nzErrorTip="please select Expense! ">
+        <nz-select class="input" formControlName="expenseId"
+                   nzAllowClear
+                   nzShowSearch
+                   nzPlaceHolder="expense ">
+          <nz-option
+            nzCustomContent
+            *ngFor="let data of expense" [nzValue]="data.expenseId"
+            nzLabel="{{data.expenseName}}">
+            <nz-divider nzType="vertical"></nz-divider>
+            <strong>{{data.expenseName}} {{data.remark}}</strong>
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </div>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label>Amount</nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please write amount! ">
+      <input class="input" nz-input placeholder="amount" formControlName="amount"/>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label>Miscellaneous</nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please write miscellaneous! ">
+      <input class="input" nz-input placeholder="miscellaneous" formControlName="miscellaneous"/>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label>Remark</nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please write remark! ">
+      <textarea class="input" nz-input formControlName="remark" placeholder="remark reason"></textarea>
+    </nz-form-control>
+  </nz-form-item>
+  <button nz-button nzType="primary" [disabled]="!expenseDetailForm.valid">Save</button>
+</form>
+

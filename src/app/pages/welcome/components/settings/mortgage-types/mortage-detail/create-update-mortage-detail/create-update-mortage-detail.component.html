@@ -1,0 +1,111 @@
+<form nzLayout="vertical" nz-form [formGroup]="mortageDetailForm" (ngSubmit)="onSubmit()"
+      xmlns="http://www.w3.org/1999/html">
+  <div nz-row>
+    <div nz-col nzSpan="11" >
+      <nz-form-item>
+        <nz-form-label>Mortgagor</nz-form-label>
+        <nz-form-control [nzSpan]="24" nzErrorTip="Please write mortgagor! ">
+          <input class="input" nz-input placeholder="mortgagor" formControlName="mortgagor"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>Borrower</nz-form-label>
+        <nz-form-control [nzSpan]="24" nzErrorTip="Please write borrower! ">
+          <input class="input" nz-input placeholder="borrower" formControlName="borrower"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired>Mortgage Type</nz-form-label>
+        <div formGroupName="mortgageType">
+          <nz-form-control [nzSpan]="24" nzErrorTip="please select mortgageType! ">
+            <nz-select class="input" formControlName="mortgageTypeId"
+                       nzAllowClear
+                       nzShowSearch
+                       nzPlaceHolder="mortgage type ">
+              <nz-option
+                nzCustomContent
+                *ngFor="let data of mortgageType" [nzValue]="data.mortgageTypeId"
+                nzLabel="{{data.mortgageTypeName}}">
+                <nz-divider nzType="vertical"></nz-divider>
+                <strong>{{data.mortgageTypeName}} {{data.remark}}</strong>
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </div>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>Plate Number</nz-form-label>
+        <nz-form-control [nzSpan]="24" nzErrorTip="Please write plateNumber! ">
+          <input class="input" nz-input placeholder="plate number" formControlName="plateNumber"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>Shansi Number</nz-form-label>
+        <nz-form-control [nzSpan]="24" nzErrorTip="Please write shansiNumber! ">
+          <input class="input" nz-input placeholder="shansi number" formControlName="shansiNumber"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>Motor Number</nz-form-label>
+        <nz-form-control [nzSpan]="24" nzErrorTip="Please write motorNumber! ">
+          <input class="input" nz-input placeholder="motor number" formControlName="motorNumber"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>machinery Type</nz-form-label>
+        <nz-form-control [nzSpan]="24" nzErrorTip="Please write machineryType! ">
+          <input class="input" nz-input placeholder="machinery type" formControlName="machineryType"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>Number Of Title Indeed</nz-form-label>
+        <nz-form-control [nzSpan]="24" nzErrorTip="Please write numberOfTitleIndeed! ">
+          <input class="input" nz-input placeholder="Number Of Title Indeed" formControlName="numberOfTitleIndeed"/>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="2">
+      <nz-divider nzType="vertical"></nz-divider>
+    </div>
+    <div nz-col nzSpan="11">
+      <nz-form-item>
+        <nz-form-label>Date Collateral Registered</nz-form-label>
+        <nz-form-control [nzSpan]="24" nzErrorTip="Please write date collateral registered! ">
+          <nz-date-picker formControlName="dateCollateralRegistered" nzShowTime></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzSpan]="24">
+          <label  (ngModelChange)="collateralEstimated($event)" [ngModel]="isCollateralEstimated" nz-checkbox formControlName="isCollateralEstimated">
+            isCollateralEstimated?</label>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="isCollateralEstimated">
+        <nz-form-label>Date Collateral Is Estimated</nz-form-label>
+        <nz-form-control [nzSpan]="24" nzErrorTip="Please write date collateral is estimated! ">
+          <nz-date-picker formControlName="dateCollateralIsEstimated" nzShowTime></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzSpan]="24">
+          <label  (ngModelChange)="writtenLegalNoticeServed($event)" [ngModel]="isWrittenLegalNoticeServed" nz-checkbox formControlName="isWrittenLegalNoticeServed">
+            isWrittenLegalNoticeServed?</label>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="isWrittenLegalNoticeServed">
+        <nz-form-label>date legal notice served</nz-form-label>
+        <nz-form-control [nzSpan]="24" nzErrorTip="Please write date legal notice served! ">
+          <nz-date-picker formControlName="dateLegalNoticeServed" nzShowTime></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>Remark</nz-form-label>
+        <nz-form-control [nzSpan]="24" nzErrorTip="Please write remark! ">
+          <textarea class="input" nz-input formControlName="remark" placeholder="remark reason"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <button nz-button nzType="primary" [disabled]="!mortageDetailForm.valid">Save</button>
+    </div>
+  </div>
+
+</form>

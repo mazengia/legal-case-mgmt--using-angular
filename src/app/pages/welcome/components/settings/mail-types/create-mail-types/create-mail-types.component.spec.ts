@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CreateMailTypesComponent } from './create-mail-types.component';
+import {CreateMailTypesComponent} from './create-mail-types.component';
 
 describe('CreateMailTypesComponent', () => {
   let component: CreateMailTypesComponent;

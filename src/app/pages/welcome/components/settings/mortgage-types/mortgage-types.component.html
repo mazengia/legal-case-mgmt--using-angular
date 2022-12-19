@@ -34,11 +34,20 @@
     #basicTable
     [nzTitle]="Header"
     [nzData]="mortgageTypes"
+    [nzFrontPagination]="false"
+    [nzTotal]="totalElements"
+    [(nzPageIndex)]="pageIndex"
+    [(nzPageSize)]="pageSize"
+    nzShowPagination
+    nzShowSizeChanger
+    nzShowQuickJumper
+    (nzPageIndexChange)="onGetCaseTypes()"
+    (nzPageSizeChange)="onGetCaseTypes(true)"
   >
     <thead>
       <tr>
         <th>#</th>
-        <th>Morgate Name</th>
+        <th>Mortgage Name</th>
         <th>Mail Name</th>
         <th>Remark</th>
         <th>Actions</th>

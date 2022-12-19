@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { AuctionTypeService } from 'src/app/pages/services/auction-type/auction-type.service';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute} from '@angular/router';
+import {NzNotificationService} from 'ng-zorro-antd/notification';
+import {AuctionTypeService} from 'src/app/services/auction-type/auction-type.service';
 
 @Component({
   selector: 'app-create-auction-type',

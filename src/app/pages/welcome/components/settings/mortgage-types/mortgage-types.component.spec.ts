@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { MortgageTypesComponent } from './mortgage-types.component';
+import {MortgageTypesComponent} from './mortgage-types.component';
 
 describe('MortgageTypesComponent', () => {
   let component: MortgageTypesComponent;

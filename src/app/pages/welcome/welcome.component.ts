@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { OAuthService } from 'angular-oauth2-oidc';
-import { AuthService } from '../services/auth/auth.service';
-import { EmployeeService } from '../services/employee/employee.service';
+import {Component, OnInit} from '@angular/core';
+import {OAuthService} from 'angular-oauth2-oidc';
+import {AuthService} from '../../services/auth/auth.service';
+import {EmployeeService} from '../../services/employee/employee.service';
 
 @Component({
   selector: 'app-welcome',
@@ -48,7 +48,7 @@ export class WelcomeComponent implements OnInit {
   getEmployee() {
     const employeeId = this.authService.getEmployeeId();
     this.employeeService
-      .getEmployeeByemployeeId(employeeId)
+      .getEmployeeByEmployeeId(employeeId)
       .subscribe((data: any) => {
         this.branchName = data.branch.name;
         this.branchCode = data.branch.code;

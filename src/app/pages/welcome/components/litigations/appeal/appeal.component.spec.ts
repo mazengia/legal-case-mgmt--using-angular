@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AppealComponent } from './appeal.component';
+import {AppealComponent} from './appeal.component';
 
 describe('AppealComponent', () => {
   let component: AppealComponent;

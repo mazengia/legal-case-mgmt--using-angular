@@ -1,19 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { ValidationHandler } from 'angular-oauth2-oidc';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {ExpenseService} from 'src/app/services/expense/expense.service';
+import {NzDrawerRef, NzDrawerService} from "ng-zorro-antd/drawer";
+import {NzNotificationService} from "ng-zorro-antd/notification";
+import {LitigationService} from "../../../../../../services/litigation/litigation.service";
+import {AdvocateService} from "../../../../../../services/advocate/advocate.service";
+import {AppointmentService} from "../../../../../../services/appointment/appointment.service";
+import {Appointment} from "../../../../../../models/appointment";
 import {
-  delay,
-  finalize,
-  map,
-  merge,
-  Observable,
-  scan,
-  Subject,
-  timer,
-} from 'rxjs';
-import { ExpenseService } from 'src/app/pages/services/expense/expense.service';
-import { JudicialReportService } from 'src/app/pages/services/judicial-report/judicial-report.service';
+  CreateUpdateAppointmentComponent
+} from "../../../../../appointment/create-update-appointment/create-update-appointment.component";
+import {
+  CreateUpdateAdvocateComponent
+} from "../../../../../advocate/create-update-advocate/create-update-advocate.component";
+import {
+  CreateUpdateInterveneComponent
+} from "../../../../../intervene/create-update-intervene/create-update-intervene.component";
+import {ExpenseDetailService} from "../../../../../../services/expense/expenseDetail.service";
+import {ExpenseDetail} from "../../../../../../models/expenseDetail";
 
 @Component({
   selector: 'app-litigation-details',
@@ -21,174 +25,123 @@ import { JudicialReportService } from 'src/app/pages/services/judicial-report/ju
   styleUrls: ['./litigation-details.component.scss'],
 })
 export class LitigationDetailsComponent implements OnInit {
-  judicialReportForm!: FormGroup;
-
-  panels = [
-    {
-      active: false,
-      name: 'This is panel header 1',
-      arrow: true,
-    },
-    {
-      active: false,
-      arrow: true,
-      name: 'This is panel header 2',
-    },
-  ];
-
-  steps: any[] = [
-    {
-      id: 1,
-      title: `Step 1`,
-      description: `stepOn`,
-      async: false,
-      percentage: null,
-    },
-    {
-      id: 2,
-      title: `Step 2`,
-      description: `This step is asynchronous.`,
-      async: true,
-      percentage: 0,
-    },
-    {
-      id: 3,
-      title: `Step 3`,
-      description: `This step is asynchronous.`,
-      async: true,
-      percentage: 0,
-    },
-  ];
-
-  current = 0;
-  processing = false;
-
-  expenseTypes: any[] = [];
-  pageNumber: number = 0;
-  pageSize: number = 10;
-  litigationId!: number;
-  private typedSearchTerm$ = new Subject<any>();
+  @ViewChild(
+    'drawerTemplate',
+    {static: false})
+  drawerTemplate?: TemplateRef<{
+    $implicit: { value: string };
+    drawerRef: NzDrawerRef<string>;
+  }>;
+  request: any;
+  appointment: Appointment[]=[];
+  expenseDetails: ExpenseDetail[]=[];
+  litigation: any;
+  pageSize = 10;
+  pageNumber = 1;
+  username:any;
+  totalElements = 0;
+  age: number | undefined;
+  litigationId: any;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private expenseService: ExpenseService,
-    private reportService: JudicialReportService,
-    private activatedRoute: ActivatedRoute
-  ) {
-    this.litigationId = Number(
-      this.activatedRoute.snapshot.paramMap.get('litigationId')
-    );
-    this.judicialReportForm = this.formBuilder.group({
-      courtAddress: [null, [Validators.required]],
-      judicialFee: [null, [Validators.required]],
-      judicialAppointmentDate: [null, [Validators.required]],
-      adjournmentReason: [null, [Validators.required]],
-      nextAppointments: this.formBuilder.array([]),
-      expenseDetails: this.formBuilder.array([]),
-    });
+    private notification: NzNotificationService,
+    private drawerService: NzDrawerService,
+    private activatedRoute: ActivatedRoute,
+    private litigationService: LitigationService,
+    private customerService: ExpenseService,
+    private fundSourceService: LitigationService,
+    private expenseDetailService:ExpenseDetailService,
+    private appointmentService: AppointmentService,
+    private advocateService:AdvocateService) {
   }
 
   ngOnInit(): void {
-    this.onGetExpenses(this.pageNumber, this.pageSize);
+    this.litigationId = this.activatedRoute.snapshot.paramMap.get('litigationId');
+    this.getLitigationById(this.litigationId);
+    this.findJudicialAppointmentByLitigationLitigationId(this.litigationId);
   }
 
-  submitReport = () => {};
+  getLitigationById(id: any) {
+    this.litigationService.getLitigation(id).subscribe(
+      res => {
+        this.litigation = res;
+      })
+  }
+  findExpenseDetailByAppointmentId(appointmentId:any){
+    this.expenseDetailService.findExpenseDetailByAppointmentId(appointmentId).subscribe(
+      res => {
+        this.expenseDetails = res._embedded.expenseDetailDtoes;
+      })
+  }
+  findJudicialAppointmentByLitigationLitigationId(id: any){
+    this.appointmentService.findJudicialAppointmentByLitigationLitigationId(id).subscribe(
+      res => {
+        this.appointment = res._embedded.judicialAppointmentDtoes;
+        for (let i=0;i<this.appointment.length;i++){
+          this.findExpenseDetailByAppointmentId(this.appointment[i].appointmentId);
 
-  get nextAppointments() {
-    return this.judicialReportForm.controls['nextAppointments'] as FormArray;
+        }
+        console.log("appointment",this.appointment)
+      })
   }
 
-  deleteAdjournment(adjournmentIndex: number) {
-    this.nextAppointments.removeAt(adjournmentIndex);
+  createNotification(type: string, title: string, message: string): void {
+    this.notification.create(type, title, message);
   }
 
-  onAddNextAppointments() {
-    const nextAppointmentForm = this.formBuilder.group({
-      date: ['', Validators.required],
-      reason: ['', Validators.required],
+  openDrawer(id: any): void {
+    const drawerRef = this.drawerService.create<CreateUpdateAppointmentComponent,
+      { id: number }>({
+      nzTitle: `${id ? 'Update' : 'Create'} Appointment `,
+      nzWidth:600,
+      nzContent: CreateUpdateAppointmentComponent,
+      nzContentParams: {
+        value: id,
+      },
+      nzClosable: true,
+      nzKeyboard: true,
     });
 
-    this.nextAppointments.push(nextAppointmentForm);
+    drawerRef.afterClose.subscribe(() => {
+      this.getLitigationById(this.litigationId);
+      this.findJudicialAppointmentByLitigationLitigationId(this.litigationId);
+    })
   }
-
-  get expenseDetails() {
-    return this.judicialReportForm.get('expenseDetails') as FormArray;
-  }
-
-  addExpenseDetails() {
-    const expenseDetailForm = this.formBuilder.group({
-      amount: ['', Validators.required],
-      expense: ['', Validators.required],
+  openDrawerAdvocate(id: any): void {
+    const drawerRef = this.drawerService.create<CreateUpdateAdvocateComponent,
+      { id: number }>({
+      nzTitle: `${id ? 'Update' : 'Create'} Advocate `,
+      nzWidth:600,
+      nzContent: CreateUpdateAdvocateComponent,
+      nzContentParams: {
+        value: id,
+      },
+      nzClosable: true,
+      nzKeyboard: true,
     });
 
-    this.expenseDetails.push(expenseDetailForm);
+    drawerRef.afterClose.subscribe(() => {
+      this.getLitigationById(this.litigationId);
+      this.findJudicialAppointmentByLitigationLitigationId(this.litigationId);
+    })
   }
+  openDrawerIntervene(id: any): void {
+    const drawerRef = this.drawerService.create<CreateUpdateInterveneComponent,
+      { id: number }>({
+      nzTitle: `${id ? 'Update' : 'Create'} Intervene `,
+      nzWidth:600,
+      nzContent: CreateUpdateInterveneComponent,
+      nzContentParams: {
+        value: id,
+      },
+      nzClosable: true,
+      nzKeyboard: true,
+    });
 
-  deleteExpense(expenseIndex: number) {
-    this.expenseDetails.removeAt(expenseIndex);
+    drawerRef.afterClose.subscribe(() => {
+      this.getLitigationById(this.litigationId);
+      this.findJudicialAppointmentByLitigationLitigationId(this.litigationId);
+
+    })
   }
-
-  resetField = (fieldName: String) => {
-    this.judicialReportForm.get(`${fieldName}`)?.setValue('');
-  };
-
-  pre(): void {
-    this.current -= 1;
-  }
-
-  next(): void {
-    this.loadingAndStep();
-  }
-
-  done(): void {
-    this.reportService
-      .createReport(this.litigationId, this.judicialReportForm?.value)
-      .subscribe((res: any) => {
-        console.log(res);
-      });
-  }
-
-  loadingAndStep(): void {
-    // if (this.current < this.steps.length) {
-    //   const step = this.steps[this.current];
-    //   if (step.async) {
-    //     this.processing = true;
-    //     // this.mockAsyncStep()
-    //       .pipe(
-    //         finalize(() => {
-    //           step.percentage = 0;
-    //           this.processing = false;
-    this.current += 1;
-    //         })
-    //       )
-    //       .subscribe((p) => {
-    //         step.percentage = p;
-    //       });
-    //   } else {
-    //     this.current += 1;
-    //   }
-    // }
-  }
-
-  // mockAsyncStep = (): Observable<number> => {
-  //   const subStep1 = timer(600).pipe(map(() => 25));
-  //   const subStep2 = subStep1.pipe(delay(600));
-  //   const subStep3 = subStep2.pipe(delay(600));
-  //   const subStep4 = subStep3.pipe(delay(600));
-  //   return merge(subStep1, subStep2, subStep3, subStep4).pipe(
-  //     scan((a, b) => a + b)
-  //   );
-  // };
-
-  onSearch = (value: any) => {
-    this.typedSearchTerm$.next(value);
-  };
-
-  onGetExpenses = (pageNumber?: number, pageSize?: number) => {
-    this.expenseService
-      .getExpenses(pageNumber, pageSize)
-      .subscribe((res: any) => {
-        this.expenseTypes = res?._embedded?.expenseDtoes;
-      });
-  };
 }

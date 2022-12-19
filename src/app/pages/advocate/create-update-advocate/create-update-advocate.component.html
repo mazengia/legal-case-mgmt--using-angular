@@ -1,0 +1,28 @@
+<form nzLayout="vertical" nz-form [formGroup]="advocateForm" (ngSubmit)="onSubmit()"
+      xmlns="http://www.w3.org/1999/html">
+  <nz-form-item>
+    <nz-form-label>First Name</nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please write firstName! ">
+      <input class="input" nz-input formControlName="firstName" placeholder="first name"/>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label>Last Name</nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please write lastName! ">
+      <input class="input" nz-input formControlName="lastName" placeholder="last name"/>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label>Date</nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please write date! ">
+      <nz-date-picker formControlName="date"  nzShowTime></nz-date-picker>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label>Remark</nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please write remark! ">
+      <textarea class="input" nz-input formControlName="remark" placeholder="remark "></textarea>
+    </nz-form-control>
+  </nz-form-item>
+  <button nz-button nzType="primary" [disabled]="!advocateForm.valid">Save</button>
+</form>

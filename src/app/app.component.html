@@ -6,53 +6,90 @@
             [(nzCollapsed)]="isCollapsed"
             [nzTrigger]="null">
     <div class="sidebar-logo">
-      <a href="https://ng.ant.design/" target="_blank">
-        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
+      <a href="/home" target="_blank">
+        <img src="favicon.ico" alt="logo">
         <h1>Case Management</h1>
       </a>
     </div>
     <ul class="nz-menu" nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-      <li nz-submenu nzOpen nzTitle="Settings" nzIcon="setting">
+      <li nz-submenu nzOpen nzTitle="Maintenance Setting" nzIcon="setting">
         <ul>
-          <li nz-menu-item >
+          <li routerLink="/advocate" nz-menu-item>
+            <span nz-icon nzType="diff" nzTheme="outline" style="color:white;margin-right:10px"></span><a>Advocate</a>
+          </li>
+          <li nz-menu-item>
             <span nz-icon nzType="book" nzTheme="outline" style="color:white;margin-right:10px"></span>
-            <a routerLink="/home/auction-types">Auxion</a>
+            <a routerLink="/auction-types">Auction</a>
           </li>
-          <li nz-menu-item >
-            <span nz-icon nzType="dollar-circle" nzTheme="outline" style="color:white;margin-right:10px"></span>
-            <a routerLink="/home/expenses">Expense</a>
-          </li>
-          <li nz-menu-item   >
-            <span nz-icon nzType="bank" nzTheme="outline" style="color:white;margin-right:10px"></span><a routerLink="/home/mortgage-types">Morgage</a>
-          </li>
-          <li routerLink="/home/case-types" nz-menu-item >
+
+          <li routerLink="/case-types" nz-menu-item>
             <span nz-icon nzType="diff" nzTheme="outline" style="color:white;margin-right:10px"></span><a>Case Type</a>
           </li>
-          <li routerLink="/home/mail-types" nz-menu-item >
+          <li routerLink="/comment" nz-menu-item>
+            <span nz-icon nzType="diff" nzTheme="outline" style="color:white;margin-right:10px"></span><a>Comment</a>
+          </li>
+          <li routerLink="/intervene" nz-menu-item>
+            <span nz-icon nzType="diff" nzTheme="outline" style="color:white;margin-right:10px"></span><a>Intervene</a>
+          </li>
+          <li routerLink="/mail-types" nz-menu-item>
             <span nz-icon nzType="bell" nzTheme="outline" style="color:white;margin-right:10px"></span><a>Mail Types</a>
+          </li>
+          <li routerLink="/report" nz-menu-item>
+            <span nz-icon nzType="bell" nzTheme="outline" style="color:white;margin-right:10px"></span><a>Judiciary Report</a>
           </li>
         </ul>
       </li>
 
-      <li nz-submenu nzOpen nzTitle="Litigations" nzIcon="car" >
+      <li nz-submenu nzOpen nzTitle="Litigation&Expense" nzIcon="car">
         <ul>
-          <li nz-menu-item >
+          <li nz-menu-item>
             <span nz-icon nzType="subnode" nzTheme="outline" style="margin-right: 10px;"></span>
-            <a routerLink="/home/litigations">Litigations</a>
+            <a routerLink="/litigations">Litigation</a>
+          </li> <li nz-menu-item>
+          <span nz-icon nzType="dollar-circle" nzTheme="outline" style="color:white;margin-right:10px"></span>
+          <a routerLink="/expenses">Expense</a>
+        </li>
+
+          <li nz-menu-item>
+            <span nz-icon nzType="dollar-circle" nzTheme="outline" style="color:white;margin-right:10px"></span>
+            <a routerLink="/expense-detail">Expense-Detail</a>
           </li>
-          <li nz-menu-item >
+
+          <li routerLink="/appointment" nz-menu-item>
+            <span nz-icon nzType="bell" nzTheme="outline"
+                  style="color:white;margin-right:10px"></span><a>Judicial Appointment</a>
+          </li>
+
+          <li nz-menu-item>
             <span nz-icon nzType="subnode" nzTheme="outline" style="margin-right: 10px;"></span>
             <a routerLink="/home">Appeal</a>
           </li>
         </ul>
       </li>
-   
+
+      <li nz-submenu nzOpen nzTitle="Mortgage&ForeClosure" nzIcon="car">
+        <ul>
+          <li nz-menu-item>
+            <span nz-icon nzType="bank" nzTheme="outline" style="color:white;margin-right:10px"></span><a
+            routerLink="/mortgage-types">Mortgage</a>
+          </li>
+          <li nz-menu-item>
+            <span nz-icon nzType="subnode" nzTheme="outline" style="margin-right: 10px;"></span>
+            <a routerLink="/mortgage-detail">Mortgage-Detail</a>
+          </li>
+          <li routerLink="/fore-closure" nz-menu-item>
+            <span nz-icon nzType="bell" nzTheme="outline"
+                  style="color:white;margin-right:10px"></span><a>Fore-closure</a>
+          </li>
+        </ul>
+      </li>
+
     </ul>
 
   </nz-sider>
   <nz-layout>
     <nz-header>
-      <div class="app-header" >
+      <div class="app-header">
         <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
             <i class="trigger"
                nz-icon
@@ -83,8 +120,9 @@
                 <nz-divider nzType="horizontal"></nz-divider>
               </li>
               <li style="padding: 7px" nz-menu-item>
-                <a routerLink="/home/employee/employees-summary/{{ employeeId }}"><i nz-icon nzType="user"></i>
-                  <nz-divider nzType="vertical"></nz-divider> Profile
+                <a routerLink="/employee/employees-summary/{{ employeeId }}"><i nz-icon nzType="user"></i>
+                  <nz-divider nzType="vertical"></nz-divider>
+                  Profile
                 </a>
               </li>
               <li style="padding: 7px" nz-menu-item>
@@ -97,7 +135,8 @@
 
               <li style="padding: 7px" nz-menu-item (click)="onLogOut()">
                 <b><i nz-icon nzType="logout"></i>
-                  <nz-divider nzType="vertical"></nz-divider> Logout
+                  <nz-divider nzType="vertical"></nz-divider>
+                  Logout
                 </b>
               </li>
             </ul>
@@ -105,7 +144,7 @@
           <!-- <li nz-menu-item><nz-tag [nzColor]="'cyan'">LoggedIn </nz-tag></li> -->
         </ul>
       </div>
-     
+
     </nz-header>
     <nz-content>
       <div class="inner-content">

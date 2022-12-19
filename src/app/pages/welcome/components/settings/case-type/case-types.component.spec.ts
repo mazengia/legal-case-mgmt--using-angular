@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CaseTypesComponent } from './case-types.component';
+import {CaseTypesComponent} from './case-types.component';
 
 describe('CaseTypesComponent', () => {
   let component: CaseTypesComponent;

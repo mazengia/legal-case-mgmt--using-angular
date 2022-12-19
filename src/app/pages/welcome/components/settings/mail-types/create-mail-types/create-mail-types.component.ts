@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { MailNotificationTypeService } from 'src/app/pages/services/mail-notification-type/mail-notification-type.service';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute} from '@angular/router';
+import {NzNotificationService} from 'ng-zorro-antd/notification';
+import {MailNotificationTypeService} from 'src/app/services/mail-notification-type/mail-notification-type.service';
 
 @Component({
   selector: 'app-create-mail-types',
@@ -101,7 +101,14 @@ export class CreateMailTypesComponent implements OnInit {
       .createMailNotificationType(this.createMailTypeForm?.value)
       .subscribe(
         (res: any) => {
-          console.log(res);
+          // console.log(res);
+          this.loading = false;
+          this.notification.create(
+            'success',
+            'Success!',
+            `You have successfully crete mail type ${this.mailNotificationTypeId}`
+          );
+          this.onGetMailType();
           this.createMailTypeForm.reset();
         },
         (error: any) => {

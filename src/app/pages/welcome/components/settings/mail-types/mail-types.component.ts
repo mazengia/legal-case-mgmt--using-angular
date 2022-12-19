@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { elementAt } from 'rxjs';
-import { MailNotificationTypeService } from 'src/app/pages/services/mail-notification-type/mail-notification-type.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {MailNotificationTypeService} from 'src/app/services/mail-notification-type/mail-notification-type.service';
 
 @Component({
   selector: 'app-mail-types',
@@ -47,12 +46,12 @@ export class MailTypesComponent implements OnInit {
   };
 
   onCreateMailNotificationType = () => {
-    this.route.navigate(['/home/create-mail-type']);
+    this.route.navigate(['/create-mail-type']);
   };
 
   onUpdateMailNotificationType = (mailNotificationTypeId: number) => {
     console.log(mailNotificationTypeId);
-    this.route.navigate(['/home/update-mail-type/', mailNotificationTypeId]);
+    this.route.navigate(['/update-mail-type/', mailNotificationTypeId]);
   };
 
   onShowHideSearch = () => {

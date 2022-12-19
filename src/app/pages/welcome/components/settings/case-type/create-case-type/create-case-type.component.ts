@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { CaseTypeService } from 'src/app/pages/services/case-type/case-type.service';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute} from '@angular/router';
+import {NzNotificationService} from 'ng-zorro-antd/notification';
+import {CaseTypeService} from 'src/app/services/case-type/case-type.service';
 
 @Component({
   selector: 'app-create-case-type',

@@ -1,11 +1,12 @@
-import { AuthConfig } from 'angular-oauth2-oidc';
-import { environment } from 'src/environments/environment';
+import {AuthConfig} from 'angular-oauth2-oidc';
+import {environment} from 'src/environments/environment';
+
 export const authConfig: AuthConfig = {
   // Url of the Identity Provider
 
   issuer: environment.ISSUER_URL,
 
-  redirectUri: window.location.origin + '/home',
+  redirectUri: window.location.origin + '/welcome',
 
   // The SPA's id. The SPA is registered with this id at the auth-server
   clientId: 'frontend',

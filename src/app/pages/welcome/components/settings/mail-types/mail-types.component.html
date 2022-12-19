@@ -54,28 +54,31 @@
     [nzData]="mailTypes"
   >
     <thead>
-      <tr>
-        <th>#</th>
-        <th>Mail Type Name</th>
-        <th>Duration</th>
-        <th>Remark</th>
-        <th>Actions</th>
-      </tr>
+    <tr>
+      <th>#</th>
+      <th>Mail Type Name</th>
+      <th>Duration</th>
+      <th>Remark</th>
+      <th>Actions</th>
+    </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let data of basicTable.data">
-        <td>{{ data.mailNotificationTypeId }}</td>
-        <td>
-          <nz-tag [nzColor]="data.color">
-            <span nz-icon nzType="clock-circle" nzTheme="outline"></span>
-            <span>{{ data.mailTypeName }}</span></nz-tag
-          >
-        </td>
-        <td>
-          <!-- <nz-tag  [nzColor]="data.color">
-                <span nz-icon nzType="number" nzTheme="outline"></span>
-                <span>{{ data.numberOfDays }}</span></nz-tag> -->
-          <span [style.color]="data.color" style="font-weight: 700">
+    <tr *ngFor="let data of basicTable.data;let i = index">
+      <td>
+<!--        {{ data.mailNotificationTypeId }}-->
+        {{i+1}}
+      </td>
+      <td>
+        <nz-tag [nzColor]="data.color">
+          <span nz-icon nzType="clock-circle" nzTheme="outline"></span>
+          <span>{{ data.mailTypeName }}</span>
+        </nz-tag>
+      </td>
+      <td>
+        <!-- <nz-tag  [nzColor]="data.color">
+              <span nz-icon nzType="number" nzTheme="outline"></span>
+              <span>{{ data.numberOfDays }}</span></nz-tag> -->
+        <span [style.color]="data.color" style="font-weight: 700">
             <span
               nz-icon
               nzType="bell"
@@ -83,25 +86,25 @@
               style="color: #2a2642; margin-right: 10px"
             ></span
             >{{ data.numberOfDays }} Days</span
-          >
-        </td>
-        <td>{{ data.remark }}</td>
-        <td>
-          <a>Details</a>
-          <nz-divider nzType="vertical"></nz-divider>
-          <button
-            id="editBtn"
-            nz-button
-            nzType="primary"
-            (click)="onUpdateMailNotificationType(data.mailNotificationTypeId)"
-          >
-            Edit
-          </button>
-          <!-- <a click="onUpdateExpenseType(data.id)">Edit</a> -->
-          <nz-divider nzType="vertical"></nz-divider>
-          <a>Delete</a>
-        </td>
-      </tr>
+        >
+      </td>
+      <td>{{ data.remark }}</td>
+      <td>
+        <a>Details</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button
+          id="editBtn"
+          nz-button
+          nzType="primary"
+          (click)="onUpdateMailNotificationType(data.mailNotificationTypeId)"
+        >
+          Edit
+        </button>
+        <!-- <a click="onUpdateExpenseType(data.id)">Edit</a> -->
+        <nz-divider nzType="vertical"></nz-divider>
+        <a>Delete</a>
+      </td>
+    </tr>
     </tbody>
     <ng-template #Header>
       <!-- <div nz-row>
@@ -118,7 +121,7 @@
             </button>
           </div>
           <div nz-col [nzSpan]="18" [nzPush]="6">col-18 col-push-6</div>
- 
+
         </div> -->
 
       <div nz-row>
@@ -138,11 +141,11 @@
           <div nz-row>
             <div nz-col nzSpan="4" nzOffset="1">
               <button
-              id="searchBtn"
-              nz-button
-              style="border:none;color: #2a2642; font-weight: 700; box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; height: 40px; letter-spacing: 0.0892857em; text-transform: uppercase;color: #000000;"
-              (click)="onShowHideSearch()"
-            >
+                id="searchBtn"
+                nz-button
+                style="border:none;color: #2a2642; font-weight: 700; box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; height: 40px; letter-spacing: 0.0892857em; text-transform: uppercase;color: #000000;"
+                (click)="onShowHideSearch()"
+              >
               <span
                 nz-icon
                 nzType="more"
@@ -150,12 +153,13 @@
                 style="color: #2a2642"
               ></span
               >{{buttonName}}
-            </button>
+              </button>
             </div>
-            <div nz-col nzSpan="7" nzOffset = "1">
+            <div nz-col nzSpan="7" nzOffset="1">
               <div *ngIf="showSearch">
                 <!-- <nz-input-group id="searchInput" [nzSuffix]="inputClearTpl"> -->
-                  <input id="searchInput" type="text" nz-input [(ngModel)]="inputValue" placeholder="input with clear icon" />
+                <input id="searchInput" type="text" nz-input [(ngModel)]="inputValue"
+                       placeholder="input with clear icon"/>
                 <!-- </nz-input-group> -->
                 <ng-template #inputClearTpl>
                   <span
@@ -169,10 +173,10 @@
                 </ng-template>
               </div>
             </div>
-            <div nz-col nzSpan="7" nzOffset = "1">
+            <div nz-col nzSpan="7" nzOffset="1">
               <div *ngIf="showSearch">
                 <nz-input-group id="searchInput" [nzSuffix]="inputClearTpl" [nzPrefix]="prefixTemplateUser">
-                  <input  type="text" nz-input [(ngModel)]="inputValue" placeholder="input with clear icon" />
+                  <input type="text" nz-input [(ngModel)]="inputValue" placeholder="input with clear icon"/>
                 </nz-input-group>
                 <ng-template #prefixTemplateUser><span nz-icon nzType="user"></span></ng-template>
                 <ng-template #inputClearTpl>
@@ -193,12 +197,12 @@
       </div>
       <!-- <div nz-row style="width: 100%">
           <div nz-col nzSpan="6" nzOrder="4">
-     
+
           </div>
           <div nz-col nzSpan="6" nzOrder="3"></div>
           <div nz-col nzSpan="6" nzOrder="2"></div>
           <div nz-col nzSpan="6" nzOrder="1">
-            
+
           </div>
         </div> -->
     </ng-template>

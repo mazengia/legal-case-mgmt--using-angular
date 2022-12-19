@@ -5,34 +5,6 @@
         <h3 Id="headerTitle"><span nz-icon nzType="folder-open" nzTheme="outline" style="margin-right: 10px;"></span>Litigations</h3>
         <nz-divider style="margin-top: -0.4em;"></nz-divider>
     </nz-row>
-    <div>
-      <div nz-row style="width: 100%">
-        <div nz-col nzSpan="6" nzOrder="4">
-          <nz-skeleton-element
-            style="float: right"
-            *ngIf="loading"
-            [nzActive]="true"
-            nzType="button"
-            [nzSize]="'large'"
-            [nzShape]="'default'"
-            width=""
-          ></nz-skeleton-element>
-        </div>
-        <div nz-col nzSpan="6" nzOrder="3"></div>
-        <div nz-col nzSpan="6" nzOrder="2"></div>
-        <div nz-col nzSpan="6" nzOrder="1"></div>
-      </div>
-      <div nz-row>
-        <nz-skeleton
-          [nzLoading]="loading"
-          [nzActive]="true"
-          [nzParagraph]="true"
-          rows="120"
-        >
-        </nz-skeleton>
-      </div>
-    </div>
-  
     <nz-table
       style="
         box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px,
@@ -42,7 +14,7 @@
       *ngIf="!loading"
       #basicTable
       [nzTitle]="Header"
-      [nzData]="litigations"
+      [nzData]="litigation"
     >
       <thead>
         <tr>
@@ -56,8 +28,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of basicTable.data">
-          <td>{{ data.litigationId }}</td>
+        <tr *ngFor="let data of basicTable.data; let i=index">
+          <td>{{ i+1 }}</td>
           <td>
             <!-- <nz-tag [nzColor]="data.color">
               <span nz-icon nzType="clock-circle" nzTheme="outline"></span> -->
@@ -70,20 +42,19 @@
                   <span>{{ data.caseStage }}</span></nz-tag>
           </td>
           <td>{{data.caseType?.caseTypeName}}</td>
-          <td>{{data.branch.name}}</td>
+          <td>{{data.branch?.name}}</td>
           <td>{{ data.remark }}</td>
           <td>
-            <button   nz-button (click)="onOpenLitigationDetails(data.litigationId)">Details</button>
+            <button   nz-button (click)="onOpenLitigationDetails(data.litigationId)">Report</button>
             <nz-divider nzType="vertical"></nz-divider>
             <button
               id="editBtn"
               nz-button
               nzType="primary"
-              (click)="onUpdateLitigation(data.litigationId)"
+              (click)="openDrawer(data.litigationId)"
             >
               Edit
             </button>
-            <!-- <a click="onUpdateExpenseType(data.id)">Edit</a> -->
             <nz-divider nzType="vertical"></nz-divider>
             <a>Delete</a>
           </td>
@@ -104,9 +75,9 @@
               </button>
             </div>
             <div nz-col [nzSpan]="18" [nzPush]="6">col-18 col-push-6</div>
-   
+
           </div> -->
-  
+
         <div nz-row>
           <div nz-col [nzSpan]="6" [nzPush]="18">
             <button
@@ -114,7 +85,7 @@
               id="btnStyle"
               nz-button
               nzType="primary"
-              (click)="onCreateLitigation()"
+              (click)="openDrawer(undefined)"
             >
               <span nz-icon nzType="plus" nzTheme="outline"></span>
               Create Litigation
@@ -141,7 +112,7 @@
               <div nz-col nzSpan="7" nzOffset = "1">
                 <div *ngIf="showSearch">
                   <!-- <nz-input-group id="searchInput" [nzSuffix]="inputClearTpl"> -->
-                    <input id="searchInput" type="text" nz-input [(ngModel)]="inputValue" placeholder="input with clear icon" />
+                    <input   type="text" nz-input [(ngModel)]="inputValue" placeholder="input with clear icon" />
                   <!-- </nz-input-group> -->
                   <ng-template #inputClearTpl>
                     <span
@@ -174,20 +145,19 @@
                 </div>
               </div>
             </div>
-  
+
           </div>
         </div>
         <!-- <div nz-row style="width: 100%">
             <div nz-col nzSpan="6" nzOrder="4">
-       
+
             </div>
             <div nz-col nzSpan="6" nzOrder="3"></div>
             <div nz-col nzSpan="6" nzOrder="2"></div>
             <div nz-col nzSpan="6" nzOrder="1">
-              
+
             </div>
           </div> -->
       </ng-template>
     </nz-table>
   </div>
-  

@@ -1,0 +1,75 @@
+<form nzLayout="vertical" nz-form [formGroup]="formGroup" (ngSubmit)="onSubmit()"
+      xmlns="http://www.w3.org/1999/html">
+
+  <nz-form-item>
+    <nz-form-label>First Name</nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please write firstName! ">
+      <input class="input" nz-input formControlName="firstName" placeholder="first name"/>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label>Last Name</nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please write lastName! ">
+      <input class="input" nz-input formControlName="lastName" placeholder="last name"/>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label>Intervene Address</nz-form-label>
+    <div formGroupName="interveneAddress">
+      <div nz-row>
+        <div nz-col nzSpan="11">
+          <nz-form-item>
+            <nz-form-control [nzSpan]="24" nzErrorTip="Please write state! ">
+              <input class="input" nz-input formControlName="state" placeholder="state"/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzSpan="2">
+          <nz-divider nzType="vertical"></nz-divider>
+        </div>
+        <div nz-col nzSpan="11">
+          <nz-form-item>
+            <nz-form-control [nzSpan]="24" nzErrorTip="Please write city! ">
+              <input class="input" nz-input formControlName="city" placeholder="city"/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="11">
+          <nz-form-item>
+            <nz-form-control [nzSpan]="24" nzErrorTip="Please subCity! ">
+              <input class="input" nz-input formControlName="subCity" placeholder="subCity"/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzSpan="2">
+          <nz-divider nzType="vertical"></nz-divider>
+        </div>
+        <div nz-col nzSpan="11">
+          <nz-form-item>
+            <nz-form-control [nzSpan]="24" nzErrorTip="Please write woreda Or Kebele! ">
+              <input class="input" nz-input formControlName="woredaOrKebele" placeholder="woreda Or Kebele"/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <nz-form-item>
+        <nz-form-control [nzSpan]="24" nzErrorTip="Please write houseNo! ">
+          <input class="input" nz-input formControlName="houseNo" placeholder="house number"/>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label>Remark</nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please write remarl! ">
+      <textarea class="input" nz-input formControlName="remark" placeholder="Write remark here"></textarea>
+    </nz-form-control>
+  </nz-form-item>
+
+
+  <button nz-button nzType="primary" [disabled]="!formGroup.valid">Save</button>
+</form>

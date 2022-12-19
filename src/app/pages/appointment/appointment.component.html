@@ -1,0 +1,73 @@
+<div>
+  <nz-row>
+    <h3 Id="headerTitle"><span nz-icon nzType="folder-open" nzTheme="outline" style="margin-right: 10px;"></span>
+      Judicial-appointments</h3>
+    <nz-divider style="margin-top: -0.4em;"></nz-divider>
+  </nz-row>
+  <nz-table
+    style="
+        box-shadow: rgba(0, 0, 0, 0.12) 0 1px 3px,
+          rgba(0, 0, 0, 0.24) 0 1px 2px;
+        padding: 10px;
+      "
+    *ngIf="!loading"
+    #basicTable
+    [nzTitle]="Header"
+    [nzData]="appointments"
+  >
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>Litigation</th>
+      <th>Appointment Date</th>
+      <th>Appointment Reason</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of basicTable.data; let i=index">
+      <td>{{ i+1 }}</td>
+      <td>
+        <span>{{ data.litigation?.litigationType }}</span>
+      </td>
+      <td>
+        <nz-tag  [nzColor]="'red'">
+          <span>{{ data.appointmentDate  | date:"YYYY/mm/dd hh:mm"}}</span></nz-tag>
+      </td>
+      <td>{{data.appointmentReason}}</td>
+      <td>
+        <button   nz-button (click)="onOpenLitigationDetails(data.appointmentId)">Details</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button
+          id="editBtn"
+          nz-button
+          nzType="primary"
+          (click)="openDrawer(data.appointmentId)"
+        >
+          Edit
+        </button>
+        <!-- <a click="onUpdateExpenseType(data.id)">Edit</a> -->
+        <nz-divider nzType="vertical"></nz-divider>
+        <a>Delete</a>
+      </td>
+    </tr>
+    </tbody>
+    <ng-template #Header>
+
+      <div nz-row>
+        <div nz-col [nzSpan]="6" [nzPush]="18">
+          <button
+            style="float: right"
+            id="btnStyle"
+            nz-button
+            nzType="primary"
+            (click)="openDrawer(undefined)"
+          >
+            <span nz-icon nzType="plus" nzTheme="outline"></span>
+            Create judicial-appointments
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </nz-table>
+</div>

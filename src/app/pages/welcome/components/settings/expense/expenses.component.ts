@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ExpenseService } from '../../../../services/expense/expense.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {ExpenseService} from '../../../../../services/expense/expense.service';
 
 @Component({
   selector: 'app-expenses',
@@ -34,11 +34,11 @@ export class ExpensesComponent implements OnInit {
   };
 
   onCreateExpenseType = () => {
-    this.route.navigate(['/home/create-expense']);
+    this.route.navigate(['/create-expense']);
   };
 
   onUpdateExpenseType = (expenseId: number) => {
     console.log(expenseId);
-    this.route.navigate(['/home/update-expense/', expenseId]);
+    this.route.navigate(['/update-expense/', expenseId]);
   };
 }
