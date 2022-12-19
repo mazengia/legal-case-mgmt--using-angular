@@ -30,7 +30,6 @@ export class CreateUpdateForeClosureComponent implements OnInit {
   auctionType?: AuctionType[] | undefined;
   mortgageDetail?: MortgageDetail[] | undefined;
   intervene?: Intervene[] | undefined;
-  private typedSearchTerm$ = new Subject<any>();
   @Input() value?: number;
   isAddMode = true;
   loading = false;
@@ -49,9 +48,9 @@ export class CreateUpdateForeClosureComponent implements OnInit {
     private drawerRef: NzDrawerRef<string>
   ) {
     this.foreClosureForm = this.formBuilder.group({
-      branch: this.formBuilder.group({
-        id: [null, [Validators.required]],
-      }),
+      // branch: this.formBuilder.group({
+      //   id: [null, [Validators.required]],
+      // }),
 
       mortgageDetail: this.formBuilder.group({
         mortgageDetailId: [null, [Validators.required]],
@@ -62,7 +61,7 @@ export class CreateUpdateForeClosureComponent implements OnInit {
       dateAuctionAnnounced:[null, [Validators.required]],
       remark: [null, [Validators.required]],
       status: [null, [Validators.required]],
-      dateAuctionWillBeConducted: [null, [Validators.required]]
+      dateAuctionConducted: [null, [Validators.required]]
     });
   }
 

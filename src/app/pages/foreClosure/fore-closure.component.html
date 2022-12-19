@@ -38,9 +38,9 @@
       </td>
       <td>
         <nz-tag  [nzColor]="'red'">
-          <span>{{ data.dateAuctionAnnounced }}</span></nz-tag>
+          <span>{{ data.dateAuctionAnnounced| date }}</span></nz-tag>
       </td>
-      <td>{{data.dateAuctionConducted}}</td>
+      <td>{{data.dateAuctionConducted|date}}</td>
       <td>
 <!--        <button   nz-button (click)="onOpenLitigationDetails(data.foreClosureId)">Details</button>-->
         <nz-divider nzType="vertical"></nz-divider>

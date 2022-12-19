@@ -92,26 +92,33 @@ export class CreateUpdateMortageDetailComponent implements OnInit {
         this.mortageDetailForm.controls[key].updateValueAndValidity();
       }
     }
-    this.mortgageDetailService.createMortgageDetail(this.mortageDetailForm.value)
-      .pipe(finalize(() => {
-        this.drawerRef.close()
-      }))
-      .subscribe(
-        (data) => {
-          this.createNotification(
-            'success',
-            'MortgageDetail  ',
-            'MortgageDetail  Successfully Created'
-          );
-        },
-        (error) => {
-          console.log('error = ', error)
-          this.createNotification(
-            'error',
-            'Error',
-            error.apierror.debugMessage);
-        }
-      );
+    if(!this.isCollateralEstimated ){
+      this.mortageDetailForm.controls['dateCollateralIsEstimated'].patchValue("")
+     }
+    if(!this.isWrittenLegalNoticeServed){
+      this.mortageDetailForm.controls['dateLegalNoticeServed'].patchValue("")
+    }
+    console.log(this.mortageDetailForm.value)
+    // this.mortgageDetailService.createMortgageDetail(this.mortageDetailForm.value)
+    //   .pipe(finalize(() => {
+    //     this.drawerRef.close()
+    //   }))
+    //   .subscribe(
+    //     (data) => {
+    //       this.createNotification(
+    //         'success',
+    //         'MortgageDetail  ',
+    //         'MortgageDetail  Successfully Created'
+    //       );
+    //     },
+    //     (error) => {
+    //       console.log('error = ', error)
+    //       this.createNotification(
+    //         'error',
+    //         'Error',
+    //         error.apierror.debugMessage);
+    //     }
+    //   );
   }
 
   updateMortgageDetail(): void {

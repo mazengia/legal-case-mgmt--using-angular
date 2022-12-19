@@ -24,7 +24,7 @@ export class ForeClosureService {
   };
 
   createForeClosure = (foreClosure: ForeClosure): Observable<ForeClosure> => {
-    return this.http.post<ForeClosure>(`${BASE_URL}/foreClosure`, {foreClosure });
+    return this.http.post<ForeClosure>(`${BASE_URL}/foreClosure`, {...foreClosure });
   };
 
   getForeClosureById = (id: number | undefined): Observable<ForeClosureResponse> => {
