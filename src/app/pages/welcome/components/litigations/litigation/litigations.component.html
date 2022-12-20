@@ -1,163 +1,86 @@
-
-
 <div>
-    <nz-row>
-        <h3 Id="headerTitle"><span nz-icon nzType="folder-open" nzTheme="outline" style="margin-right: 10px;"></span>Litigations</h3>
-        <nz-divider style="margin-top: -0.4em;"></nz-divider>
-    </nz-row>
-    <nz-table
-      style="
-        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px,
-          rgba(0, 0, 0, 0.24) 0px 1px 2px;
-        padding: 10px;
-      "
-      *ngIf="!loading"
-      #basicTable
-      [nzTitle]="Header"
-      [nzData]="litigation"
-    >
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Court Adjudicating</th>
-          <th>Case Stage</th>
-          <th>Case Type</th>
-          <th>Branch</th>
-          <th>Remark</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of basicTable.data; let i=index">
-          <td>{{ i+1 }}</td>
-          <td>
-            <!-- <nz-tag [nzColor]="data.color">
-              <span nz-icon nzType="clock-circle" nzTheme="outline"></span> -->
-              <span>{{ data.courtAdjudicating }}</span>
-              <!-- </nz-tag -->
-            <!-- > -->
-          </td>
-          <td>
-            <nz-tag  [nzColor]="'red'">
-                  <span>{{ data.caseStage }}</span></nz-tag>
-          </td>
-          <td>{{data.caseType?.caseTypeName}}</td>
-          <td>{{data.branch?.name}}</td>
-          <td>{{ data.remark }}</td>
-          <td>
-            <button   nz-button (click)="onOpenLitigationDetails(data.litigationId)">Report</button>
-            <nz-divider nzType="vertical"></nz-divider>
+  <nz-row>
+    <h3 Id="headerTitle">
+      <span nz-icon nzType="folder-open" nzTheme="outline" style="margin-right: 10px;"></span>Litigation
+    </h3>
+    <nz-divider></nz-divider>
+  </nz-row>
+  <nz-table
+    *ngIf="!loading"
+    #basicTable
+    [nzTitle]="Header"
+    [nzData]="litigation"
+  >
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>Litigation Type</th>
+      <th>Court Adjudicating</th>
+      <th>Case Type</th>
+      <th>Case Stage</th>
+      <th>Branch</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of basicTable.data; let i=index">
+      <td>{{ i + 1 }}</td>
+
+      <td>{{ data.litigationType }}</td>
+      <td>
+        <span>{{ data.courtAdjudicating }}</span>
+      </td>
+      <td>
+        <nz-tag [nzColor]="'red'">
+          <span>{{ data.caseStage }}</span></nz-tag>
+      </td>
+      <td>{{data.caseType?.caseTypeName}}</td>
+      <td>{{data.branch?.name}}</td>
+      <td>
+        <a   (click)="onOpenLitigationDetails(data.litigationId)">Report</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a style="color: darkgoldenrod"
+          (click)="openDrawer(data.litigationId)"
+        >
+          Edit
+        </a>
+<!--        <nz-divider nzType="vertical"></nz-divider>-->
+<!--        <a>Delete</a>-->
+      </td>
+    </tr>
+    </tbody>
+    <ng-template #Header>
+      <!-- <div nz-row>
+          <div nz-col [nzSpan]="6" [nzPull]="18">
             <button
-              id="editBtn"
+            style="border:1px solid red"
+            id="btnStyle"
               nz-button
               nzType="primary"
-              (click)="openDrawer(data.litigationId)"
+              (click)="onCreateMailNotificationType()"
             >
-              Edit
-            </button>
-            <nz-divider nzType="vertical"></nz-divider>
-            <a>Delete</a>
-          </td>
-        </tr>
-      </tbody>
-      <ng-template #Header>
-        <!-- <div nz-row>
-            <div nz-col [nzSpan]="6" [nzPull]="18">
-              <button
-              style="border:1px solid red"
-              id="btnStyle"
-                nz-button
-                nzType="primary"
-                (click)="onCreateMailNotificationType()"
-              >
-              <span nz-icon nzType="plus" nzTheme="outline"></span>
-                Create Mail Type
-              </button>
-            </div>
-            <div nz-col [nzSpan]="18" [nzPush]="6">col-18 col-push-6</div>
-
-          </div> -->
-
-        <div nz-row>
-          <div nz-col [nzSpan]="6" [nzPush]="18">
-            <button
-              style="float: right"
-              id="btnStyle"
-              nz-button
-              nzType="primary"
-              (click)="openDrawer(undefined)"
-            >
-              <span nz-icon nzType="plus" nzTheme="outline"></span>
-              Create Litigation
+            <span nz-icon nzType="plus" nzTheme="outline"></span>
+              Create Mail Type
             </button>
           </div>
-          <div nz-col [nzSpan]="18" [nzPull]="6">
-            <div nz-row>
-              <div nz-col nzSpan="4" nzOffset="1">
-                <button
-                id="searchBtn"
-                nz-button
-                style="border:none;color: #2a2642; font-weight: 700; box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; height: 40px; letter-spacing: 0.0892857em; text-transform: uppercase;color: #000000;"
-                (click)="onShowHideSearch()"
-              >
-                <span
-                  nz-icon
-                  nzType="more"
-                  nzTheme="outline"
-                  style="color: #2a2642"
-                ></span
-                >{{buttonName}}
-              </button>
-              </div>
-              <div nz-col nzSpan="7" nzOffset = "1">
-                <div *ngIf="showSearch">
-                  <!-- <nz-input-group id="searchInput" [nzSuffix]="inputClearTpl"> -->
-                    <input   type="text" nz-input [(ngModel)]="inputValue" placeholder="input with clear icon" />
-                  <!-- </nz-input-group> -->
-                  <ng-template #inputClearTpl>
-                    <span
-                      nz-icon
-                      class="ant-input-clear-icon"
-                      nzTheme="fill"
-                      nzType="close-circle"
-                      *ngIf="inputValue"
-                      (click)="inputValue = null"
-                    ></span>
-                  </ng-template>
-                </div>
-              </div>
-              <div nz-col nzSpan="7" nzOffset = "1">
-                <div *ngIf="showSearch">
-                  <nz-input-group id="searchInput" [nzSuffix]="inputClearTpl" [nzPrefix]="prefixTemplateUser">
-                    <input  type="text" nz-input [(ngModel)]="inputValue" placeholder="input with clear icon" />
-                  </nz-input-group>
-                  <ng-template #prefixTemplateUser><span nz-icon nzType="user"></span></ng-template>
-                  <ng-template #inputClearTpl>
-                    <span
-                      nz-icon
-                      class="ant-input-clear-icon"
-                      nzTheme="fill"
-                      nzType="close-circle"
-                      *ngIf="inputValue"
-                      (click)="inputValue = null"
-                    ></span>
-                  </ng-template>
-                </div>
-              </div>
-            </div>
+          <div nz-col [nzSpan]="18" [nzPush]="6">col-18 col-push-6</div>
 
-          </div>
+        </div> -->
+
+      <div nz-row>
+        <div nz-col [nzSpan]="6" [nzPush]="18">
+          <button
+            style="float: right"
+            id="btnStyle"
+            nz-button
+            nzType="primary"
+            (click)="openDrawer(undefined)"
+          >
+            <span nz-icon nzType="plus" nzTheme="outline"></span>
+            Create Litigation
+          </button>
         </div>
-        <!-- <div nz-row style="width: 100%">
-            <div nz-col nzSpan="6" nzOrder="4">
-
-            </div>
-            <div nz-col nzSpan="6" nzOrder="3"></div>
-            <div nz-col nzSpan="6" nzOrder="2"></div>
-            <div nz-col nzSpan="6" nzOrder="1">
-
-            </div>
-          </div> -->
-      </ng-template>
-    </nz-table>
-  </div>
+      </div>
+    </ng-template>
+  </nz-table>
+</div>

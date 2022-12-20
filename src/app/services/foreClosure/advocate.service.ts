@@ -13,7 +13,7 @@ const BASE_URL = environment.Back_End_Url;
 export class ForeClosureService {
   constructor(private http: HttpClient) {}
 
-  getForeClosureService = (
+  getForeAllClosure = (
     pageNumber?: number,
     pageSize?: number
   ): Observable<ForeClosureResponse> => {

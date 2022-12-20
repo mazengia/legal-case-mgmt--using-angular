@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {CaseTypeService} from 'src/app/services/case-type/case-type.service';
+import {NzDrawerService} from "ng-zorro-antd/drawer";
+import {CreateCaseTypeComponent} from "./create-case-type/create-case-type.component";
 
 @Component({
   selector: 'app-case-types',
@@ -9,6 +11,7 @@ import {CaseTypeService} from 'src/app/services/case-type/case-type.service';
 })
 export class CaseTypesComponent implements OnInit {
   constructor(
+    private drawerService: NzDrawerService,
     private caseTypeService: CaseTypeService,
     private route: Router
   ) {}
@@ -37,13 +40,22 @@ export class CaseTypesComponent implements OnInit {
       }
     );
   };
+  openCaseDrawer(id: any): void {
+    const drawerRef = this.drawerService.create<CreateCaseTypeComponent,
+      { id: number }>({
+      nzTitle: `${id ? 'Update' : 'Create'} Case-type `,
+      nzWidth:600,
+      nzContent: CreateCaseTypeComponent,
+      nzContentParams: {
+        value: id,
+      },
+      nzClosable: true,
+      nzKeyboard: true,
+    });
 
-  onCreateCaseType = () => {
-    this.route.navigate(['/create-case-type']);
-  };
+    drawerRef.afterClose.subscribe(() => {
+      this.onGetCaseTypes()
+    })
+  }
 
-  onUpdateCaseType = (caseTypeId: number) => {
-    console.log(caseTypeId);
-    this.route.navigate(['/update-case-type/', caseTypeId]);
-  };
 }

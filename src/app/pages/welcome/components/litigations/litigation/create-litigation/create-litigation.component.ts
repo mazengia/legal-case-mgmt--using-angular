@@ -15,6 +15,7 @@ import {Intervene} from "../../../../../../models/intervene";
 import {Employee} from "../../../../../../models/employee";
 import {Branch} from "../../../../../../models/branch";
 import {EmployeeService} from "../../../../../../services/employee/employee.service";
+import {CommentsService} from "../../../../../../services/comments/comments.service";
 
 @Component({
   selector: 'app-create-litigation',
@@ -33,7 +34,6 @@ export class CreateLitigationComponent implements OnInit {
   caseType?: CaseType[] | undefined;
   advocate?: Advocate[] | undefined;
   intervene?: Intervene[] | undefined;
-  private typedSearchTerm$ = new Subject<any>();
   @Input() value?: number;
   isAddMode = true;
   loading = false;
@@ -49,6 +49,7 @@ export class CreateLitigationComponent implements OnInit {
     private employeeService: EmployeeService,
     private customerService: CustomerService,
     private litigationService: LitigationService,
+    private commentsService: CommentsService,
     private notificationService: NzNotificationService,
     private drawerRef: NzDrawerRef<string>
   ) {
@@ -77,7 +78,7 @@ export class CreateLitigationComponent implements OnInit {
       }),
       courtAdjudicating: [null, [Validators.required]],
       isBankPlaintiff: [''],
-      remark: [null, [Validators.required]],
+      content: [null, [Validators.required]],
       fileNumber: [null, [Validators.required]],
       caseStage: [null, [Validators.required]],
       caseType: this.formBuilder.group({
@@ -146,6 +147,19 @@ export class CreateLitigationComponent implements OnInit {
       }))
       .subscribe(
         (data) => {
+         let comments={
+            content:this.litigationForm.controls['content'].value,
+              litigation:{litigationId:data.litigationId}
+          }
+          // @ts-ignore
+          this.commentsService.createComment(comments).subscribe(
+            (data) => {
+              console.log(data)
+            },
+            (error) => {
+              console.log(error)
+            }
+          ) ;
           this.createNotification(
             'success',
             'Litigation  ',
@@ -177,6 +191,19 @@ export class CreateLitigationComponent implements OnInit {
       }))
       .subscribe(
         data => {
+          let comments={
+            content:this.litigationForm.controls['content'].value,
+            litigation:{litigationId:data.litigationId}
+          }
+          // @ts-ignore
+          this.commentsService.createComment(comments).subscribe(
+            (data) => {
+              console.log(data)
+            },
+            (error) => {
+              console.log(error)
+            }
+          ) ;
           this.createNotification(
             'success',
             'Litigation',

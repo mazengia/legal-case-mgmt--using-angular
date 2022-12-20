@@ -76,6 +76,7 @@ export class ExpenseDetailComponent implements OnInit {
       this.getExpenseDetail()
     })
   }
+
   createNotification(type: string, title: string, message: string): void {
     this.notification.create(type, title, message);
   }

@@ -250,9 +250,9 @@
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-label>Remark</nz-form-label>
-    <nz-form-control [nzSpan]="24" nzErrorTip="Please write remarl! ">
-      <textarea class="input" nz-input formControlName="remark" placeholder="Write remark here"></textarea>
+    <nz-form-label>Comment</nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please write comment content! ">
+      <textarea class="input" nz-input formControlName="content" placeholder="comment content"></textarea>
     </nz-form-control>
   </nz-form-item>
   <button nz-button nzType="primary" [disabled]="!litigationForm.valid">Save</button>

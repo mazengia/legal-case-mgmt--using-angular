@@ -1,8 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute} from '@angular/router';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {AuctionTypeService} from 'src/app/services/auction-type/auction-type.service';
+import {AuctionType} from "../../../../../../models/auction-type";
+import {NzDrawerRef} from "ng-zorro-antd/drawer";
+import {finalize, first} from "rxjs";
+import {ForeClosureService} from "../../../../../../services/foreClosure/advocate.service";
+ import {ForeClosure} from "../../../../../../models/foreClosure";
 
 @Component({
   selector: 'app-create-auction-type',
@@ -11,90 +15,142 @@ import {AuctionTypeService} from 'src/app/services/auction-type/auction-type.ser
 })
 export class CreateAuctionTypeComponent implements OnInit {
   createAuctionTypeForm!: FormGroup;
-  loading!: boolean;
-  isCreateMode!: boolean;
-
-  auctionTypeId!: number;
+  pageSize: number = 1000;
+  submitted = false;
+  foreClosure?: ForeClosure[] | undefined;
+  @Input() value?: number;
+  isAddMode = true;
+  loading = false;
+    pageIndex?: 0;
 
   constructor(
     private auctionTypeService: AuctionTypeService,
+    private foreClosureService: ForeClosureService,
     private formBuilder: FormBuilder,
     private notification: NzNotificationService,
-    private activatedRoute: ActivatedRoute
+    private drawerRef: NzDrawerRef<string>
   ) {
-    this.auctionTypeId = Number(
-      this.activatedRoute.snapshot.paramMap.get('auctionTypeId')
-    );
-    console.log('Auction type Id: ', this.auctionTypeId);
     this.createAuctionTypeForm = this.formBuilder.group({
+      foreClosure: this.formBuilder.group(
+        { foreClosureId: [null, Validators.required]} ),
       auctionTypeName: [null, [Validators.required]],
+      dateAuctionConducted: [null, [Validators.required]],
+      dateAuctionAnnounced: [null, [Validators.required]],
       remark: [null, [Validators.required]],
     });
   }
 
   ngOnInit(): void {
-    this.isCreateMode = !this.auctionTypeId;
+    this.getForeClosure( )
+    this.isAddMode = !this.value;
+    if (this.value) {
+      this.getAuctionType();
+    }
+
+  }
+  getForeClosure = () => {
+    this.loading = true;
+    this.foreClosureService
+      .getForeAllClosure(this.pageIndex, this.pageSize)
+      .subscribe(
+        (res: any) => {
+          setTimeout(() => {
+            this.loading = false;
+            this.foreClosure = res?._embedded?.foreClosureDtoes;
+            console.log(this.foreClosure);
+          }, 1000);
+        },
+        (error: any) => {
+          this.loading = false;
+        }
+      );
+  };
+
+  getAuctionType() {
     this.auctionTypeService
-      .getAuctionType(Number(this.auctionTypeId))
-      .subscribe((res: any) => {
-        console.log(res);
-        this.createAuctionTypeForm.patchValue(res);
+      .getAuctionType(this.value)
+      .pipe(first())
+      .subscribe((res) => {
+        if (!this.isAddMode) {
+          this.createAuctionTypeForm.patchValue(res);
+        }
       });
   }
 
-  submitAuction = () => {
-    if (this.isCreateMode) {
-      this.saveAuctionType();
-      console.log('creating');
+  onSubmit() {
+    this.submitted = true;
+    if (this.createAuctionTypeForm.invalid) {
+      return;
+    }
+
+    this.loading = true;
+    if (this.isAddMode) {
+      this.createAuctionType();
     } else {
       this.updateAuctionType();
-      console.log('updating');
     }
-  };
+  }
 
-  updateAuctionType = () => {
-    this.loading = true;
-    this.auctionTypeService
-      .updateAuctionType(this.auctionTypeId, this.createAuctionTypeForm?.value)
+  createAuctionType(): void {
+    for (const key in this.createAuctionTypeForm.controls) {
+      if (this.createAuctionTypeForm.controls.hasOwnProperty(key)) {
+        this.createAuctionTypeForm.controls[key].markAsDirty();
+        this.createAuctionTypeForm.controls[key].updateValueAndValidity();
+      }
+    }
+    this.auctionTypeService.createAuctionType(this.createAuctionTypeForm.value)
+      .pipe(finalize(() => {
+        this.drawerRef.close()
+      }))
       .subscribe(
-        (res: any) => {
-          this.loading = false;
-          this.notification.create(
+        (data) => {
+          this.createNotification(
             'success',
-            'Success!',
-            `You have successfully updated auction type ${this.auctionTypeId}`
+            'AuctionType  ',
+            'AuctionType  Successfully Created'
           );
         },
-        (error: any) => {
-          this.loading = false;
-          this.notification.create(
+        (error) => {
+          console.log('error = ', error)
+          this.createNotification(
             'error',
-            'Creating Expense Type Failed!',
-            `error.error.apierror.message`
-          );
+            'Error',
+            error.apierror.debugMessage);
         }
       );
-  };
+  }
 
-  saveAuctionType = () => {
-    this.loading = true;
-    console.log(this.createAuctionTypeForm?.value);
+  updateAuctionType(): void {
+
+    for (const key in this.createAuctionTypeForm.controls) {
+      if (this.createAuctionTypeForm.controls.hasOwnProperty(key)) {
+        this.createAuctionTypeForm.controls[key].markAsDirty();
+        this.createAuctionTypeForm.controls[key].updateValueAndValidity();
+      }
+    }
     this.auctionTypeService
-      .createAuctionType(this.createAuctionTypeForm?.value)
+      .updateAuctionType(this.value, this.createAuctionTypeForm.value)
+      .pipe(finalize(() => {
+        this.drawerRef.close()
+      }))
       .subscribe(
-        (res: any) => {
-          console.log(res);
-          this.createAuctionTypeForm.reset();
-        },
-        (error: any) => {
-          console.log(error);
-          this.loading = false;
-          this.notification.create(
-            'error',
-            'Creating Expense Type Failed!',
-            `error.error.apierror.message`
+        data => {
+          this.createNotification(
+            'success',
+            'AuctionType',
+            'AuctionType Successfully Updated'
           );
+        },
+        error => {
+          this.createNotification(
+            'error',
+            'Error',
+            error.apierror.debugMessage);
         }
       );
-  };
+  }
+
+  createNotification(type: string, title: string, message: string): void {
+    this.notification.create(type, title, message);
+  }
 }

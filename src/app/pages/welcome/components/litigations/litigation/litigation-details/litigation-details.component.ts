@@ -4,7 +4,6 @@ import {ExpenseService} from 'src/app/services/expense/expense.service';
 import {NzDrawerRef, NzDrawerService} from "ng-zorro-antd/drawer";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {LitigationService} from "../../../../../../services/litigation/litigation.service";
-import {AdvocateService} from "../../../../../../services/advocate/advocate.service";
 import {AppointmentService} from "../../../../../../services/appointment/appointment.service";
 import {Appointment} from "../../../../../../models/appointment";
 import {
@@ -18,6 +17,12 @@ import {
 } from "../../../../../intervene/create-update-intervene/create-update-intervene.component";
 import {ExpenseDetailService} from "../../../../../../services/expense/expenseDetail.service";
 import {ExpenseDetail} from "../../../../../../models/expenseDetail";
+import {
+  CreateUpdateExpenseDetailComponent
+} from "../../../settings/expense/expense-detail/create-update-expense-detail/create-update-expense-detail.component";
+import {CreateCaseTypeComponent} from "../../../settings/case-type/create-case-type/create-case-type.component";
+import {CommentsService} from "../../../../../../services/comments/comments.service";
+import {Comments} from "../../../../../../models/comments";
 
 @Component({
   selector: 'app-litigation-details',
@@ -33,14 +38,14 @@ export class LitigationDetailsComponent implements OnInit {
     drawerRef: NzDrawerRef<string>;
   }>;
   request: any;
-  appointment: Appointment[]=[];
-  expenseDetails: ExpenseDetail[]=[];
+  appointment: Appointment[] = [];
+  expenseDetail: ExpenseDetail[] = [];
   litigation: any;
+  comment:Comments[]=[] ;
   pageSize = 10;
   pageNumber = 1;
-  username:any;
+  username: any;
   totalElements = 0;
-  age: number | undefined;
   litigationId: any;
 
   constructor(
@@ -48,41 +53,93 @@ export class LitigationDetailsComponent implements OnInit {
     private drawerService: NzDrawerService,
     private activatedRoute: ActivatedRoute,
     private litigationService: LitigationService,
+    private commentsService: CommentsService,
     private customerService: ExpenseService,
-    private fundSourceService: LitigationService,
-    private expenseDetailService:ExpenseDetailService,
-    private appointmentService: AppointmentService,
-    private advocateService:AdvocateService) {
+    private expenseDetailService: ExpenseDetailService,
+    private appointmentService: AppointmentService ) {
   }
 
   ngOnInit(): void {
     this.litigationId = this.activatedRoute.snapshot.paramMap.get('litigationId');
     this.getLitigationById(this.litigationId);
     this.findJudicialAppointmentByLitigationLitigationId(this.litigationId);
+    this.getCommentByLitigationId(this.litigationId);
   }
 
   getLitigationById(id: any) {
     this.litigationService.getLitigation(id).subscribe(
       res => {
         this.litigation = res;
+        console.log(this.litigation);
       })
   }
-  findExpenseDetailByAppointmentId(appointmentId:any){
+  getCommentByLitigationId(id: any){
+    this.commentsService.getCommentByLitigationId(id).subscribe(
+      res => {
+        // @ts-ignore
+        this.comment = res._embedded.commentDtoes;
+        // console.log("comment",this.comment);
+      })
+  }
+
+  findExpenseDetailByAppointmentId(appointmentId: any) {
     this.expenseDetailService.findExpenseDetailByAppointmentId(appointmentId).subscribe(
       res => {
-        this.expenseDetails = res._embedded.expenseDetailDtoes;
+        for (let i = 0; i < res._embedded.expenseDetailDtoes.length; i++) {
+          this.expenseDetail[i] = res._embedded.expenseDetailDtoes[i]
+        }
       })
   }
-  findJudicialAppointmentByLitigationLitigationId(id: any){
+
+  findJudicialAppointmentByLitigationLitigationId(id: any) {
+
     this.appointmentService.findJudicialAppointmentByLitigationLitigationId(id).subscribe(
       res => {
         this.appointment = res._embedded.judicialAppointmentDtoes;
-        for (let i=0;i<this.appointment.length;i++){
+        for (let i = 0; i < this.appointment.length; i++) {
           this.findExpenseDetailByAppointmentId(this.appointment[i].appointmentId);
 
         }
-        console.log("appointment",this.appointment)
       })
+  }
+  openExpenseDrawer(id: any): void {
+    const drawerRef = this.drawerService.create<CreateUpdateExpenseDetailComponent,
+      { id: number }>({
+      nzTitle: `${id ? 'Update' : 'Create'} ExpenseDetail `,
+      nzWidth:600,
+      nzContent: CreateUpdateExpenseDetailComponent,
+      nzContentParams: {
+        value: id,
+      },
+      nzClosable: true,
+      nzKeyboard: true,
+    });
+
+    drawerRef.afterClose.subscribe(() => {
+      this.getLitigationById(this.litigationId);
+      this.findJudicialAppointmentByLitigationLitigationId(this.litigationId);
+      this.getCommentByLitigationId(this.litigationId);
+    })
+  }
+
+  openCaseDrawer(id: any): void {
+    const drawerRef = this.drawerService.create<CreateCaseTypeComponent,
+      { id: number }>({
+      nzTitle: `${id ? 'Update' : 'Create'} Case-type `,
+      nzWidth:600,
+      nzContent: CreateCaseTypeComponent,
+      nzContentParams: {
+        value: id,
+      },
+      nzClosable: true,
+      nzKeyboard: true,
+    });
+
+    drawerRef.afterClose.subscribe(() => {
+      this.getLitigationById(this.litigationId);
+      this.getCommentByLitigationId(this.litigationId);
+      this.findJudicialAppointmentByLitigationLitigationId(this.litigationId);
+    })
   }
 
   createNotification(type: string, title: string, message: string): void {
@@ -93,7 +150,7 @@ export class LitigationDetailsComponent implements OnInit {
     const drawerRef = this.drawerService.create<CreateUpdateAppointmentComponent,
       { id: number }>({
       nzTitle: `${id ? 'Update' : 'Create'} Appointment `,
-      nzWidth:600,
+      nzWidth: 600,
       nzContent: CreateUpdateAppointmentComponent,
       nzContentParams: {
         value: id,
@@ -104,14 +161,16 @@ export class LitigationDetailsComponent implements OnInit {
 
     drawerRef.afterClose.subscribe(() => {
       this.getLitigationById(this.litigationId);
+      this.getCommentByLitigationId(this.litigationId);
       this.findJudicialAppointmentByLitigationLitigationId(this.litigationId);
     })
   }
+
   openDrawerAdvocate(id: any): void {
     const drawerRef = this.drawerService.create<CreateUpdateAdvocateComponent,
       { id: number }>({
       nzTitle: `${id ? 'Update' : 'Create'} Advocate `,
-      nzWidth:600,
+      nzWidth: 600,
       nzContent: CreateUpdateAdvocateComponent,
       nzContentParams: {
         value: id,
@@ -122,14 +181,16 @@ export class LitigationDetailsComponent implements OnInit {
 
     drawerRef.afterClose.subscribe(() => {
       this.getLitigationById(this.litigationId);
+      this.getCommentByLitigationId(this.litigationId);
       this.findJudicialAppointmentByLitigationLitigationId(this.litigationId);
     })
   }
+
   openDrawerIntervene(id: any): void {
     const drawerRef = this.drawerService.create<CreateUpdateInterveneComponent,
       { id: number }>({
       nzTitle: `${id ? 'Update' : 'Create'} Intervene `,
-      nzWidth:600,
+      nzWidth: 600,
       nzContent: CreateUpdateInterveneComponent,
       nzContentParams: {
         value: id,
@@ -140,6 +201,7 @@ export class LitigationDetailsComponent implements OnInit {
 
     drawerRef.afterClose.subscribe(() => {
       this.getLitigationById(this.litigationId);
+      this.getCommentByLitigationId(this.litigationId);
       this.findJudicialAppointmentByLitigationLitigationId(this.litigationId);
 
     })

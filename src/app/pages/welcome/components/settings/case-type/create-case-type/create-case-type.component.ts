@@ -1,8 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute} from '@angular/router';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {CaseTypeService} from 'src/app/services/case-type/case-type.service';
+import {NzDrawerRef} from "ng-zorro-antd/drawer";
+import {CaseType} from "../../../../../../models/case-type";
+import {finalize, first} from "rxjs";
 
 @Component({
   selector: 'app-create-case-type',
@@ -10,91 +12,122 @@ import {CaseTypeService} from 'src/app/services/case-type/case-type.service';
   styleUrls: ['./create-case-type.component.scss'],
 })
 export class CreateCaseTypeComponent implements OnInit {
-  createCaseTypeForm!: FormGroup;
-  loading!: boolean;
-  isCreateMode!: boolean;
 
-  caseTypeId!: number;
+  createCaseTypeForm!: FormGroup;
+  pageNumber: number = 0;
+  pageSize: number = 10;
+  submitted = false;
+  caseType?: CaseType[] | undefined;
+  @Input() value?: number;
+  isAddMode = true;
+  loading = false;
 
   constructor(
-    private caseTypeService: CaseTypeService,
     private formBuilder: FormBuilder,
-    private notification: NzNotificationService,
-    private activatedRoute: ActivatedRoute
+    private caseTypeService: CaseTypeService,
+    private notificationService: NzNotificationService,
+    private drawerRef: NzDrawerRef<string>
   ) {
-    this.caseTypeId = Number(
-      this.activatedRoute.snapshot.paramMap.get('caseTypeId')
-    );
-    console.log('Case type: ', this.caseTypeId);
     this.createCaseTypeForm = this.formBuilder.group({
-      caseTypeName: [null, [Validators.required]],
+
       remark: [null, [Validators.required]],
+      caseTypeName: [null, [Validators.required]]
     });
+
+  }
+  ngOnInit(): void {
+    this.isAddMode = !this.value;
+    if (this.value) {
+      this.getCaseTypeById();
+    }
   }
 
-  ngOnInit(): void {
-    this.isCreateMode = !this.caseTypeId;
-    console.log(this.caseTypeId);
+  getCaseTypeById() {
     this.caseTypeService
-      .getCaseType(Number(this.caseTypeId))
-      .subscribe((res: any) => {
-        this.createCaseTypeForm.patchValue(res);
+      .getCaseType(this.value)
+      .pipe(first())
+      .subscribe((res) => {
+        if (!this.isAddMode) {
+           this.createCaseTypeForm.patchValue(res);
+        }
       });
   }
 
-  submitCaseType = () => {
-    if (this.isCreateMode) {
-      this.saveCaseType();
-      console.log('creating');
+  onSubmit() {
+    this.submitted = true;
+    if (this.createCaseTypeForm.invalid) {
+      return;
+    }
+
+    this.loading = true;
+    if (this.isAddMode) {
+      this.createCaseType();
     } else {
       this.updateCaseType();
-      console.log('updating');
     }
-  };
+  }
 
-  updateCaseType = () => {
-    this.loading = true;
-    this.caseTypeService
-      .updateCaseType(this.caseTypeId, this.createCaseTypeForm?.value)
+  createCaseType(): void {
+    for (const key in this.createCaseTypeForm.controls) {
+      if (this.createCaseTypeForm.controls.hasOwnProperty(key)) {
+        this.createCaseTypeForm.controls[key].markAsDirty();
+        this.createCaseTypeForm.controls[key].updateValueAndValidity();
+      }
+    }
+    this.caseTypeService.createCaseType(this.createCaseTypeForm.value)
+      .pipe(finalize(() => {
+        this.drawerRef.close()
+      }))
       .subscribe(
-        (res: any) => {
-          this.loading = false;
-          this.notification.create(
+        (data) => {
+          this.createNotification(
             'success',
-            'Success!',
-            `You have successfully updated expense type ${this.caseTypeId}`
+            'CaseType  ',
+            'CaseType  Successfully Created'
           );
         },
-        (error: any) => {
-          this.loading = false;
-          this.notification.create(
+        (error) => {
+          console.log('error = ', error)
+          this.createNotification(
             'error',
-            'Creating Expense Type Failed!',
-            `error.error.apierror.message`
-          );
+            'Error',
+            error.apierror.debugMessage);
         }
       );
-  };
+  }
 
-  saveCaseType = () => {
-    this.loading = true;
-    console.log(this.createCaseTypeForm?.value);
+  updateCaseType(): void {
+
+    for (const key in this.createCaseTypeForm.controls) {
+      if (this.createCaseTypeForm.controls.hasOwnProperty(key)) {
+        this.createCaseTypeForm.controls[key].markAsDirty();
+        this.createCaseTypeForm.controls[key].updateValueAndValidity();
+      }
+    }
     this.caseTypeService
-      .createCaseType(this.createCaseTypeForm?.value)
+      .updateCaseType(this.value, this.createCaseTypeForm.value)
+      .pipe(finalize(() => {
+        this.drawerRef.close()
+      }))
       .subscribe(
-        (res: any) => {
-          console.log(res);
-          this.createCaseTypeForm.reset();
-        },
-        (error: any) => {
-          console.log(error);
-          this.loading = false;
-          this.notification.create(
-            'error',
-            'Creating Expense Type Failed!',
-            `error.error.apierror.message`
+        data => {
+          this.createNotification(
+            'success',
+            'CaseType',
+            'CaseType Successfully Updated'
           );
+        },
+        error => {
+          this.createNotification(
+            'error',
+            'Error',
+            error.apierror.debugMessage);
         }
       );
-  };
+  }
+
+  createNotification(type: string, title: string, message: string): void {
+    this.notificationService.create(type, title, message);
+  }
+
 }

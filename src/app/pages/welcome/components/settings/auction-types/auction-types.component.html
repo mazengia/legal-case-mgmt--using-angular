@@ -27,9 +27,9 @@
       >
       </nz-skeleton>
       </div>
-  
+
     </div>
-  
+
     <nz-table
       *ngIf="!loading"
       #basicTable
@@ -58,14 +58,13 @@
             <a>Details</a>
             <nz-divider nzType="vertical"></nz-divider>
             <button
-            
+
             nz-button
             nzType="primary"
-            (click)="onUpdateAuctionType(data.auctionTypeId)"
+            (click)="openAuctionTypeDrawer(data.auctionTypeId)"
           >
             Edit
-          </button>
-            <!-- <a click="onUpdateExpenseType(data.id)">Edit</a> -->
+          </button> >
             <nz-divider nzType="vertical"></nz-divider>
             <a>Delete</a>
           </td>
@@ -78,7 +77,7 @@
               style="float: right"
               nz-button
               nzType="primary"
-              (click)="onCreateAuctionType()"
+              (click)="openAuctionTypeDrawer(undefined)"
             >
               Create Auction Type
             </button>
@@ -90,4 +89,3 @@
       </ng-template>
     </nz-table>
   </div>
-  

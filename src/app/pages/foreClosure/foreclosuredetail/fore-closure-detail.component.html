@@ -1,0 +1,60 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item>
+    <a routerLink="/welcome">
+      <span nz-icon nzType="home"></span>
+    </a>
+  </nz-breadcrumb-item>
+  <nz-breadcrumb-item>
+    <a routerLink="/foreClosure">
+      <span>foreClosure</span>
+    </a>
+  </nz-breadcrumb-item>
+  <nz-breadcrumb-item>Details</nz-breadcrumb-item>
+</nz-breadcrumb>
+
+<nz-card nzTitle="ForeClosure Detail Information">
+      <nz-card nzTitle="ForeClosure-Status: {{foreClosures?.status}}" [nzBordered]="false">
+        <div nz-row>
+          <div *ngFor="let data of foreClosures?.auctionType" nz-col nzSpan="12">
+            <nz-card nzTitle="auctionType:{{data?.auctionTypeName}}">
+              <p>dateAuctionAnnounced: {{data?.dateAuctionAnnounced |date}}</p>
+              <p>dateAuctionConducted: {{data?.dateAuctionConducted |date}}</p>
+              <p>remark: {{data?.remark }}</p>
+              <a (click)="openAuctionTypeDrawer(data.auctionTypeId)">Edit</a>
+            </nz-card>
+          </div>
+        </div>
+
+      </nz-card>
+      auctionType
+  <nz-collapse>
+    <nz-collapse-panel nzHeader="Mortgage Detail">
+      <div nz-row>
+        <div nz-col nzSpan="11">
+          <nz-card [nzBordered]="false" nzTitle="Mortgage" [nzExtra]="cardTitle">
+            <p>borrower: {{foreClosures?.mortgageDetail?.borrower}}</p>
+            <p>mortgagor: {{foreClosures?.mortgageDetail?.mortgagor}}</p>
+            <p>numberOfTitleIndeed: {{foreClosures?.mortgageDetail?.numberOfTitleIndeed }}</p>
+            <p>machineryType: {{foreClosures?.mortgageDetail?.machineryType }}</p>
+            <p>dateCollateralRegistered: {{foreClosures?.mortgageDetail?.dateCollateralRegistered|date}}</p>
+            <p>isCollateralEstimated: {{foreClosures?.mortgageDetail?.isCollateralEstimated}}</p>
+            <p *ngIf="foreClosures?.mortgageDetail?.isCollateralEstimated">dateCollateralIsEstimated:
+              {{foreClosures?.mortgageDetail?.dateCollateralIsEstimated |date}}</p>
+            <p>isWrittenLegalNoticeServed: {{foreClosures?.mortgageDetail?.isWrittenLegalNoticeServed}}</p>
+            <p *ngIf="foreClosures?.mortgageDetail?.isWrittenLegalNoticeServed">dateLegalNoticeServed:
+              {{foreClosures?.mortgageDetail?.dateLegalNoticeServed |date}}</p>
+            <p>remark: {{foreClosures?.mortgageDetail?.remark}}</p>
+            <ng-template #cardTitle>
+              <a (click)="openDrawerMortgageDetail(foreClosures?.mortgageDetail?.mortgageDetailId)">
+                Edit Mortgages
+              </a>
+            </ng-template>
+          </nz-card>
+        </div>
+      </div>
+    </nz-collapse-panel>
+  </nz-collapse>
+</nz-card>
+
+
+

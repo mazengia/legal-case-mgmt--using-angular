@@ -1,7 +1,7 @@
 <div>
   <nz-row>
     <h3 Id="headerTitle"><span nz-icon nzType="folder-open" nzTheme="outline" style="margin-right: 10px;"></span>
-      Judicial-appointments</h3>
+      Mortgage-Detail</h3>
     <nz-divider style="margin-top: -0.4em;"></nz-divider>
   </nz-row>
   <nz-table
@@ -22,44 +22,32 @@
     <thead>
     <tr>
       <th>#</th>
+      <th>borrower</th>
+      <th>mortgagor</th>
       <th>MortgageType</th>
-      <th>plateNumber</th>
-<!--      <th>motorNumber</th>-->
-<!--      <th>shansiNumber</th>-->
-      <th>machineryType</th>
-<!--      <th>numberOfTitleIndeed</th>-->
       <th>Registered At</th>
       <th>Actions</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let data of basicTable.data; let i=index">
-      <td>{{ i+1 }}</td>
+      <td>{{ i + 1 }}</td>
+      <td>{{ data.borrower}} </td>
+      <td>{{ data.mortgagor}}</td>
       <td>
-        <span>{{ data.mortgageType?.mortgageTypeName }}</span>
+        <nz-tag [nzColor]="'red'">
+          <span>{{ data.mortgageType?.mortgageTypeName }}</span>
+        </nz-tag>
       </td>
+      <td>{{data.dateCollateralRegistered|date}}</td>
       <td>
-        <nz-tag  [nzColor]="'red'">
-          <span>{{ data.plateNumber }}</span></nz-tag>
-      </td>
-<!--      <td>{{data.motorNumber}}</td>-->
-<!--      <td>{{data.shansiNumber}}</td>-->
-      <td>{{data.machineryType}}</td>
-<!--      <td>{{data.numberOfTitleIndeed}}</td>-->
-      <td>{{data.dateCollateralRegistered}}</td>
-      <td>
-        <button   nz-button (click)="onOpenMortgageDetailDetails(data.mortgageDetailId)">Details</button>
+        <a (click)="onOpenMortgageDetailDetails(data.mortgageDetailId)">
+          Details
+        </a>
         <nz-divider nzType="vertical"></nz-divider>
-        <button
-          id="editBtn"
-          nz-button
-          nzType="primary"
-          (click)="openDrawer(data.mortgageDetailId)"
-        >
+        <a style="color: gold" (click)="openDrawer(data.mortgageDetailId)">
           Edit
-        </button>
-        <nz-divider nzType="vertical"></nz-divider>
-        <a>Delete</a>
+        </a>
       </td>
     </tr>
     </tbody>

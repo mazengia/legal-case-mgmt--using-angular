@@ -71,6 +71,7 @@ export class CreateUpdateExpenseDetailComponent implements OnInit {
       .pipe(first())
       .subscribe((res) => {
         if (!this.isAddMode) {
+          this.expenseDetailForm.controls['litigation'].patchValue(res.judicialAppointment?.litigation)
           this.expenseDetailForm.patchValue(res);
         }
       });

@@ -20,38 +20,26 @@
     </div>
   </nz-form-item>
 
-  <nz-form-item>
-    <nz-form-label nzRequired>Auction Type</nz-form-label>
-    <div formGroupName="auctionType">
-      <nz-form-control [nzSpan]="24" nzErrorTip="please select auction type! ">
-        <nz-select class="input" formControlName="auctionTypeId"
-                   nzAllowClear
-                   nzShowSearch
-                   nzPlaceHolder="auction type">
-          <nz-option
-            nzCustomContent
-            *ngFor="let data of auctionType" [nzValue]="data.auctionTypeId"
-            nzLabel="{{data.auctionTypeName}}">
-            <nz-divider nzType="vertical"></nz-divider>
-            <strong>{{data.auctionTypeName}} {{data.remark}}</strong>
-          </nz-option>
-        </nz-select>
-      </nz-form-control>
-    </div>
-  </nz-form-item>
-  <nz-form-item  >
-    <nz-form-label>date auction announced</nz-form-label>
-    <nz-form-control [nzSpan]="24" nzErrorTip="Please write date auction announced! ">
-      <nz-date-picker formControlName="dateAuctionAnnounced" nzShowTime></nz-date-picker>
-    </nz-form-control>
-  </nz-form-item>
+<!--  <nz-form-item>-->
+<!--    <nz-form-label nzRequired>Auction Type</nz-form-label>-->
+<!--    <div formGroupName="auctionType">-->
+<!--      <nz-form-control [nzSpan]="24" nzErrorTip="please select auction type! ">-->
+<!--        <nz-select class="input" formControlName="auctionTypeId"-->
+<!--                   nzAllowClear-->
+<!--                   nzShowSearch-->
+<!--                   nzPlaceHolder="auction type">-->
+<!--          <nz-option-->
+<!--            nzCustomContent-->
+<!--            *ngFor="let data of auctionType" [nzValue]="data.auctionTypeId"-->
+<!--            nzLabel="{{data.auctionTypeName}}">-->
+<!--            <nz-divider nzType="vertical"></nz-divider>-->
+<!--            <strong>{{data.auctionTypeName}} {{data.remark}}</strong>-->
+<!--          </nz-option>-->
+<!--        </nz-select>-->
+<!--      </nz-form-control>-->
+<!--    </div>-->
+<!--  </nz-form-item>-->
 
-  <nz-form-item  >
-    <nz-form-label>date auction will be conducted</nz-form-label>
-    <nz-form-control [nzSpan]="24" nzErrorTip="Please write date auction will be conducted! ">
-      <nz-date-picker formControlName="dateAuctionConducted" nzShowTime></nz-date-picker>
-    </nz-form-control>
-  </nz-form-item>
   <nz-form-item>
     <nz-form-label nzRequired>Status</nz-form-label>
     <nz-form-control [nzSpan]="24" nzErrorTip="Please select Status! ">

@@ -103,6 +103,8 @@ import {
 import {NzBreadCrumbModule} from "ng-zorro-antd/breadcrumb";
 import {NzCardModule} from "ng-zorro-antd/card";
 import {NzToolTipModule} from "ng-zorro-antd/tooltip";
+import {NzRadioModule} from "ng-zorro-antd/radio";
+import {ForeClosureDetailComponent} from "./pages/foreClosure/foreclosuredetail/fore-closure-detail.component";
 // ZORRO
 
 registerLocaleData(en);
@@ -153,9 +155,11 @@ registerLocaleData(en);
         NzBreadCrumbModule,
         NzCardModule,
         NzToolTipModule,
+        NzRadioModule,
     ],
   declarations: [
     AppComponent,
+    ForeClosureDetailComponent,
     WelcomeComponent,
     ExpensesComponent,
     CreateExpenseTypeComponent,

@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Intervene} from "../../../models/intervene";
-import {finalize, first, Subject} from "rxjs";
+import {finalize, first} from "rxjs";
 import {Branch} from "../../../models/branch";
 import {InterveneService} from "../../../services/interevene/intervene.service";
 import {BranchService} from "../../../services/branch/branch.service";
@@ -55,13 +55,11 @@ export class CreateUpdateForeClosureComponent implements OnInit {
       mortgageDetail: this.formBuilder.group({
         mortgageDetailId: [null, [Validators.required]],
       }),
-      auctionType: this.formBuilder.group({
-        auctionTypeId: [null, [Validators.required]],
-      }),
-      dateAuctionAnnounced:[null, [Validators.required]],
+      // auctionType: this.formBuilder.group({
+      //   auctionTypeId: [null, [Validators.required]],
+      // }),
       remark: [null, [Validators.required]],
-      status: [null, [Validators.required]],
-      dateAuctionConducted: [null, [Validators.required]]
+      status: [null, [Validators.required]]
     });
   }
 

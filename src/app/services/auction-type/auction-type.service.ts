@@ -26,14 +26,14 @@ export class AuctionTypeService {
     return this.http.post<any>(`${BASE_URL}/auction-types`, { ...auctionType });
   };
 
-  getAuctionType = (auctionTypeId: number): Observable<AuctionType> => {
+  getAuctionType = (auctionTypeId: any): Observable<AuctionType> => {
     return this.http.get<AuctionType>(
       `${BASE_URL}/auction-types/${auctionTypeId}`
     );
   };
 
   updateAuctionType = (
-    auctionTypeId: number,
+    auctionTypeId: any,
     auctionType: AuctionType
   ): Observable<any> => {
     return this.http.put<AuctionType>(

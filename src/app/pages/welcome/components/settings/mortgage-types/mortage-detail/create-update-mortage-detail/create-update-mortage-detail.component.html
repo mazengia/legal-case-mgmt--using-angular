@@ -1,7 +1,7 @@
 <form nzLayout="vertical" nz-form [formGroup]="mortageDetailForm" (ngSubmit)="onSubmit()"
       xmlns="http://www.w3.org/1999/html">
   <div nz-row>
-    <div nz-col nzSpan="11" >
+    <div nz-col nzSpan="11">
       <nz-form-item>
         <nz-form-label>Mortgagor</nz-form-label>
         <nz-form-control [nzSpan]="24" nzErrorTip="Please write mortgagor! ">
@@ -33,31 +33,39 @@
           </nz-form-control>
         </div>
       </nz-form-item>
-      <nz-form-item>
-        <nz-form-label>Plate Number</nz-form-label>
-        <nz-form-control [nzSpan]="24" nzErrorTip="Please write plateNumber! ">
-          <input class="input" nz-input placeholder="plate number" formControlName="plateNumber"/>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label>Shansi Number</nz-form-label>
-        <nz-form-control [nzSpan]="24" nzErrorTip="Please write shansiNumber! ">
-          <input class="input" nz-input placeholder="shansi number" formControlName="shansiNumber"/>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label>Motor Number</nz-form-label>
-        <nz-form-control [nzSpan]="24" nzErrorTip="Please write motorNumber! ">
-          <input class="input" nz-input placeholder="motor number" formControlName="motorNumber"/>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
+      <nz-radio-group formControlName="radioItem" (ngModelChange)="isRadioSelected($event)" [(ngModel)]="radioValue">
+        <label nz-radio nzValue="Car">Car</label>
+        <label nz-radio nzValue="Home">Home</label>
+        <label nz-radio nzValue="Machine">Machine</label>
+      </nz-radio-group>
+
+      <div *ngIf="radioValue=='Car'">
+        <nz-form-item>
+          <nz-form-label>Plate Number</nz-form-label>
+          <nz-form-control [nzSpan]="24" nzErrorTip="Please write plateNumber! ">
+            <input class="input" nz-input placeholder="plate number" formControlName="plateNumber"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label>Shansi Number</nz-form-label>
+          <nz-form-control [nzSpan]="24" nzErrorTip="Please write shansiNumber! ">
+            <input class="input" nz-input placeholder="shansi number" formControlName="shansiNumber"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label>Motor Number</nz-form-label>
+          <nz-form-control [nzSpan]="24" nzErrorTip="Please write motorNumber! ">
+            <input class="input" nz-input placeholder="motor number" formControlName="motorNumber"/>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <nz-form-item *ngIf="radioValue=='Machine'">
         <nz-form-label>machinery Type</nz-form-label>
         <nz-form-control [nzSpan]="24" nzErrorTip="Please write machineryType! ">
           <input class="input" nz-input placeholder="machinery type" formControlName="machineryType"/>
         </nz-form-control>
       </nz-form-item>
-      <nz-form-item>
+      <nz-form-item *ngIf="radioValue=='Home'">
         <nz-form-label>Number Of Title Indeed</nz-form-label>
         <nz-form-control [nzSpan]="24" nzErrorTip="Please write numberOfTitleIndeed! ">
           <input class="input" nz-input placeholder="Number Of Title Indeed" formControlName="numberOfTitleIndeed"/>
@@ -76,7 +84,8 @@
       </nz-form-item>
       <nz-form-item>
         <nz-form-control [nzSpan]="24">
-          <label  (ngModelChange)="collateralEstimated($event)" [ngModel]="isCollateralEstimated" nz-checkbox formControlName="isCollateralEstimated">
+          <label (ngModelChange)="collateralEstimated($event)" [ngModel]="isCollateralEstimated" nz-checkbox
+                 formControlName="isCollateralEstimated">
             isCollateralEstimated?</label>
         </nz-form-control>
       </nz-form-item>
@@ -88,7 +97,8 @@
       </nz-form-item>
       <nz-form-item>
         <nz-form-control [nzSpan]="24">
-          <label  (ngModelChange)="writtenLegalNoticeServed($event)" [ngModel]="isWrittenLegalNoticeServed" nz-checkbox formControlName="isWrittenLegalNoticeServed">
+          <label (ngModelChange)="writtenLegalNoticeServed($event)" [ngModel]="isWrittenLegalNoticeServed" nz-checkbox
+                 formControlName="isWrittenLegalNoticeServed">
             isWrittenLegalNoticeServed?</label>
         </nz-form-control>
       </nz-form-item>

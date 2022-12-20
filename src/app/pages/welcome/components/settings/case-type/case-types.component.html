@@ -64,7 +64,7 @@
 
           nz-button
           nzType="primary"
-          (click)="onUpdateCaseType(data.caseTypeId)"
+          (click)="openCaseDrawer(data.caseTypeId)"
         >
           Edit
         </button>
@@ -81,7 +81,7 @@
             style="float: right"
             nz-button
             nzType="primary"
-            (click)="onCreateCaseType()"
+            (click)="openCaseDrawer(undefined)"
           >
             Create Case Type
           </button>

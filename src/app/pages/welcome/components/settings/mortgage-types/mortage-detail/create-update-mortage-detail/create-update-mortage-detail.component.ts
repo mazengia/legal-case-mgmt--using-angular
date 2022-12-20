@@ -14,7 +14,7 @@ import {MortgageDetail} from "../../../../../../../models/mortgage-detail";
   styleUrls: ['./create-update-mortage-detail.component.scss']
 })
 export class CreateUpdateMortageDetailComponent implements OnInit {
-
+  radioValue = 'Machine';
   mortageDetailForm!: FormGroup;
   pageNumber: number = 0;
   pageSize: number = 10;
@@ -36,19 +36,20 @@ export class CreateUpdateMortageDetailComponent implements OnInit {
       mortgageType: this.formBuilder.group({
         mortgageTypeId: [null, [Validators.required]],
       }),
-      isWrittenLegalNoticeServed: [null, [Validators.required]],
-      dateLegalNoticeServed: [],
-      plateNumber: [null, [Validators.required]],
-      shansiNumber: [null, [Validators.required]],
-      motorNumber: [null, [Validators.required]],
-      machineryType: [null, [Validators.required]],
-      numberOfTitleIndeed: [null, [Validators.required]],
       dateCollateralRegistered: [null, [Validators.required]],
-      isCollateralEstimated: [null, [Validators.required]],
-      dateCollateralIsEstimated: [],
       mortgagor: [null, [Validators.required]],
       borrower: [null, [Validators.required]],
-      remark: [null, [Validators.required]]
+      remark: [null, [Validators.required]],
+      isWrittenLegalNoticeServed: [ ],
+      dateCollateralIsEstimated: [],
+      dateLegalNoticeServed: [],
+      isCollateralEstimated: [ ],
+      numberOfTitleIndeed: [],
+      machineryType: [ ],
+      shansiNumber: [ ],
+      motorNumber: [ ],
+      plateNumber: [ ],
+      radioItem: [],
     });
   }
 
@@ -98,27 +99,37 @@ export class CreateUpdateMortageDetailComponent implements OnInit {
     if(!this.isWrittenLegalNoticeServed){
       this.mortageDetailForm.controls['dateLegalNoticeServed'].patchValue("")
     }
-    console.log(this.mortageDetailForm.value)
-    // this.mortgageDetailService.createMortgageDetail(this.mortageDetailForm.value)
-    //   .pipe(finalize(() => {
-    //     this.drawerRef.close()
-    //   }))
-    //   .subscribe(
-    //     (data) => {
-    //       this.createNotification(
-    //         'success',
-    //         'MortgageDetail  ',
-    //         'MortgageDetail  Successfully Created'
-    //       );
-    //     },
-    //     (error) => {
-    //       console.log('error = ', error)
-    //       this.createNotification(
-    //         'error',
-    //         'Error',
-    //         error.apierror.debugMessage);
-    //     }
-    //   );
+
+    if(this.radioValue=='Car'){
+      this.mortageDetailForm.controls['plateNumber'].patchValue("")
+      this.mortageDetailForm.controls['shansiNumber'].patchValue("")
+      this.mortageDetailForm.controls['motorNumber'].patchValue("")
+    }
+    if(this.radioValue=='Machine'){
+      this.mortageDetailForm.controls['machineryType'].patchValue("")
+    } if(this.radioValue=='Home'){
+      this.mortageDetailForm.controls['numberOfTitleIndeed'].patchValue("")
+    }
+    this.mortgageDetailService.createMortgageDetail(this.mortageDetailForm.value)
+      .pipe(finalize(() => {
+        this.drawerRef.close()
+      }))
+      .subscribe(
+        (data) => {
+          this.createNotification(
+            'success',
+            'MortgageDetail  ',
+            'MortgageDetail  Successfully Created'
+          );
+        },
+        (error) => {
+          console.log('error = ', error)
+          this.createNotification(
+            'error',
+            'Error',
+            error.apierror.debugMessage);
+        }
+      );
   }
 
   updateMortgageDetail(): void {
@@ -166,6 +177,12 @@ export class CreateUpdateMortageDetailComponent implements OnInit {
   collateralEstimated = (estimated:any) => {
    this.isCollateralEstimated=estimated;
   };
+  isRadioSelected = (item:any) => {
+    console.log(item)
+    this.radioValue=item;
+  };
+
+
   writtenLegalNoticeServed= (legalNoticeServed:any) => {
     this.isWrittenLegalNoticeServed=legalNoticeServed;
   };

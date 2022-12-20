@@ -37,7 +37,7 @@ export class AttorneyHandlingTheCase {
 export class Litigation {
   deleted?: boolean;
   deletedBy?: string;
-  remark?: string;
+  content?: string;
   version?: number;
   litigationId?: number;
   fileNumber?: string;

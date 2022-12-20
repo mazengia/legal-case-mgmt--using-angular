@@ -23,11 +23,11 @@ export class CaseTypeService {
     return this.http.post<CaseType>(`${BASE_URL}/case-types`, { ...caseType });
   };
 
-  getCaseType = (caseTypeId: number): Observable<CaseType> => {
+  getCaseType = (caseTypeId: any): Observable<CaseType> => {
     return this.http.get<CaseType>(`${BASE_URL}/case-types/${caseTypeId}`);
   };
 
-  updateCaseType = (caseTypeId: number, expense: CaseType): Observable<any> => {
+  updateCaseType = (caseTypeId: any, expense: CaseType): Observable<any> => {
     return this.http.put<CaseType>(
       `${BASE_URL}/case-types/${caseTypeId}`,
       expense

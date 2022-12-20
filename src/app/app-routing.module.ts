@@ -40,11 +40,9 @@ import {
 import {
   ExpenseDetailComponent
 } from "./pages/welcome/components/settings/expense/expense-detail/expense-detail.component";
+import {ForeClosureDetailComponent} from "./pages/foreClosure/foreclosuredetail/fore-closure-detail.component";
 
 const routes: Routes = [
-  // {
-  // path: 'home',
-  // children: [
   {path: '', pathMatch: 'full', redirectTo: '/welcome'},
   {path: 'welcome', component: WelcomeComponent},
   {path: 'expenses', component: ExpensesComponent},
@@ -66,6 +64,7 @@ const routes: Routes = [
   {path: 'create-litigation', component: CreateLitigationComponent},
   {path: 'update-litigation/:litigationId', component: CreateLitigationComponent,},
   {path: 'litigation-details/:litigationId', component: LitigationDetailsComponent,},
+  {path: 'fore-closure-details/:id', component: ForeClosureDetailComponent,},
   {path: 'advocate', component: AdvocateComponent},
   {path: 'appointment', component: AppointmentComponent},
   {path: 'comment', component: CommentComponent},
@@ -74,12 +73,6 @@ const routes: Routes = [
   {path: 'report', component: ReportComponent},
   {path: 'mortgage-detail', component: MortageDetailComponent},
   {path: 'expense-detail', component: ExpenseDetailComponent}
-
-
-
-  // ]
-  // }
-
 ];
 
 @NgModule({

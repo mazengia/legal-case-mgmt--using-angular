@@ -5,8 +5,8 @@
     </a>
   </nz-breadcrumb-item>
   <nz-breadcrumb-item>
-    <a routerLink="/request">
-      <span>Request</span>
+    <a routerLink="/litigations">
+      <span>litigation</span>
     </a>
   </nz-breadcrumb-item>
   <nz-breadcrumb-item>Details</nz-breadcrumb-item>
@@ -15,7 +15,7 @@
 <nz-card nzTitle="Litigation Report Information">
   <div nz-row>
     <div nz-col nzSpan="12">
-      <nz-card nzTitle="Litigation">
+      <nz-card nzTitle="Litigation" [nzBordered]="false">
         <p>Litigation: {{litigation?.litigationType}}  </p>
         <p>isBankPlaintiff: {{litigation?.isBankPlaintiff}}  </p>
         <p>fileNumber: {{litigation?.fileNumber}}  </p>
@@ -25,115 +25,134 @@
       </nz-card>
     </div>
     <div nz-col nzSpan="12">
-      <nz-card nzTitle="Case-Type">
+      <nz-card nzTitle="Case-Type" [nzBordered]="false">
         <p>caseTypeName:
           {{litigation?.caseType?.caseTypeName}}
         </p>
         <p>remark: {{litigation?.caseType?.remark }}</p>
+        <a (click)="openCaseDrawer(litigation.caseType?.caseTypeId)">Edit</a>
       </nz-card>
     </div>
   </div>
-  <div nz-row>
-    <div nz-col nzSpan="12">
-      <nz-card nzTitle="Plaintiff">
-        <p>Name:
-          {{litigation?.plaintiff?.firstName}}
-          {{litigation?.plaintiff?.middleName}}
-          {{litigation?.plaintiff?.lastName}}
-        </p>
-        <p>accountNumber: {{litigation?.plaintiff?.accountNumber }}</p>
-        <p>phone: {{litigation?.plaintiff?.phoneNumber }}</p>
-      </nz-card>
-
-    </div>
-    <div nz-col nzSpan="12">
-      <nz-card nzTitle="defendant">
-        <p>fileNumber:
-          {{litigation?.defendant?.firstName}}
-          {{litigation?.defendant?.middleName}}
-          {{litigation?.defendant?.lastName}}
-        </p>
-        <p>accountNumber: {{litigation?.defendant?.accountNumber }}</p>
-        <p>phoneNumber: {{litigation?.defendant?.phoneNumber }}</p>
-      </nz-card>
-    </div>
-  </div>
-  <div nz-row>
-    <div nz-col nzSpan="12">
-      <nz-card nzTitle="Advocate">
-        <div nz-row>
-          <div nz-col nzSpan="12">
+  <nz-collapse>
+    <nz-collapse-panel  nzHeader="Plaintiff and Defendant">
+      <div nz-row>
+        <div nz-col nzSpan="12">
+          <nz-card [nzBordered]="false" nzTitle="Plaintiff">
             <p>Name:
-              {{litigation?.advocate?.firstName}}
-              {{litigation?.advocate?.lastName}}
+              {{litigation?.plaintiff?.firstName}}
+              {{litigation?.plaintiff?.middleName}}
+              {{litigation?.plaintiff?.lastName}}
             </p>
-            <p>date: {{litigation?.advocate?.date | date}}</p>
-          </div>
-          <div nz-col nzSpan="12">
-            <p>remark: {{litigation?.advocate?.remark }}</p>
-          </div>
+            <p>accountNumber: {{litigation?.plaintiff?.accountNumber }}</p>
+            <p>phone: {{litigation?.plaintiff?.phoneNumber }}</p>
+          </nz-card>
         </div>
-        <button id="editBtn" nz-button
-          nzType="primary" (click)="openDrawerAdvocate(litigation?.advocate.advocateId)">
-          Edit
-        </button>
+        <div nz-col nzSpan="12">
+          <nz-card [nzBordered]="false" nzTitle="Defendant">
+            <p>fileNumber:
+              {{litigation?.defendant?.firstName}}
+              {{litigation?.defendant?.middleName}}
+              {{litigation?.defendant?.lastName}}
+            </p>
+            <p>accountNumber: {{litigation?.defendant?.accountNumber }}</p>
+            <p>phoneNumber: {{litigation?.defendant?.phoneNumber }}</p>
+          </nz-card>
+        </div>
+      </div>
+    </nz-collapse-panel>
+  </nz-collapse>
+  <nz-collapse>
+    <nz-collapse-panel nzHeader="Advocate and Intervene">
+      <div nz-row>
+        <div nz-col nzSpan="11">
+          <nz-card [nzBordered]="false" nzTitle="Intervene" [nzExtra]="cardTitle">
+                <p>Name:
+                  {{litigation?.intervene?.firstName}}
+                  {{litigation?.intervene?.lastName}}
+                </p>
+                <p>state: {{litigation?.intervene?.interveneAddress.state }}</p>
+                <p>city: {{litigation?.intervene?.interveneAddress.city }}</p>
+                <p>subCity: {{litigation?.intervene?.interveneAddress.subCity}}</p>
+                <p>woredaOrKebele: {{litigation?.intervene?.interveneAddress.woredaOrKebele }}</p>
+                <p>houseNo: {{litigation?.intervene?.interveneAddress.houseNo}}</p>
+            <ng-template #cardTitle>
+              <a (click)="openDrawerIntervene(litigation?.intervene?.interveneId)">
+                Edit Intervene
+              </a>
+            </ng-template>
+          </nz-card>
+        </div>
+        <div nz-col nzSpan="2">
+          <nz-divider nzType="vertical"></nz-divider>
+        </div>
+        <div nz-col nzSpan="11">
+          <nz-card [nzBordered]="false" nzTitle="Advocate" [nzExtra]="card2Title">
+                <p>Name:
+                  {{litigation?.advocate?.firstName}}
+                  {{litigation?.advocate?.lastName}}
+                </p>
+                <p>date: {{litigation?.advocate?.date | date}}</p>
+                <p>remark: {{litigation?.advocate?.remark }}</p>
+            <ng-template #card2Title>
+              <a  (click)="openDrawerAdvocate(litigation?.advocate.advocateId)">
+                Edit Advocate
+              </a>
+            </ng-template>
+          </nz-card>
+        </div>
+      </div>
+    </nz-collapse-panel>
+  </nz-collapse>
+  <nz-collapse>
+    <nz-collapse-panel nzHeader="Appointment ">
+      <nz-card [nzBordered]="false" nzTitle="Appointment">
+        <nz-table #appointmentList [nzData]="expenseDetail">
+          <thead>
+          <tr>
+            <th nzAlign="center">Date</th>
+            <th nzAlign="center">Reason</th>
+            <th nzAlign="center">Expense</th>
+            <th nzAlign="center">Amount</th>
+            <th nzAlign="center">Miscellaneous</th>
+            <th nzAlign="center">Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let data of expenseDetail; let i = index">
+            <td nzAlign="center"> {{ data.judicialAppointment?.appointmentDate | date }}
+              -{{ data.judicialAppointment?.appointmentDate | date:"hh:mm"}}</td>
+            <td nzAlign="center"> {{ data.judicialAppointment?.appointmentReason  }}</td>
+            <td nzAlign="center"> {{ data.expense?.expenseName  }}</td>
+            <td nzAlign="center"> {{ data.amount }}</td>
+            <td nzAlign="center"> {{ data.miscellaneous  }}</td>
+            <td nzAlign="center">
+              <a class="edit-btn" (click)="openDrawer(data.judicialAppointment?.appointmentId)"
+                 nz-tooltip="edit-appointment">Edit</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a class="edit-btn" (click)="openExpenseDrawer(data.expense_detail_id)"
+                 nz-tooltip="edit-expense">Edit</a>
+            </td>
+          </tr>
+          </tbody>
+        </nz-table>
       </nz-card>
-    </div>
-    <div nz-col nzSpan="12">
-      <nz-card nzTitle="Intervene">
-        <div nz-row>
-          <div nz-col nzSpan="12">
-            <p>Name:
-              {{litigation?.intervene?.firstName}}
-              {{litigation?.intervene?.lastName}}
-            </p>
-            <p>state: {{litigation?.intervene?.interveneAddress.state }}</p>
-            <p>city: {{litigation?.intervene?.interveneAddress.city }}</p>
-          </div>
-          <div nz-col nzSpan="12">
-            <p>subCity: {{litigation?.intervene?.interveneAddress.subCity}}</p>
-            <p>woredaOrKebele: {{litigation?.intervene?.interveneAddress.woredaOrKebele }}</p>
-            <p>houseNo: {{litigation?.intervene?.interveneAddress.houseNo}}</p>
-          </div>
-        </div>
+    </nz-collapse-panel>
+  </nz-collapse>
 
-        <button
-                nz-button nzType="primary"
-                (click)="openDrawerIntervene(litigation?.intervene?.interveneId)">
-          Edit
-        </button>
-      </nz-card>
-    </div>
-  </div>
-  <div nz-row>
-    <div nz-col nzSpan="12">
-    </div>
-    <div nz-col nzSpan="12">
-<!--      <button style="margin-left: 200px" nz-button (click)="openDrawer(undefined)"-->
-<!--              class="add-button">-->
-        <a>Appointment</a>
-<!--      </button>-->
-      <nz-table #appointmentList [nzData]="appointment">
-        <thead>
-        <tr>
-          <th nzAlign="center">Appointment-Date</th>
-          <th nzAlign="center">Appointment-Reason</th>
-          <th nzAlign="center">Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let data of appointmentList.data; let i = index">
-          <td nzAlign="center"> {{ data.appointmentDate | date:"YYYY-mm-dd hh:mm"}}</td>
-          <td nzAlign="center"> {{ data.appointmentReason  }}</td>
-          <td nzAlign="center">
-            <a class="edit-btn" (click)="openDrawer(data.appointmentId)"
-               nz-tooltip="edit">Edit</a>
-          </td>
-        </tr>
-        </tbody>
-      </nz-table>
-    </div>
-  </div>
+  <nz-table #commentList [nzData]="comment">
+    <thead>
+    <tr>
+      <th nzAlign="center">Content</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of comment; let i = index">
+      <td nzAlign="center"> {{ data.content}} </td>
+    </tr>
+    </tbody>
+  </nz-table>
 </nz-card>
+
 
 

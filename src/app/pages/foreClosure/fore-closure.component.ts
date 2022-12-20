@@ -20,7 +20,7 @@ export class ForeClosureComponent implements OnInit {
   ) {}
 
   loading!: boolean;
-  foreClosures: ForeClosure[] = [];
+  foreClosures: any[] = [];
   pageIndex: number = 0;
   pageSize: number = 10;
 
@@ -35,7 +35,7 @@ export class ForeClosureComponent implements OnInit {
   getForeClosure = () => {
     this.loading = true;
     this.foreClosureService
-      .getForeClosureService(this.pageIndex, this.pageSize)
+      .getForeAllClosure(this.pageIndex, this.pageSize)
       .subscribe(
         (res: any) => {
           setTimeout(() => {
@@ -71,4 +71,7 @@ export class ForeClosureComponent implements OnInit {
     this.notification.create(type, title, message);
   }
 
+  foreClosureDetails (id: any)  {
+    this.route.navigate(['/fore-closure-details/', id]).then(r => {});
+  };
 }
