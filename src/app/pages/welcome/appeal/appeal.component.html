@@ -1,0 +1,92 @@
+<div>
+  <h3 Id="headerTitle"><span nz-icon nzType="folder-open" nzTheme="outline" style="margin-right: 10px;"></span>
+    Appeal</h3>
+  <nz-divider style="margin-top: -0.4em;"></nz-divider>
+  <div>
+    <div nz-row style="width: 100%">
+      <div nz-col nzSpan="6" nzOrder="4">
+        <nz-skeleton-element
+          style="float: right;"
+          *ngIf="loading"
+          [nzActive]="true"
+          nzType="button"
+          [nzSize]="'large'"
+          [nzShape]="'default'"
+        ></nz-skeleton-element>
+      </div>
+      <div nz-col nzSpan="6" nzOrder="3"></div>
+      <div nz-col nzSpan="6" nzOrder="2"></div>
+      <div nz-col nzSpan="6" nzOrder="1"></div>
+    </div>
+    <div nz-row>
+      <nz-skeleton
+        [nzLoading]="loading"
+        [nzActive]="true"
+        [nzParagraph]="true" >
+      </nz-skeleton>
+    </div>
+
+  </div>
+
+  <nz-table
+    *ngIf="!loading"
+    #basicTable
+    [nzTitle]="Header"
+    [nzData]="appeal"
+    [nzFrontPagination]="false"
+    [nzTotal]="totalElements"
+    [(nzPageIndex)]="pageIndex"
+    [(nzPageSize)]="pageSize"
+    nzShowPagination
+    nzShowSizeChanger
+    nzShowQuickJumper
+    (nzPageIndexChange)="getAppeal()"
+    (nzPageSizeChange)="getAppeal(true)">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>Reason</th>
+      <th>Litigation</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let data of basicTable.data; let i=index">
+      <td>{{ i + 1 }}</td>
+      <td>
+        <span>{{ data.reason }}</span>
+      </td>
+      <td>
+        <span>{{ data.litigation?.litigationType }}</span>
+      </td>
+      <td>
+        <button
+          id="editBtn"
+          nz-button
+          nzType="primary"
+          (click)="openDrawer(data.appealId)">
+          Edit
+        </button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a>Delete</a>
+      </td>
+    </tr>
+    </tbody>
+    <ng-template #Header>
+      <div nz-row>
+        <div nz-col [nzSpan]="6" [nzPush]="18">
+          <button
+            style="float: right"
+            id="btnStyle"
+            nz-button
+            nzType="primary"
+            (click)="openDrawer(undefined)">
+            <span nz-icon nzType="plus" nzTheme="outline"></span>
+            Create Appeal
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </nz-table>
+</div>

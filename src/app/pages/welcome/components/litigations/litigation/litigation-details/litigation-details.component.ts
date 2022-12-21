@@ -67,7 +67,7 @@ export class LitigationDetailsComponent implements OnInit {
   }
 
   getLitigationById(id: any) {
-    this.litigationService.getLitigation(id).subscribe(
+    this.litigationService.getLitigationById(id).subscribe(
       res => {
         this.litigation = res;
         console.log(this.litigation);

@@ -33,7 +33,7 @@ export class MailNotificationTypeService {
   };
 
   getMailNotificationType = (
-    mailNotificationTypeId: number
+    mailNotificationTypeId: any
   ): Observable<MailNotificationType> => {
     return this.http.get<MailNotificationType>(
       `${BASE_URL}/mail-notification-types/${mailNotificationTypeId}`
@@ -41,7 +41,7 @@ export class MailNotificationTypeService {
   };
 
   updateMailNotificationType = (
-    mailNotificationTypeId: number,
+    mailNotificationTypeId: any,
     expense: MailNotificationType
   ): Observable<any> => {
     return this.http.put<MailNotificationType>(

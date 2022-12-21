@@ -23,7 +23,7 @@ export class AdvocateService {
   };
 
   createAdvocate = (advocate: Advocate): Observable<Advocate> => {
-    return this.http.post<Advocate>(`${BASE_URL}/advocates`, {advocate });
+    return this.http.post<Advocate>(`${BASE_URL}/advocates`, {...advocate });
   };
 
   getAdvocateById = (id: number | undefined): Observable<AdvocateResponse> => {

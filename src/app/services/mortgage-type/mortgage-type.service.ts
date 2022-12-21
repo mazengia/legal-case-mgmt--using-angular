@@ -30,14 +30,14 @@ export class MortgageTypeService {
     });
   };
 
-  getMortgageType = (mortgageTypeId: number): Observable<MortgageType> => {
+  getMortgageTypeById = (mortgageTypeId: any): Observable<MortgageType> => {
     return this.http.get<MortgageType>(
       `${BASE_URL}/mortgage-types/${mortgageTypeId}`
     );
   };
 
   updateMortgageType = (
-    mortgageTypeId: number,
+    mortgageTypeId: any,
     expense: MortgageType
   ): Observable<any> => {
     return this.http.put<MortgageType>(

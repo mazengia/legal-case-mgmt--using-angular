@@ -41,6 +41,7 @@ import {
   ExpenseDetailComponent
 } from "./pages/welcome/components/settings/expense/expense-detail/expense-detail.component";
 import {ForeClosureDetailComponent} from "./pages/foreClosure/foreclosuredetail/fore-closure-detail.component";
+import {AppealComponent} from "./pages/welcome/appeal/appeal.component";
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: '/welcome'},
@@ -72,7 +73,8 @@ const routes: Routes = [
   {path: 'intervene', component: InterveneComponent},
   {path: 'report', component: ReportComponent},
   {path: 'mortgage-detail', component: MortageDetailComponent},
-  {path: 'expense-detail', component: ExpenseDetailComponent}
+  {path: 'expense-detail', component: ExpenseDetailComponent},
+  {path: 'appeal', component: AppealComponent}
 ];
 
 @NgModule({

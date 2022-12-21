@@ -1,10 +1,35 @@
 <div>
-  <nz-row>
     <h3 Id="headerTitle">
       <span nz-icon nzType="folder-open" nzTheme="outline" style="margin-right: 10px;"></span>Litigation
     </h3>
     <nz-divider></nz-divider>
-  </nz-row>
+  <div>
+  <div nz-row style="width: 100%">
+    <div nz-col nzSpan="6" nzOrder="4">
+      <nz-skeleton-element
+        style="float: right;"
+        *ngIf="loading"
+        [nzActive]="true"
+        nzType="button"
+        [nzSize]="'large'"
+        [nzShape]="'default'"
+      ></nz-skeleton-element>
+    </div>
+    <div nz-col nzSpan="6" nzOrder="3"></div>
+    <div nz-col nzSpan="6" nzOrder="2"></div>
+    <div nz-col nzSpan="6" nzOrder="1"></div>
+  </div>
+  <div nz-row>
+    <nz-skeleton
+      [nzLoading]="loading"
+      [nzActive]="true"
+      [nzParagraph]="true"
+      rows="120"
+    >
+    </nz-skeleton>
+  </div>
+
+</div>
   <nz-table
     *ngIf="!loading"
     #basicTable
@@ -30,43 +55,28 @@
       <td>
         <span>{{ data.courtAdjudicating }}</span>
       </td>
+      <td>{{data.caseType?.caseTypeName}}</td>
       <td>
         <nz-tag [nzColor]="'red'">
           <span>{{ data.caseStage }}</span></nz-tag>
       </td>
-      <td>{{data.caseType?.caseTypeName}}</td>
       <td>{{data.branch?.name}}</td>
       <td>
         <a   (click)="onOpenLitigationDetails(data.litigationId)">Report</a>
         <nz-divider nzType="vertical"></nz-divider>
         <a style="color: darkgoldenrod"
-          (click)="openDrawer(data.litigationId)"
-        >
+          (click)="openDrawer(data.litigationId)">
           Edit
         </a>
-<!--        <nz-divider nzType="vertical"></nz-divider>-->
-<!--        <a>Delete</a>-->
+        <nz-divider nzType="vertical"></nz-divider>
+        <a *ngIf=" hasHrVillage() && data.caseStage == 'POST_TRIAL'" style="color: darkgoldenrod"
+           (click)="openAppealDrawer(data.caseStage)">
+          Appeal
+        </a>
       </td>
     </tr>
     </tbody>
     <ng-template #Header>
-      <!-- <div nz-row>
-          <div nz-col [nzSpan]="6" [nzPull]="18">
-            <button
-            style="border:1px solid red"
-            id="btnStyle"
-              nz-button
-              nzType="primary"
-              (click)="onCreateMailNotificationType()"
-            >
-            <span nz-icon nzType="plus" nzTheme="outline"></span>
-              Create Mail Type
-            </button>
-          </div>
-          <div nz-col [nzSpan]="18" [nzPush]="6">col-18 col-push-6</div>
-
-        </div> -->
-
       <div nz-row>
         <div nz-col [nzSpan]="6" [nzPush]="18">
           <button

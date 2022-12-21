@@ -6,7 +6,7 @@ import {AuctionType} from "../../../../../../models/auction-type";
 import {NzDrawerRef} from "ng-zorro-antd/drawer";
 import {finalize, first} from "rxjs";
 import {ForeClosureService} from "../../../../../../services/foreClosure/advocate.service";
- import {ForeClosure} from "../../../../../../models/foreClosure";
+import {ForeClosure} from "../../../../../../models/foreClosure";
 
 @Component({
   selector: 'app-create-auction-type',

@@ -3,7 +3,6 @@ import {NzDrawerService} from "ng-zorro-antd/drawer";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {Router} from "@angular/router";
 import {ForeClosureService} from "../../services/foreClosure/advocate.service";
-import {ForeClosure} from "../../models/foreClosure";
 import {CreateUpdateForeClosureComponent} from "./create-update-fore-closure/create-update-fore-closure.component";
 
 @Component({

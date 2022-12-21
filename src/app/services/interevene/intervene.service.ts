@@ -23,7 +23,7 @@ export class InterveneService {
   };
 
   createIntervene = (intervene: Intervene): Observable<Intervene> => {
-    return this.http.post<Intervene>(`${BASE_URL}/intervenes`, {intervene });
+    return this.http.post<Intervene>(`${BASE_URL}/intervenes`, {...intervene });
   };
 
   getInterveneById = (id: number | undefined): Observable<InterveneResponse> => {

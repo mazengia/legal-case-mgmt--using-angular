@@ -1,24 +1,25 @@
 
-      <form
+      <form nzLayout="vertical"
         nz-form
         [formGroup]="createCaseTypeForm"
         class="login-form"
-        (ngSubmit)="onSubmit()"
-      >
+        (ngSubmit)="onSubmit()">
+
         <nz-form-item>
-          <nz-form-control nzErrorTip="Please input Case Type Name!">
-            <nz-input-group nzPrefixIcon="number">
+          <nz-form-label> Case-Type  </nz-form-label>
+          <nz-form-control [nzSpan]="24"  nzErrorTip="Please input Case Type Name!">
               <input
                 type="text"
                 nz-input
                 formControlName="caseTypeName"
                 placeholder="Case Type Name"
               />
-            </nz-input-group>
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
-          <nz-form-control nzErrorTip="Please input your Expense Name!">
+
+          <nz-form-label> Expense-remark   </nz-form-label>
+          <nz-form-control [nzSpan]="24"  nzErrorTip="Please input your Expense Name!">
             <textarea
               nz-input
               placeholder="Remark"

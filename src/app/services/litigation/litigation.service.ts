@@ -26,9 +26,13 @@ export class LitigationService {
     return this.http.post<Litigation>(`${BASE_URL}/litigations`, { ...litigation });
   };
 
-  getLitigation = (litigationId: number | undefined): Observable<LitigationResponse> => {
+  getLitigationById = (litigationId: any): Observable<LitigationResponse> => {
     return this.http.get<LitigationResponse>(`${BASE_URL}/litigations/${litigationId}`);
   };
+  getLitigationByCaseStage = ( caseStage="POST_TRIAL"): Observable<LitigationResponse> => {
+    return this.http.get<LitigationResponse>(`${BASE_URL}/litigations/case-stage/${caseStage}`);
+  };
+
 
   updateLitigation = (litigationId: number | undefined, expense: Litigation): Observable<Litigation> => {
     return this.http.put<Litigation>(

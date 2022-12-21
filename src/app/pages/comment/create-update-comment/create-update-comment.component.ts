@@ -109,7 +109,7 @@ export class CreateUpdateCommentComponent implements OnInit {
 
   getLitigationById() {
     this.litigationService
-      .getLitigation(this.value)
+      .getLitigationById(this.value)
       .pipe(first())
       .subscribe((res) => {
         if (!this.isAddMode) {

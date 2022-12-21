@@ -38,8 +38,16 @@ export class AppComponent {
 
   getRoles() {
     this.accessRoles = this.authService.getUserRoles();
-    console.log(this.accessRoles);
+    // console.log("accessRoles",this.accessRoles);
   }
+  hasHrVillage() {
+    this.accessRoles = this.authService.getUserRoles();
+    if (this.accessRoles && this.accessRoles.includes("litigation-approve")) {
+      return true;
+    }
+    return false;
+  }
+
 
   private configure() {
     this.oauthService.configure(authConfig);

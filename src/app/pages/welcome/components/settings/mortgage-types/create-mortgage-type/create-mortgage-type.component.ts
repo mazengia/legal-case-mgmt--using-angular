@@ -1,9 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {MailNotificationTypeService} from 'src/app/services/mail-notification-type/mail-notification-type.service';
 import {MortgageTypeService} from 'src/app/services/mortgage-type/mortgage-type.service';
+import {NzDrawerRef} from "ng-zorro-antd/drawer";
+import {finalize, first} from "rxjs";
+import {MortgageType} from "../../../../../../models/mortgage-type";
 
 @Component({
   selector: 'app-create-mortgage-type',
@@ -13,105 +16,140 @@ import {MortgageTypeService} from 'src/app/services/mortgage-type/mortgage-type.
 export class CreateMortgageTypeComponent implements OnInit {
   createMortgageTypeForm!: FormGroup;
   loading!: boolean;
-  isCreateMode!: boolean;
-
-  mortgageTypeId!: number;
   mailTypes: any[] = [];
   pageNumber: number = 0;
   pageSize: number = 10;
 
 
+  submitted = false;
+  @Input() value?: number;
+  isAddMode = true;
+
+
   constructor(
     private mortgageTypeService: MortgageTypeService,
     private formBuilder: FormBuilder,
-    private notification: NzNotificationService,
-    private activatedRoute: ActivatedRoute,
-    private mailNotificationTypeService: MailNotificationTypeService
+    private mailNotificationTypeService:MailNotificationTypeService,
+    private notificationService: NzNotificationService,
+    private drawerRef: NzDrawerRef<string>,
+    private activatedRoute: ActivatedRoute
   ) {
-    this.mortgageTypeId = Number(
-      this.activatedRoute.snapshot.paramMap.get('mortgageTypeId')
-    );
     this.createMortgageTypeForm = this.formBuilder.group({
       mortgageTypeName: [null, [Validators.required]],
       mailNotificationType: this.formBuilder.group({mailNotificationTypeId: ['', [Validators.required]]}),
       remark: [null, [Validators.required]],
     });
   }
-
   ngOnInit(): void {
-    this.isCreateMode = !this.mortgageTypeId;
-    this.mortgageTypeService
-      .getMortgageType(Number(this.mortgageTypeId))
-      .subscribe((res: any) => {
-        this.createMortgageTypeForm.patchValue(res);
-      });
-
-    this.onGetMailTypes(this.pageNumber, this.pageSize);
+    this.isAddMode = !this.value;
+    this.getMailTypes();
+    if (this.value) {
+      this.getMortgageTypeById();
+    }
   }
 
-  submitMortgageType = () => {
-    if (this.isCreateMode) {
-      this.saveMortgageType();
+  getMailTypes = (pageNumber?: number, pageSize?: number) => {
+    this.mailNotificationTypeService
+      .getMailNotificationTypes(pageNumber , pageSize )
+      .subscribe(
+        (res: any) => {
+          setTimeout(() => {
+            this.loading = false;
+            this.mailTypes = res?._embedded?.mailNotificationTypeDtoes;
+            console.log("mailTypes",this.mailTypes);
+          }, 1000);
+        },
+        (error: any) => {
+          this.loading = false;
+        }
+      );
+  };
+
+  getMortgageTypeById() {
+    this.mortgageTypeService
+      .getMortgageTypeById(this.value)
+      .pipe(first())
+      .subscribe((res) => {
+        if (!this.isAddMode) {
+          this.createMortgageTypeForm.patchValue(res);
+        }
+      });
+  }
+
+  onSubmit() {
+    this.submitted = true;
+    if (this.createMortgageTypeForm.invalid) {
+      return;
+    }
+
+    this.loading = true;
+    if (this.isAddMode) {
+      this.createMortgageType();
     } else {
       this.updateMortgageType();
     }
-  };
+  }
 
-  updateMortgageType = () => {
-    this.loading = true;
-    this.mortgageTypeService
-      .updateMortgageType(
-        this.mortgageTypeId,
-        this.createMortgageTypeForm?.value
-      )
+  createMortgageType(): void {
+    for (const key in this.createMortgageTypeForm.controls) {
+      if (this.createMortgageTypeForm.controls.hasOwnProperty(key)) {
+        this.createMortgageTypeForm.controls[key].markAsDirty();
+        this.createMortgageTypeForm.controls[key].updateValueAndValidity();
+      }
+    }
+    this.mortgageTypeService.createMortgageType(this.createMortgageTypeForm.value)
+      .pipe(finalize(() => {
+        this.drawerRef.close()
+      }))
       .subscribe(
-        (res: any) => {
-          this.loading = false;
-          this.notification.create(
+        (data) => {
+          this.createNotification(
             'success',
-            'Success!',
-            `You have successfully updated Mortgage type ${this.mortgageTypeId}`
+            'MortgageType  ',
+            'MortgageType  Successfully Created'
           );
         },
-        (error: any) => {
-          this.loading = false;
-          this.notification.create(
+        (error) => {
+          console.log('error = ', error)
+          this.createNotification(
             'error',
-            'Creating Mortgage Type Failed!',
-            `error.error.apierror.message`
-          );
+            'Error',
+            error.apierror.debugMessage);
         }
       );
-  };
+  }
 
-  saveMortgageType = () => {
-    this.loading = true;
-    console.log(this.createMortgageTypeForm?.value);
+  updateMortgageType(): void {
+
+    for (const key in this.createMortgageTypeForm.controls) {
+      if (this.createMortgageTypeForm.controls.hasOwnProperty(key)) {
+        this.createMortgageTypeForm.controls[key].markAsDirty();
+        this.createMortgageTypeForm.controls[key].updateValueAndValidity();
+      }
+    }
     this.mortgageTypeService
-      .createMortgageType(this.createMortgageTypeForm?.value)
+      .updateMortgageType(this.value, this.createMortgageTypeForm.value)
+      .pipe(finalize(() => {
+        this.drawerRef.close()
+      }))
       .subscribe(
-        (res: any) => {
-          console.log(res);
-          this.createMortgageTypeForm.reset();
-        },
-        (error: any) => {
-          console.log(error);
-          this.loading = false;
-          this.notification.create(
-            'error',
-            'Creating Mortgage Type Failed!',
-            `error.error.apierror.message`
+        data => {
+          this.createNotification(
+            'success',
+            'MortgageType',
+            'MortgageType Successfully Updated'
           );
+        },
+        error => {
+          this.createNotification(
+            'error',
+            'Error',
+            error.apierror.debugMessage);
         }
       );
-  };
+  }
 
-  onGetMailTypes = (pageNumber?: number, pageSize?: number) => {
-    this.mailNotificationTypeService
-      .getMailNotificationTypes(pageNumber, pageSize)
-      .subscribe((res: any) => {
-        this.mailTypes = res?._embedded?.mailNotificationTypeDtoes;
-      });
-  };
-
+  createNotification(type: string, title: string, message: string): void {
+    this.notificationService.create(type, title, message);
+  }
 }

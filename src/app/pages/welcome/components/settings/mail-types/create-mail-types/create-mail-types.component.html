@@ -1,113 +1,42 @@
-<div class="site-page-header-ghost-wrapper">
-  <nz-page-header nzBackIcon [nzGhost]="false">
-    <nz-page-header-title>
-      <span *ngIf="isCreateMode">Create Mil Type</span>
-      <span *ngIf="!isCreateMode">Update Mail Type</span></nz-page-header-title
-    >
-    <nz-page-header-subtitle>Create Mail Type </nz-page-header-subtitle>
-
-    <nz-page-header-content *ngIf="!isCreateMode">
-      <nz-descriptions nzSize="small" [nzColumn]="3" style="margin-left: 2.1em">
-        <nz-descriptions-item nzTitle="Created At" [nzSpan]="1">{{
-          mailType.createdAt
-        }}</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Maintainer" [nzSpan]="1"
-          >{{ mailType.maintained_by.fullName }}
-        </nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Employee ID" [nzSpan]="1">{{
-          mailType.maintained_by.employeeId
-        }}</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Maintainers' Branch" [nzSpan]="1">{{
-          mailType.maintained_by.branch.name
-        }}</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Updated" [nzSpan]="1">
-          {{ mailType?.version }} Times
-        </nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Last Modified By" [nzSpan]="1">{{
-          mailType.updatedBy
-        }}</nz-descriptions-item>
-      </nz-descriptions>
-    </nz-page-header-content>
-  </nz-page-header>
-</div>
-<nz-divider style="padding-top: -1.5em"></nz-divider>
-<!-- <div nz-row style="width: 100%">
-    <h1>
-    
-      <nz-divider type="horizontal"></nz-divider>
-    </h1>
-  </div> -->
-
-<div nz-row>
-  <div nz-col nzSpan="2"></div>
-  <div
-    nz-col
-    nzSpan="8"
-    nzOffset="1"
-    style="box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; padding: 50px"
-  >
-    <h2>Add Case Type</h2>
-    <nz-divider type="horizontal"></nz-divider>
-    <p>Write a reason you are creating this Case type for</p>
-    <form
-      nz-form
-      [formGroup]="createMailTypeForm"
-      class="login-form"
-      (ngSubmit)="submitMailType()"
-    >
-      <nz-form-item>
-        <nz-form-control nzErrorTip="Please input Mail Type Name!">
-          <nz-input-group nzPrefixIcon="number">
-            <input
-              type="text"
-              nz-input
-              formControlName="mailTypeName"
-              placeholder="Mail Type Name"
-            />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-control>
-          <nz-input-number
-            formControlName="numberOfDays"
-            [nzMin]="1"
-            [nzStep]="1"
-            nzPlaceHolder="Number of Days"
-            style="width: 100%"
-          ></nz-input-number>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-control nzErrorTip="Please input your Expense Name!">
+<form nz-form nzLayout="vertical"
+  [formGroup]="createMailTypeForm"
+  (ngSubmit)="onSubmit()">
+  <nz-form-item>
+    <nz-form-label nzRequired>Mail-Type-Name   </nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please input Mail Type Name!">
+        <input
+          type="text"
+          nz-input
+          formControlName="mailTypeName"
+          placeholder="Mail Type Name"/>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired>Number Of Days  </nz-form-label>
+    <nz-form-control [nzSpan]="24">
+      <nz-input-number
+        formControlName="numberOfDays"
+        [nzMin]="1"
+        [nzStep]="1"
+        nzPlaceHolder="Number of Days"
+        style="width: 100%">
+      </nz-input-number>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired>Remarks </nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please input your Expense Name!">
           <textarea
             nz-input
             placeholder="Remark"
             formControlName="remark"
             [nzAutosize]="{ minRows: 3, maxRows: 5 }"
           ></textarea>
-        </nz-form-control>
-      </nz-form-item>
+    </nz-form-control>
+  </nz-form-item>
 
-      <button
-        id="btnStyle"
-        nz-button
-        class="login-form-button login-form-margin"
-        [nzType]="'primary'"
-        style="width: 100%"
-        [nzLoading]="loading"
-      >
-        Save Expense Type
-      </button>
-    </form>
-  </div>
-  <div nz-col nzSpan="8" nzOffset="1">
-    <div style="margin-top: 2em">
-      <h2>Preview</h2>
-      <nz-divider type="horizontal"></nz-divider>
-      <p>Expense Name: {{ createMailTypeForm.get("mailTypeName")?.value }}</p>
-      <p>Remark: {{ createMailTypeForm.get("remark")?.value }}</p>
-    </div>
-  </div>
-  <div nz-col nzSpan="2"></div>
-</div>
+  <button  nzType="primary"  nz-button  [disabled]="!createMailTypeForm.valid">
+    Save
+  </button>
+</form>
+

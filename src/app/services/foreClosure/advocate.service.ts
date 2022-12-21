@@ -2,7 +2,6 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from 'src/environments/environment';
-import {Advocate, AdvocateResponse} from "../../models/advocate";
 import {ForeClosure, ForeClosureResponse} from "../../models/foreClosure";
 
 const BASE_URL = environment.Back_End_Url;

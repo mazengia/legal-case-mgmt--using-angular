@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuctionTypeService} from 'src/app/services/auction-type/auction-type.service';
-import {CreateCaseTypeComponent} from "../case-type/create-case-type/create-case-type.component";
 import {NzDrawerService} from "ng-zorro-antd/drawer";
 import {CreateAuctionTypeComponent} from "./create-auction-type/create-auction-type.component";
 import {AuctionType} from "../../../../../models/auction-type";
@@ -48,7 +47,7 @@ export class AuctionTypesComponent implements OnInit {
     const drawerRef = this.drawerService.create<CreateAuctionTypeComponent,
       { id: number }>({
       nzTitle: `${id ? 'Update' : 'Create'} Auction-type `,
-      nzWidth:400,
+      nzWidth:600,
       nzContent: CreateAuctionTypeComponent,
       nzContentParams: {
         value: id,

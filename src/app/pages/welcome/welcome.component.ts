@@ -35,6 +35,9 @@ export class WelcomeComponent implements OnInit {
   public get fullName() {
     return (<any>this.authService.getTokenDetails()).name;
   }
+  public get roles() {
+    return (<any>this.authService.getTokenDetails()).rol;
+  }
 
   public get userName() {
     const cliams = this.oauthService.getIdentityClaims();

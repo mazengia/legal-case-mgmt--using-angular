@@ -13,7 +13,6 @@ export class CaseTypesComponent implements OnInit {
   constructor(
     private drawerService: NzDrawerService,
     private caseTypeService: CaseTypeService,
-    private route: Router
   ) {}
 
   loading!: boolean;

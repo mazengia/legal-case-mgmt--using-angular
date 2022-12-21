@@ -1,63 +1,37 @@
-<div nz-row style="width: 100%">
-  <h1>
-    Create Expense Type
-    <nz-divider type="horizontal"></nz-divider>
-  </h1>
-</div>
-
-<div nz-row>
-  <div nz-col nzSpan="2"></div>
-  <div nz-col nzSpan="8" nzOffset="1" style="box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;padding:50px;">
-    <h2>Add Expense Type</h2>
-    <nz-divider type="horizontal"></nz-divider>
-    <p>Write a reason you are creating this expense type for</p>
-    <form
+<form nzLayout="vertical"
       nz-form
       [formGroup]="createExpenseForm"
       class="login-form"
       (ngSubmit)="submitExpense()"
-    >
-      <nz-form-item>
-        <nz-form-control nzErrorTip="Please input your username!">
-          <nz-input-group nzPrefixIcon="number">
-            <input
-              type="text"
-              nz-input
-              formControlName="expenseName"
-              placeholder="Expense Name"
-            />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-control nzErrorTip="Please input your Expense Name!">
+>
+
+  <nz-form-item>
+    <nz-form-label>  Expense-Name  </nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please input your username!">
+        <input
+          type="text"
+          nz-input
+          formControlName="expenseName"
+          placeholder="Expense Name"
+        />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label>  Expense-Remark  </nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please input your Expense Name!">
           <textarea
             nz-input
             placeholder="Remark"
             formControlName="remark"
             [nzAutosize]="{ minRows: 3, maxRows: 5 }"
           ></textarea>
-        </nz-form-control>
-      </nz-form-item>
+    </nz-form-control>
+  </nz-form-item>
 
-      <button
-        nz-button
-        class="login-form-button login-form-margin"
-        [nzType]="'primary'"
-        style="width: 100%"
-        [nzLoading]="loading"
-      >
-        Save Expense Type
-      </button>
-    </form>
-  </div>
-  <div nz-col nzSpan="8"  nzOffset="1" >
-  <div style="margin-top: 2em;">
-    <h2>Preview</h2>
-    <nz-divider type="horizontal"></nz-divider>
-    <p>Expense Name: {{ createExpenseForm.get("expenseName")?.value }}</p>
-    <p>Remark: {{ createExpenseForm.get("remark")?.value }}</p>
-  </div>
-  </div>
-  <div nz-col nzSpan="2"></div>
-</div>
+  <button
+    nz-button
+    [nzType]="'primary'"
+  >
+    Save Expense Type
+  </button>
+</form>

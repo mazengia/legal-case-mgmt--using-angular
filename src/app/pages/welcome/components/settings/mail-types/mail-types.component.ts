@@ -1,6 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {MailNotificationTypeService} from 'src/app/services/mail-notification-type/mail-notification-type.service';
+import {
+  CreateUpdateExpenseDetailComponent
+} from "../expense/expense-detail/create-update-expense-detail/create-update-expense-detail.component";
+import {CreateMailTypesComponent} from "./create-mail-types/create-mail-types.component";
+import {NzDrawerService} from "ng-zorro-antd/drawer";
 
 @Component({
   selector: 'app-mail-types',
@@ -10,6 +15,7 @@ import {MailNotificationTypeService} from 'src/app/services/mail-notification-ty
 export class MailTypesComponent implements OnInit {
   constructor(
     private mailNotificationTypeService: MailNotificationTypeService,
+    private drawerService: NzDrawerService,
     private route: Router
   ) {}
 
@@ -17,17 +23,15 @@ export class MailTypesComponent implements OnInit {
   mailTypes: any[] = [];
   pageIndex: number = 0;
   pageSize: number = 10;
-  backgroundColor!: string;
-
   showSearch: boolean = false;
   buttonName: any = 'Toggle Search';
   inputValue: any;
 
   ngOnInit(): void {
-    this.onGetCaseTypes();
+    this.getMailTypes();
   }
 
-  onGetCaseTypes = () => {
+  getMailTypes = () => {
     this.loading = true;
     this.mailNotificationTypeService
       .getMailNotificationTypes(this.pageIndex, this.pageSize)
@@ -44,24 +48,24 @@ export class MailTypesComponent implements OnInit {
         }
       );
   };
+  openDrawer(id: any): void {
+    const drawerRef = this.drawerService.create<CreateMailTypesComponent,
+      { id: number }>({
+      nzTitle: `${id ? 'Update' : 'Create'} MailTypes `,
+      nzWidth:600,
+      nzContent: CreateMailTypesComponent,
+      nzContentParams: {
+        value: id,
+      },
+      nzClosable: true,
+      nzKeyboard: true,
+    });
 
-  onCreateMailNotificationType = () => {
-    this.route.navigate(['/create-mail-type']);
-  };
+    drawerRef.afterClose.subscribe(() => {
+      this.getMailTypes()
+    })
+  }
 
-  onUpdateMailNotificationType = (mailNotificationTypeId: number) => {
-    console.log(mailNotificationTypeId);
-    this.route.navigate(['/update-mail-type/', mailNotificationTypeId]);
-  };
 
-  onShowHideSearch = () => {
-    this.showSearch = !this.showSearch;
-    if (this.showSearch) {
-      this.buttonName = 'Hide Search';
-    } else {
-      this.buttonName = 'Toggel Search';
-    }
 
-    console.log(this.showSearch, this.buttonName);
-  };
 }

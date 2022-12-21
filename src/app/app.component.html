@@ -14,7 +14,7 @@
     <ul class="nz-menu" nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
       <li nz-submenu nzOpen nzTitle="Maintenance Setting" nzIcon="setting">
         <ul>
-          <li routerLink="/advocate" nz-menu-item>
+          <li *ngIf="hasHrVillage()" routerLink="/advocate" nz-menu-item>
             <span nz-icon nzType="diff" nzTheme="outline" style="color:white;margin-right:10px"></span><a>Advocate</a>
           </li>
           <li nz-menu-item>
@@ -25,18 +25,18 @@
           <li routerLink="/case-types" nz-menu-item>
             <span nz-icon nzType="diff" nzTheme="outline" style="color:white;margin-right:10px"></span><a>Case Type</a>
           </li>
-          <li routerLink="/comment" nz-menu-item>
-            <span nz-icon nzType="diff" nzTheme="outline" style="color:white;margin-right:10px"></span><a>Comment</a>
-          </li>
+          <!--          <li routerLink="/comment" nz-menu-item>-->
+          <!--            <span nz-icon nzType="diff" nzTheme="outline" style="color:white;margin-right:10px"></span><a>Comment</a>-->
+          <!--          </li>-->
           <li routerLink="/intervene" nz-menu-item>
             <span nz-icon nzType="diff" nzTheme="outline" style="color:white;margin-right:10px"></span><a>Intervene</a>
           </li>
           <li routerLink="/mail-types" nz-menu-item>
             <span nz-icon nzType="bell" nzTheme="outline" style="color:white;margin-right:10px"></span><a>Mail Types</a>
           </li>
-<!--          <li routerLink="/report" nz-menu-item>-->
-<!--            <span nz-icon nzType="bell" nzTheme="outline" style="color:white;margin-right:10px"></span><a>Judiciary Report</a>-->
-<!--          </li>-->
+          <!--          <li routerLink="/report" nz-menu-item>-->
+          <!--            <span nz-icon nzType="bell" nzTheme="outline" style="color:white;margin-right:10px"></span><a>Judiciary Report</a>-->
+          <!--          </li>-->
         </ul>
       </li>
 
@@ -45,14 +45,19 @@
           <li nz-menu-item>
             <span nz-icon nzType="subnode" nzTheme="outline" style="margin-right: 10px;"></span>
             <a routerLink="/litigations">Litigation</a>
-          </li> <li nz-menu-item>
-          <span nz-icon nzType="dollar-circle" nzTheme="outline" style="color:white;margin-right:10px"></span>
-          <a routerLink="/expenses">Expense</a>
-        </li>
+          </li>
+          <li nz-menu-item>
+            <span nz-icon nzType="dollar-circle" nzTheme="outline" style="color:white;margin-right:10px"></span>
+            <a routerLink="/expenses">Expense</a>
+          </li>
 
           <li nz-menu-item>
             <span nz-icon nzType="dollar-circle" nzTheme="outline" style="color:white;margin-right:10px"></span>
             <a routerLink="/expense-detail">Expense-Detail</a>
+          </li>
+          <li nz-menu-item>
+            <span nz-icon nzType="dollar-circle" nzTheme="outline" style="color:white;margin-right:10px"></span>
+            <a routerLink="/appeal">Appeal</a>
           </li>
 
           <li routerLink="/appointment" nz-menu-item>
@@ -60,10 +65,10 @@
                   style="color:white;margin-right:10px"></span><a>Judicial Appointment</a>
           </li>
 
-<!--          <li nz-menu-item>-->
-<!--            <span nz-icon nzType="subnode" nzTheme="outline" style="margin-right: 10px;"></span>-->
-<!--            <a routerLink="/home">Appeal</a>-->
-<!--          </li>-->
+          <!--          <li nz-menu-item>-->
+          <!--            <span nz-icon nzType="subnode" nzTheme="outline" style="margin-right: 10px;"></span>-->
+          <!--            <a routerLink="/home">Appeal</a>-->
+          <!--          </li>-->
         </ul>
       </li>
 
@@ -71,7 +76,7 @@
         <ul>
           <li nz-menu-item>
             <span nz-icon nzType="bank" nzTheme="outline" style="color:white;margin-right:10px"></span><a
-            routerLink="/mortgage-types">Mortgage</a>
+            routerLink="/mortgage-types">Mortgage-Type</a>
           </li>
           <li nz-menu-item>
             <span nz-icon nzType="subnode" nzTheme="outline" style="margin-right: 10px;"></span>

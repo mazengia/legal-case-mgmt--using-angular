@@ -1,0 +1,32 @@
+<form nzLayout="vertical" nz-form [formGroup]="appealForm" (ngSubmit)="onSubmit()"
+      xmlns="http://www.w3.org/1999/html">
+
+  <nz-form-item>
+    <nz-form-label nzRequired>Litigation Type</nz-form-label>
+    <div formGroupName="litigation">
+      <nz-form-control [nzSpan]="24" nzErrorTip="please select Litigation! ">
+        <nz-select   class="input" formControlName="litigationId"
+                    nzAllowClear
+                    nzShowSearch
+                    nzPlaceHolder="litigation ">
+          <nz-option
+            nzCustomContent
+            *ngFor="let data of litigation" [nzValue]="data.litigationId"
+            nzLabel="{{data.litigationType}}">
+            <nz-divider nzType="vertical"></nz-divider>
+            <strong>{{data.litigationType}} {{data.caseType?.caseTypeName}}</strong>
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </div>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label>appeal reason</nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please write appeal reason! ">
+      <textarea class="input" nz-input formControlName="reason" placeholder="reason reason"></textarea>
+    </nz-form-control>
+  </nz-form-item>
+  <button nz-button nzType="primary" [disabled]="!appealForm.valid">Save</button>
+</form>
+

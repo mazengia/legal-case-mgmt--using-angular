@@ -1,10 +1,36 @@
 <div>
-  <nz-row>
     <h3 Id="headerTitle"><span nz-icon nzType="folder-open" nzTheme="outline" style="margin-right: 10px;"></span>
       Expense-Detail</h3>
     <nz-divider style="margin-top: -0.4em;"></nz-divider>
-  </nz-row>
-  <nz-table
+    <div>
+      <div nz-row style="width: 100%">
+        <div nz-col nzSpan="6" nzOrder="4">
+          <nz-skeleton-element
+            style="float: right;"
+            *ngIf="loading"
+            [nzActive]="true"
+            nzType="button"
+            [nzSize]="'large'"
+            [nzShape]="'default'"
+          ></nz-skeleton-element>
+        </div>
+        <div nz-col nzSpan="6" nzOrder="3"></div>
+        <div nz-col nzSpan="6" nzOrder="2"></div>
+        <div nz-col nzSpan="6" nzOrder="1"></div>
+      </div>
+      <div nz-row>
+        <nz-skeleton
+          [nzLoading]="loading"
+          [nzActive]="true"
+          [nzParagraph]="true"
+          rows="120"
+        >
+        </nz-skeleton>
+      </div>
+
+    </div>
+
+    <nz-table
     *ngIf="!loading"
     #basicTable
     [nzTitle]="Header"

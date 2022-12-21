@@ -1,88 +1,54 @@
-<div nz-row style="width: 100%">
-  <h1>
-    <span *ngIf="isCreateMode">Create Case Type</span>
-    <span *ngIf="!isCreateMode">Update Case Type</span>
-    <nz-divider type="horizontal"></nz-divider>
-  </h1>
-</div>
-
-<div nz-row>
-  <div nz-col nzSpan="2"></div>
-  <div nz-col nzSpan="8" nzOffset="1" style="box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;padding:50px;">
-    <h2>Add Case Type</h2>
-    <nz-divider type="horizontal"></nz-divider>
-    <p>Write a reason you are creating this Case type for</p>
-    <form
+<form nzLayout="vertical"
       nz-form
       [formGroup]="createMortgageTypeForm"
-      class="login-form"
-      (ngSubmit)="submitMortgageType()"
-    >
-      <nz-form-item>
-        <nz-form-control nzErrorTip="Please input Case Type Name!">
-          <nz-input-group nzPrefixIcon="number">
-            <input
-              type="text"
-              nz-input
-              formControlName="mortgageTypeName"
-              placeholder="Mortgage Type Name"
-            />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-control>
-          <div formGroupName="mailNotificationType">
-            <nz-select
-              style="width: 100%;margin-bottom: 1em;"
-              nzShowSearch
-              nzServerSearch
-              nzPlaceHolder="Search Mail types"
-              formControlName="mailNotificationTypeId"
-              [nzShowArrow]="false"
-            >
-              <nz-option
-                nzCustomContent
-                *ngFor="let data of mailTypes" [nzValue]="data.mailNotificationTypeId"
-                nzLabel="{{data.mailTypeName}}">
-                <nz-divider nzType="vertical"></nz-divider>
-                <strong>{{data.mailTypeName}} {{data.numberOfDays}}</strong>
-              </nz-option>
-            </nz-select>
-          </div>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-control nzErrorTip="Please input your Expense Name!">
+      (ngSubmit)="onSubmit()">
+  <nz-form-item>
+    <nz-form-label> Mortgage-Type</nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please input Case Type Name!">
+        <input
+          type="text"
+          nz-input
+          formControlName="mortgageTypeName"
+          placeholder="Mortgage Type Name"/>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label> Mail-Notification-Type</nz-form-label>
+    <nz-form-control [nzSpan]="24">
+      <div formGroupName="mailNotificationType">
+        <nz-select
+          style="width: 100%;margin-bottom: 1em;"
+          nzShowSearch
+          nzServerSearch
+          nzPlaceHolder="Search Mail types"
+          formControlName="mailNotificationTypeId"
+        >
+          <nz-option
+            nzCustomContent
+            *ngFor="let data of mailTypes" [nzValue]="data.mailNotificationTypeId"
+            nzLabel="{{data.mailTypeName}}">
+            <nz-divider nzType="vertical"></nz-divider>
+            <strong>{{data.mailTypeName}} {{data.numberOfDays}}</strong>
+          </nz-option>
+        </nz-select>
+      </div>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label> Mortgage-Remark</nz-form-label>
+    <nz-form-control [nzSpan]="24" nzErrorTip="Please input your Expense Name!">
             <textarea
               nz-input
               placeholder="Remark"
               formControlName="remark"
               [nzAutosize]="{ minRows: 3, maxRows: 5 }"
             ></textarea>
-        </nz-form-control>
-      </nz-form-item>
-
-      <button
-        nz-button
-        class="login-form-button login-form-margin"
-        [nzType]="'primary'"
-        style="width: 100%"
-        [nzLoading]="loading"
-      >
-        Save Expense Type
-      </button>
-    </form>
-  </div>
-  <div nz-col nzSpan="8" nzOffset="1">
-    <div style="margin-top: 2em;">
-      <h2>Preview</h2>
-      <nz-divider type="horizontal"></nz-divider>
-      <p>Expense Name: {{ createMortgageTypeForm.get("mortgageTypeName")?.value }}</p>
-      <p>Notification Type: {{ createMortgageTypeForm.get("mailNotificationType")?.value }}</p>
-      <p>Remark: {{ createMortgageTypeForm.get("remark")?.value }}</p>
-    </div>
-  </div>
-  <div nz-col nzSpan="2"></div>
-</div>
-
+    </nz-form-control>
+  </nz-form-item>
+  <button
+    nz-button
+    [nzType]="'primary'"
+  >
+    Save
+  </button>
+</form>

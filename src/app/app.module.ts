@@ -65,7 +65,7 @@ import {LitigationsComponent} from "./pages/welcome/components/litigations/litig
 import {
   CreateLitigationComponent
 } from "./pages/welcome/components/litigations/litigation/create-litigation/create-litigation.component";
-import {AppealComponent} from "./pages/welcome/components/litigations/appeal/appeal.component";
+import {AppealComponent} from "./pages/welcome/appeal/appeal.component";
 import {
   LitigationDetailsComponent
 } from "./pages/welcome/components/litigations/litigation/litigation-details/litigation-details.component";
@@ -105,6 +105,7 @@ import {NzCardModule} from "ng-zorro-antd/card";
 import {NzToolTipModule} from "ng-zorro-antd/tooltip";
 import {NzRadioModule} from "ng-zorro-antd/radio";
 import {ForeClosureDetailComponent} from "./pages/foreClosure/foreclosuredetail/fore-closure-detail.component";
+import {CreateUpdateAppealComponent} from "./pages/welcome/appeal/create-update-appeal/create-update-appeal.component";
 // ZORRO
 
 registerLocaleData(en);
@@ -147,7 +148,7 @@ registerLocaleData(en);
         NzStepsModule,
         OAuthModule.forRoot({
             resourceServer: {
-                allowedUrls: ['http://10.1.22.72:8083/*', 'http://10.1.12.70:8083/*'],
+                allowedUrls: ['http://10.1.22.72:8083/*','http://10.1.12.73:8094/*', 'http://10.1.12.70:8083/*'],
                 sendAccessToken: true,
             },
         }),
@@ -190,7 +191,8 @@ registerLocaleData(en);
     MortageDetailComponent,
     CreateUpdateMortageDetailComponent,
     CreateUpdateExpenseDetailComponent,
-    ExpenseDetailComponent
+    ExpenseDetailComponent,
+    CreateUpdateAppealComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   providers: [

@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {finalize, first, Subject} from 'rxjs';
+import {finalize, first} from 'rxjs';
 import {BranchService} from 'src/app/services/branch/branch.service';
 import {CaseTypeService} from 'src/app/services/case-type/case-type.service';
 import {CustomerService} from 'src/app/services/customer/customer.service';
@@ -16,6 +16,7 @@ import {Employee} from "../../../../../../models/employee";
 import {Branch} from "../../../../../../models/branch";
 import {EmployeeService} from "../../../../../../services/employee/employee.service";
 import {CommentsService} from "../../../../../../services/comments/comments.service";
+import {AuthService} from "../../../../../../services/auth/auth.service";
 
 @Component({
   selector: 'app-create-litigation',
@@ -39,13 +40,14 @@ export class CreateLitigationComponent implements OnInit {
   loading = false;
   attorneyHandlingTheCase?: Employee[];
   branch?: Branch[];
-
+  accessRoles: any;
   constructor(
     private formBuilder: FormBuilder,
     private caseTypeService: CaseTypeService,
     private interveneService: InterveneService,
     private advocateService: AdvocateService,
     private branchService: BranchService,
+    private authService:AuthService,
     private employeeService: EmployeeService,
     private customerService: CustomerService,
     private litigationService: LitigationService,
@@ -53,6 +55,47 @@ export class CreateLitigationComponent implements OnInit {
     private notificationService: NzNotificationService,
     private drawerRef: NzDrawerRef<string>
   ) {
+if(this.hasHrVillage()){
+  this.litigationForm = this.formBuilder.group({
+    litigationType: [null, Validators.required],
+    branch: this.formBuilder.group({
+      id: [null, [Validators.required]],
+    }),
+    plaintiff: this.formBuilder.group({
+      firstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+      lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+      middleName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+      accountNumber: ['', [Validators.required]],
+      phoneNumber: ['', [Validators.required, Validators.maxLength(10),
+        Validators.minLength(10),
+        Validators.pattern('^([0]{1}[9]{1}[0-9]{8})$')]],
+    }),
+    defendant: this.formBuilder.group({
+      firstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+      lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+      middleName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+      accountNumber: ['', [Validators.required]],
+      phoneNumber: ['', [Validators.required, Validators.maxLength(10),
+        Validators.minLength(10),
+        Validators.pattern('^([0]{1}[9]{1}[0-9]{8})$')]],
+    }),
+    courtAdjudicating: [null, [Validators.required]],
+    isBankPlaintiff: [''],
+    content: [null, [Validators.required]],
+    fileNumber: [null, [Validators.required]],
+    caseStage: [null, [Validators.required]],
+    attorneyHandlingTheCase: [null, [Validators.required]],
+    caseType: this.formBuilder.group({
+      caseTypeId: [null, [Validators.required]],
+    }),
+    advocate: this.formBuilder.group({
+      advocateId: [null, [Validators.required]],
+    }),
+    intervene: this.formBuilder.group({
+      interveneId: [null, [Validators.required]],
+    })
+  });
+}else {
     this.litigationForm = this.formBuilder.group({
       litigationType: [null, Validators.required],
       branch: this.formBuilder.group({
@@ -81,36 +124,33 @@ export class CreateLitigationComponent implements OnInit {
       content: [null, [Validators.required]],
       fileNumber: [null, [Validators.required]],
       caseStage: [null, [Validators.required]],
+      attorneyHandlingTheCase: [null, [Validators.required]],
       caseType: this.formBuilder.group({
         caseTypeId: [null, [Validators.required]],
       }),
-      advocate: this.formBuilder.group({
-        advocateId: [null, [Validators.required]],
-      }),
-      intervene: this.formBuilder.group({
-        interveneId: [null, [Validators.required]],
-      }),
-      attorneyHandlingTheCase: this.formBuilder.group({
-        employeeId: [null, [Validators.required]],
-      })
+      advocate:null,
+      intervene:null
     });
+  }
   }
 
   ngOnInit(): void {
     this.ongGetCaseTypes();
     this.getBranches();
     this.getEmployees();
-    this.ongGetAdvocate();
-    this.ongGetIntervene();
     this.isAddMode = !this.value;
     if (this.value) {
       this.getLitigationById();
+    }
+    if(this.hasHrVillage()){
+      this.ongGetAdvocate();
+      this.ongGetIntervene();
     }
   }
 
   getLitigationById() {
     this.litigationService
-      .getLitigation(this.value)
+      .getLitigationById(this.value)
       .pipe(first())
       .subscribe((res) => {
         if (!this.isAddMode) {
@@ -118,7 +158,13 @@ export class CreateLitigationComponent implements OnInit {
         }
       });
   }
-
+  hasHrVillage() {
+    this.accessRoles = this.authService.getUserRoles();
+    if (this.accessRoles && this.accessRoles.includes("litigation-approve")) {
+      return true;
+    }
+    return false;
+  }
   onSubmit() {
     this.submitted = true;
     if (this.litigationForm.invalid) {

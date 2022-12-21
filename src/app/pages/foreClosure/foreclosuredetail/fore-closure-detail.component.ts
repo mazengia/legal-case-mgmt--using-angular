@@ -13,7 +13,6 @@ import {
 } from "../../appointment/create-update-appointment/create-update-appointment.component";
 import {CreateUpdateAdvocateComponent} from "../../advocate/create-update-advocate/create-update-advocate.component";
 import {ForeClosureService} from "../../../services/foreClosure/advocate.service";
-import {CreateUpdateForeClosureComponent} from "../create-update-fore-closure/create-update-fore-closure.component";
 import {
   CreateUpdateMortageDetailComponent
 } from "../../welcome/components/settings/mortgage-types/mortage-detail/create-update-mortage-detail/create-update-mortage-detail.component";
