@@ -40,15 +40,27 @@ export class AppComponent {
     this.accessRoles = this.authService.getUserRoles();
     // console.log("accessRoles",this.accessRoles);
   }
-  hasHrVillage() {
+  hasApprovePriVillage() {
     this.accessRoles = this.authService.getUserRoles();
     if (this.accessRoles && this.accessRoles.includes("litigation-approve")) {
       return true;
     }
     return false;
   }
-
-
+  hasAttorneyPriVillage() {
+    this.accessRoles = this.authService.getUserRoles();
+    if (this.accessRoles && this.accessRoles.includes("litigation-attorney")) {
+      return true;
+    }
+    return false;
+  }
+  hasSupervisorPriVillage() {
+    this.accessRoles = this.authService.getUserRoles();
+    if (this.accessRoles && this.accessRoles.includes("litigation-supervisor")) {
+      return true;
+    }
+    return false;
+  }
   private configure() {
     this.oauthService.configure(authConfig);
     this.oauthService.tokenValidationHandler = new JwksValidationHandler();

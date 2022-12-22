@@ -1,258 +1,640 @@
-<form nzLayout="vertical" nz-form [formGroup]="litigationForm" (ngSubmit)="onSubmit()"
-      xmlns="http://www.w3.org/1999/html">
-  <div nz-row>
-    <div nz-col nzSpan="11">
-      <nz-form-item>
-        <nz-form-label nzRequired>Litigation Type</nz-form-label>
-        <nz-form-control [nzSpan]="24" nzErrorTip="Please select litigation type! ">
-          <nz-select class="input" formControlName="litigationType"
-                     nzAllowClear
-                     nzShowSearch
-                     nzPlaceHolder="Write litigation type">
-            <nz-option nzCustomContent nzValue="DEFENDANT" nzLabel="DEFENDANT">DEFENDANT</nz-option>
-            <nz-option nzCustomContent nzValue="PLAINTIFF" nzLabel="PLAINTIFF">PLAINTIFF</nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label>File number</nz-form-label>
-        <nz-form-control [nzSpan]="24" nzErrorTip="Please write file number! ">
-          <input class="input" type="number" nz-input formControlName="fileNumber"
-                 placeholder="Write file number here"/>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label nzRequired>Leading-Branch</nz-form-label>
-        <div formGroupName="branch">
-          <nz-form-control [nzSpan]="24" nzErrorTip="please select branch! ">
-            <nz-select class="input" formControlName="id"
+<div *ngIf="hasMakerPriVillage()">
+  <form nzLayout="vertical" nz-form [formGroup]="litigationForm" (ngSubmit)="onSubmit()"
+        xmlns="http://www.w3.org/1999/html">
+    <div nz-row>
+      <div nz-col nzSpan="11">
+        <nz-form-item>
+          <nz-form-label nzRequired>Litigation Type</nz-form-label>
+          <nz-form-control [nzSpan]="24" nzErrorTip="Please select litigation type! ">
+            <nz-select class="input" formControlName="litigationType"
                        nzAllowClear
                        nzShowSearch
-                       nzPlaceHolder="Write branch">
-              <nz-option
-                nzCustomContent
-                *ngFor="let data of branch" [nzValue]="data.id"
-                nzLabel="{{data.name}}">
-                <nz-divider nzType="vertical"></nz-divider>
-                <strong>{{data.name}} {{data.code}}</strong>
-              </nz-option>
+                       nzPlaceHolder="Write litigation type">
+              <nz-option nzCustomContent nzValue="DEFENDANT" nzLabel="DEFENDANT">DEFENDANT</nz-option>
+              <nz-option nzCustomContent nzValue="PLAINTIFF" nzLabel="PLAINTIFF">PLAINTIFF</nz-option>
             </nz-select>
           </nz-form-control>
-        </div>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label nzRequired>Attorney Handling The Case</nz-form-label>
-        <nz-form-control [nzSpan]="24" nzErrorTip="please select attorney Handling The Case! ">
-          <nz-select class="input" formControlName="attorneyHandlingTheCase"
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label>File number</nz-form-label>
+          <nz-form-control [nzSpan]="24" nzErrorTip="Please write file number! ">
+            <input class="input" type="number" nz-input formControlName="fileNumber"
+                   placeholder="Write file number here"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzRequired>Leading-Branch</nz-form-label>
+          <div formGroupName="branch">
+            <nz-form-control [nzSpan]="24" nzErrorTip="please select branch! ">
+              <nz-select class="input" formControlName="id"
+                         nzAllowClear
+                         nzShowSearch
+                         nzPlaceHolder="Write branch">
+                <nz-option
+                  nzCustomContent
+                  *ngFor="let data of branch" [nzValue]="data.id"
+                  nzLabel="{{data.name}}">
+                  <nz-divider nzType="vertical"></nz-divider>
+                  <strong>{{data.name}} {{data.code}}</strong>
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </div>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzRequired>Case Type</nz-form-label>
+          <div formGroupName="caseType">
+            <nz-form-control [nzSpan]="24" nzErrorTip="please select case type! ">
+              <nz-select class="input" formControlName="caseTypeId"
+                         nzAllowClear
+                         nzShowSearch
+                         nzPlaceHolder="Write case type">
+                <nz-option
+                  nzCustomContent
+                  *ngFor="let data of caseType" [nzValue]="data.caseTypeId"
+                  nzLabel="{{data.caseTypeName}}">
+                  <nz-divider nzType="vertical"></nz-divider>
+                  <strong>{{data.caseTypeName}} {{data.remark}}</strong>
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </div>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label>Comment</nz-form-label>
+          <nz-form-control [nzSpan]="24" nzErrorTip="Please write comment content! ">
+            <textarea class="input" nz-input formControlName="content" placeholder="comment content..."></textarea>
+          </nz-form-control>
+        </nz-form-item>
+        <button nz-button nzType="primary" [disabled]="!litigationForm.valid">Save</button>
+      </div>
+      <div nz-col nzSpan="2">
+        <nz-divider nzType="vertical"></nz-divider>
+      </div>
+      <div nz-col nzSpan="11">
+        <nz-form-item>
+          <nz-form-label>Plaintiff</nz-form-label>
+          <div formGroupName="plaintiff">
+            <div nz-row>
+              <div nz-col nzSpan="11">
+                <nz-form-item>
+                  <nz-form-control [nzSpan]="24" nzErrorTip="Please write firstName! ">
+                    <input class="input" nz-input formControlName="firstName"
+                           placeholder="Plaintiff first name"/>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzSpan="2">
+                <nz-divider nzType="vertical"></nz-divider>
+              </div>
+              <div nz-col nzSpan="11">
+                <nz-form-item>
+                  <nz-form-control [nzSpan]="24" nzErrorTip="Please write middleName! ">
+                    <input class="input" nz-input formControlName="middleName"
+                           placeholder="Plaintiff middle name"/>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-row>
+              <div nz-col nzSpan="11">
+                <nz-form-item>
+                  <nz-form-control [nzSpan]="24" nzErrorTip="Please write lastName! ">
+                    <input class="input" nz-input formControlName="lastName"
+                           placeholder="Plaintiff last name"/>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzSpan="2">
+                <nz-divider nzType="vertical"></nz-divider>
+              </div>
+              <div nz-col nzSpan="11">
+                <nz-form-item>
+                  <nz-form-control [nzSpan]="24" nzErrorTip="Please write accountNumber it should be 6 digits! ">
+                    <input class="input" nz-input formControlName="accountNumber"
+                           placeholder="Plaintiff account number"/>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+            <nz-form-item>
+              <nz-form-control [nzSpan]="24" nzErrorTip="Please write correct phone number like 09..! ">
+                <input class="input" nz-input formControlName="phoneNumber" placeholder="09-xx-xx-xx-xx"/>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label>Defendant</nz-form-label>
+          <div formGroupName="defendant">
+            <div nz-row>
+              <div nz-col nzSpan="11">
+                <nz-form-item>
+                  <nz-form-control [nzSpan]="24" nzErrorTip="Please write firstName! ">
+                    <input class="input" nz-input formControlName="firstName" placeholder="Defendant first name"/>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzSpan="2">
+                <nz-divider nzType="vertical"></nz-divider>
+              </div>
+              <div nz-col nzSpan="11">
+                <nz-form-item>
+                  <nz-form-control [nzSpan]="24" nzErrorTip="Please write middleName! ">
+                    <input class="input" nz-input formControlName="middleName" placeholder="Defendant middle name"/>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-row>
+              <div nz-col nzSpan="11">
+                <nz-form-item>
+                  <nz-form-control [nzSpan]="24" nzErrorTip="Please write lastName! ">
+                    <input class="input" nz-input formControlName="lastName" placeholder="Defendant last name"/>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzSpan="2">
+                <nz-divider nzType="vertical"></nz-divider>
+              </div>
+              <div nz-col nzSpan="11">
+                <nz-form-item>
+                  <nz-form-control [nzSpan]="24" nzErrorTip="Please write accountNumber it should be 6 digits! ">
+                    <input class="input" nz-input formControlName="accountNumber"
+                           placeholder="Defendant account number"/>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+            <nz-form-item>
+              <nz-form-control [nzSpan]="24" nzErrorTip="Please write correct phone number like 09..! ">
+                <input class="input" nz-input formControlName="phoneNumber" placeholder="09-xx-xx-xx-xx"/>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </nz-form-item>
+      </div>
+    </div>
+  </form>
+</div>
+<div *ngIf="hasApprovePriVillage()">
+  <form nzLayout="vertical" nz-form [formGroup]="litigationForm" (ngSubmit)="onSubmit()"
+        xmlns="http://www.w3.org/1999/html">
+    <nz-form-item>
+      <nz-form-label nzRequired>Leading-Branch</nz-form-label>
+      <div formGroupName="branch">
+        <nz-form-control [nzSpan]="24" nzErrorTip="please select branch! ">
+          <nz-select class="input" formControlName="id"
                      nzAllowClear
                      nzShowSearch
-                     nzPlaceHolder="Write attorney Handling TheCase">
+                     nzPlaceHolder="Write branch">
             <nz-option
               nzCustomContent
-              *ngFor="let data of attorneyHandlingTheCase" [nzValue]="data.employeeId"
-              nzLabel="{{data.fullName}}">
+              *ngFor="let data of branch" [nzValue]="data.id"
+              nzLabel="{{data.name}}">
               <nz-divider nzType="vertical"></nz-divider>
-              <strong>{{data.fullName}} {{data.branch}}</strong>
+              <strong>{{data.name}} {{data.code}}</strong>
             </nz-option>
           </nz-select>
         </nz-form-control>
-      </nz-form-item>
-      <nz-form-item *ngIf="hasHrVillage()">
-        <nz-form-label nzRequired>Advocate</nz-form-label>
-        <div formGroupName="advocate">
-          <nz-form-control [nzSpan]="24" nzErrorTip="please select advocate! ">
-            <nz-select class="input" formControlName="advocateId"
-                       nzAllowClear
-                       nzShowSearch
-                       nzPlaceHolder="Write advocate">
-              <nz-option
-                nzCustomContent
-                *ngFor="let data of advocate" [nzValue]="data.advocateId"
-                nzLabel="{{data.firstName}} {{data.lastName}}">
-                <nz-divider nzType="vertical"></nz-divider>
-                <strong>{{data.lastName}} {{data.remark}}</strong>
-              </nz-option>
-            </nz-select>
-          </nz-form-control>
-        </div>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label>Plaintiff</nz-form-label>
-        <div formGroupName="plaintiff">
-          <div nz-row>
-            <div nz-col nzSpan="11">
-              <nz-form-item>
-                <nz-form-control [nzSpan]="24" nzErrorTip="Please write firstName! ">
-                  <input class="input" nz-input formControlName="firstName"
-                         placeholder="Plaintiff first name"/>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-            <div nz-col nzSpan="2">
-              <nz-divider nzType="vertical"></nz-divider>
-            </div>
-            <div nz-col nzSpan="11">
-              <nz-form-item>
-                <nz-form-control [nzSpan]="24" nzErrorTip="Please write middleName! ">
-                  <input class="input" nz-input formControlName="middleName"
-                         placeholder="Plaintiff middle name"/>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-          </div>
-          <div nz-row>
-            <div nz-col nzSpan="11">
-              <nz-form-item>
-                <nz-form-control [nzSpan]="24" nzErrorTip="Please write lastName! ">
-                  <input class="input" nz-input formControlName="lastName"
-                         placeholder="Plaintiff last name"/>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-            <div nz-col nzSpan="2">
-              <nz-divider nzType="vertical"></nz-divider>
-            </div>
-            <div nz-col nzSpan="11">
-              <nz-form-item>
-                <nz-form-control [nzSpan]="24" nzErrorTip="Please write accountNumber! ">
-                  <input class="input" nz-input formControlName="accountNumber"
-                         placeholder="Plaintiff account number"/>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-          </div>
-          <nz-form-item>
-            <nz-form-control [nzSpan]="24" nzErrorTip="Please write correct phone number like 09..! ">
-              <input class="input" nz-input formControlName="phoneNumber" placeholder="09-xx-xx-xx-xx"/>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-      </nz-form-item>
-      <button nz-button nzType="primary" [disabled]="!litigationForm.valid">Save</button>
-    </div>
-    <div nz-col nzSpan="2">
-      <nz-divider nzType="vertical"></nz-divider>
-    </div>
-    <div nz-col nzSpan="11">
-      <nz-form-item style="margin-top: 22px">
-        <nz-form-control [nzSpan]="24">
-          <label [ngModel]="isBankPlaintiff" nz-checkbox formControlName="isBankPlaintiff">
-            isBankPlaintiff?</label>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label>Court Adjudicating</nz-form-label>
-        <nz-form-control [nzSpan]="24" nzErrorTip="Please write court Adjudicating! ">
-          <input class="input" nz-input formControlName="courtAdjudicating"
-                 placeholder="Write court adjudicating here"/>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label nzRequired>Case Stage</nz-form-label>
-        <nz-form-control [nzSpan]="24" nzErrorTip="Please select case stage! ">
-          <nz-select class="input" formControlName="caseStage"
+      </div>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired>Litigation Status</nz-form-label>
+      <nz-form-control [nzSpan]="24" nzErrorTip="Please select Status! ">
+        <nz-select class="input" formControlName="status"
+                   nzAllowClear
+                   nzShowSearch
+                   nzPlaceHolder="Litigation Status">
+          <nz-option nzCustomContent nzValue="Approved" nzLabel="Approved">Approved</nz-option>
+          <nz-option nzCustomContent nzValue="Declined" nzLabel="Declined">Declined</nz-option>
+          <nz-option nzCustomContent nzValue="Pending" nzLabel="Pending">Pending</nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>Comment</nz-form-label>
+      <nz-form-control [nzSpan]="24" nzErrorTip="Please write comment content! ">
+        <textarea class="input" nz-input formControlName="content" placeholder="comment content..."></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <button nz-button nzType="primary" [disabled]="!litigationForm.valid">Save</button>
+  </form>
+</div>
+
+
+<div *ngIf="hasSupervisorPriVillage()">
+  <form nzLayout="vertical" nz-form [formGroup]="litigationForm" (ngSubmit)="onSubmit()"
+        xmlns="http://www.w3.org/1999/html">
+    <nz-form-item>
+      <nz-form-label nzRequired>Leading-Branch</nz-form-label>
+      <div formGroupName="branch">
+        <nz-form-control [nzSpan]="24" nzErrorTip="please select branch! ">
+          <nz-select class="input" formControlName="id"
                      nzAllowClear
                      nzShowSearch
-                     nzPlaceHolder="Write case stage ">
-            <nz-option nzCustomContent nzValue="TRIAL" nzLabel="TRIAL">TRIAL</nz-option>
-            <nz-option nzCustomContent nzValue="PRE_TRIAL" nzLabel="PRE_TRIAL">PRE_TRIAL</nz-option>
-            <nz-option nzCustomContent nzValue="POST_TRIAL" nzLabel="POST_TRIAL">POST_TRIAL</nz-option>
+                     nzPlaceHolder="Write branch">
+            <nz-option
+              nzCustomContent
+              *ngFor="let data of branch" [nzValue]="data.id"
+              nzLabel="{{data.name}}">
+              <nz-divider nzType="vertical"></nz-divider>
+              <strong>{{data.name}} {{data.code}}</strong>
+            </nz-option>
           </nz-select>
         </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label nzRequired>Case Type</nz-form-label>
-        <div formGroupName="caseType">
-          <nz-form-control [nzSpan]="24" nzErrorTip="please select case type! ">
-            <nz-select class="input" formControlName="caseTypeId"
-                       nzAllowClear
-                       nzShowSearch
-                       nzPlaceHolder="Write case type">
-              <nz-option
-                nzCustomContent
-                *ngFor="let data of caseType" [nzValue]="data.caseTypeId"
-                nzLabel="{{data.caseTypeName}}">
-                <nz-divider nzType="vertical"></nz-divider>
-                <strong>{{data.caseTypeName}} {{data.remark}}</strong>
-              </nz-option>
-            </nz-select>
-          </nz-form-control>
-        </div>
-      </nz-form-item>
-      <nz-form-item *ngIf="hasHrVillage()">
-        <nz-form-label nzRequired>Intervene</nz-form-label>
-        <div formGroupName="intervene">
-          <nz-form-control [nzSpan]="24" nzErrorTip="please select intervene! ">
-            <nz-select class="input" formControlName="interveneId"
-                       nzAllowClear
-                       nzShowSearch
-                       nzPlaceHolder="Write intervene">
-              <nz-option
-                nzCustomContent
-                *ngFor="let data of intervene" [nzValue]="data.interveneId"
-                nzLabel="{{data.firstName}} {{data.lastName}}">
-                <nz-divider nzType="vertical"></nz-divider>
-                <strong>{{data.firstName}}  {{data.remark}}</strong>
-              </nz-option>
-            </nz-select>
-          </nz-form-control>
-        </div>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label>Defendant</nz-form-label>
-        <div formGroupName="defendant">
-          <div nz-row>
-            <div nz-col nzSpan="11">
-              <nz-form-item>
-                <nz-form-control [nzSpan]="24" nzErrorTip="Please write firstName! ">
-                  <input class="input" nz-input formControlName="firstName" placeholder="Defendant first name"/>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-            <div nz-col nzSpan="2">
+      </div>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired>Attorney Handling The Case</nz-form-label>
+      <nz-form-control [nzSpan]="24" nzErrorTip="please select attorney Handling The Case! ">
+        <nz-select class="input" formControlName="attorneyHandlingTheCase"
+                   nzAllowClear
+                   nzShowSearch
+                   nzPlaceHolder="Write attorney Handling TheCase">
+          <nz-option
+            nzCustomContent
+            *ngFor="let data of attorneyHandlingTheCase" [nzValue]="data.employeeId"
+            nzLabel="{{data.fullName}}">
+            <nz-divider nzType="vertical"></nz-divider>
+            <strong>{{data.fullName}} {{data.branch}}</strong>
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>Comment</nz-form-label>
+      <nz-form-control [nzSpan]="24" nzErrorTip="Please write comment content! ">
+        <textarea class="input" nz-input formControlName="content" placeholder="comment content..."></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item *ngIf="hasSupervisorPriVillage()">
+      <nz-form-label nzRequired>Advocate</nz-form-label>
+      <div formGroupName="advocate">
+        <nz-form-control [nzSpan]="24" nzErrorTip="please select advocate! ">
+          <nz-select class="input" formControlName="advocateId"
+                     nzAllowClear
+                     nzShowSearch
+                     nzPlaceHolder="Write advocate">
+            <nz-option
+              nzCustomContent
+              *ngFor="let data of advocate" [nzValue]="data.advocateId"
+              nzLabel="{{data.firstName}} {{data.lastName}}">
               <nz-divider nzType="vertical"></nz-divider>
-            </div>
-            <div nz-col nzSpan="11">
-              <nz-form-item>
-                <nz-form-control [nzSpan]="24" nzErrorTip="Please write middleName! ">
-                  <input class="input" nz-input formControlName="middleName" placeholder="Defendant middle name"/>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-          </div>
-          <div nz-row>
-            <div nz-col nzSpan="11">
-              <nz-form-item>
-                <nz-form-control [nzSpan]="24" nzErrorTip="Please write lastName! ">
-                  <input class="input" nz-input formControlName="lastName" placeholder="Defendant last name"/>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-            <div nz-col nzSpan="2">
-              <nz-divider nzType="vertical"></nz-divider>
-            </div>
-            <div nz-col nzSpan="11">
-              <nz-form-item>
-                <nz-form-control [nzSpan]="24" nzErrorTip="Please write accountNumber! ">
-                  <input class="input" nz-input formControlName="accountNumber"
-                         placeholder="Defendant account number"/>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-          </div>
-          <nz-form-item>
-            <nz-form-control [nzSpan]="24" nzErrorTip="Please write correct phone number like 09..! ">
-              <input class="input" nz-input formControlName="phoneNumber" placeholder="09-xx-xx-xx-xx"/>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label>Comment</nz-form-label>
-        <nz-form-control [nzSpan]="24" nzErrorTip="Please write comment content! ">
-          <textarea class="input" nz-input formControlName="content" placeholder="comment content..."></textarea>
+              <strong>{{data.lastName}} {{data.remark}}</strong>
+            </nz-option>
+          </nz-select>
         </nz-form-control>
-      </nz-form-item>
-    </div>
-  </div>
-</form>
+      </div>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired>Intervene</nz-form-label>
+      <div formGroupName="intervene">
+        <nz-form-control [nzSpan]="24" nzErrorTip="please select intervene! ">
+          <nz-select class="input" formControlName="interveneId"
+                     nzAllowClear
+                     nzShowSearch
+                     nzPlaceHolder="Write intervene">
+            <nz-option
+              nzCustomContent
+              *ngFor="let data of intervene" [nzValue]="data.interveneId"
+              nzLabel="{{data.firstName}} {{data.lastName}}">
+              <nz-divider nzType="vertical"></nz-divider>
+              <strong>{{data.firstName}}  {{data.remark}}</strong>
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </div>
+    </nz-form-item>
+    <button nz-button nzType="primary" [disabled]="!litigationForm.valid">Save</button>
+  </form>
+</div>
+
+<div *ngIf="hasAttorneyPriVillage()">
+  <form nzLayout="vertical" nz-form [formGroup]="litigationForm" (ngSubmit)="onSubmit()"
+        xmlns="http://www.w3.org/1999/html">
+    <nz-form-item>
+      <nz-form-label nzRequired>Leading-Branch</nz-form-label>
+      <div formGroupName="branch">
+        <nz-form-control [nzSpan]="24" nzErrorTip="please select branch! ">
+          <nz-select class="input" formControlName="id"
+                     nzAllowClear
+                     nzShowSearch
+                     nzPlaceHolder="Write branch">
+            <nz-option
+              nzCustomContent
+              *ngFor="let data of branch" [nzValue]="data.id"
+              nzLabel="{{data.name}}">
+              <nz-divider nzType="vertical"></nz-divider>
+              <strong>{{data.name}} {{data.code}}</strong>
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </div>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>Court Adjudicating</nz-form-label>
+      <nz-form-control [nzSpan]="24" nzErrorTip="Please write court Adjudicating! ">
+        <input class="input" nz-input formControlName="courtAdjudicating"
+               placeholder="Write court adjudicating here"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired>Case Stage</nz-form-label>
+      <nz-form-control [nzSpan]="24" nzErrorTip="Please select case stage! ">
+        <nz-select class="input" formControlName="caseStage"
+                   nzAllowClear
+                   nzShowSearch
+                   nzPlaceHolder="Write case stage ">
+          <nz-option nzCustomContent nzValue="TRIAL" nzLabel="TRIAL">TRIAL</nz-option>
+          <nz-option nzCustomContent nzValue="PRE_TRIAL" nzLabel="PRE_TRIAL">PRE_TRIAL</nz-option>
+          <nz-option nzCustomContent nzValue="POST_TRIAL" nzLabel="POST_TRIAL">POST_TRIAL</nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>Comment</nz-form-label>
+      <nz-form-control [nzSpan]="24" nzErrorTip="Please write comment content! ">
+        <textarea class="input" nz-input formControlName="content" placeholder="comment content..."></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <button nz-button nzType="primary" [disabled]="!litigationForm.valid">Save</button>
+  </form>
+</div>
+
+
+<!--<div *ngIf="hasAttorneyPriVillage()">-->
+<!--  <form nzLayout="vertical" nz-form [formGroup]="litigationForm" (ngSubmit)="onSubmit()"-->
+<!--        xmlns="http://www.w3.org/1999/html">-->
+<!--    <div nz-row>-->
+<!--      <div nz-col nzSpan="11">-->
+<!--        <nz-form-item>-->
+<!--          <nz-form-label nzRequired>Litigation Type</nz-form-label>-->
+<!--          <nz-form-control [nzSpan]="24" nzErrorTip="Please select litigation type! ">-->
+<!--            <nz-select class="input" formControlName="litigationType"-->
+<!--                       nzAllowClear-->
+<!--                       nzShowSearch-->
+<!--                       nzPlaceHolder="Write litigation type">-->
+<!--              <nz-option nzCustomContent nzValue="DEFENDANT" nzLabel="DEFENDANT">DEFENDANT</nz-option>-->
+<!--              <nz-option nzCustomContent nzValue="PLAINTIFF" nzLabel="PLAINTIFF">PLAINTIFF</nz-option>-->
+<!--            </nz-select>-->
+<!--          </nz-form-control>-->
+<!--        </nz-form-item>-->
+<!--        <nz-form-item>-->
+<!--          <nz-form-label>File number</nz-form-label>-->
+<!--          <nz-form-control [nzSpan]="24" nzErrorTip="Please write file number! ">-->
+<!--            <input class="input" type="number" nz-input formControlName="fileNumber"-->
+<!--                   placeholder="Write file number here"/>-->
+<!--          </nz-form-control>-->
+<!--        </nz-form-item>-->
+<!--        <nz-form-item>-->
+<!--          <nz-form-label nzRequired>Leading-Branch</nz-form-label>-->
+<!--          <div formGroupName="branch">-->
+<!--            <nz-form-control [nzSpan]="24" nzErrorTip="please select branch! ">-->
+<!--              <nz-select class="input" formControlName="id"-->
+<!--                         nzAllowClear-->
+<!--                         nzShowSearch-->
+<!--                         nzPlaceHolder="Write branch">-->
+<!--                <nz-option-->
+<!--                  nzCustomContent-->
+<!--                  *ngFor="let data of branch" [nzValue]="data.id"-->
+<!--                  nzLabel="{{data.name}}">-->
+<!--                  <nz-divider nzType="vertical"></nz-divider>-->
+<!--                  <strong>{{data.name}} {{data.code}}</strong>-->
+<!--                </nz-option>-->
+<!--              </nz-select>-->
+<!--            </nz-form-control>-->
+<!--          </div>-->
+<!--        </nz-form-item>-->
+<!--        <nz-form-item>-->
+<!--          <nz-form-label nzRequired>Attorney Handling The Case</nz-form-label>-->
+<!--          <nz-form-control [nzSpan]="24" nzErrorTip="please select attorney Handling The Case! ">-->
+<!--            <nz-select class="input" formControlName="attorneyHandlingTheCase"-->
+<!--                       nzAllowClear-->
+<!--                       nzShowSearch-->
+<!--                       nzPlaceHolder="Write attorney Handling TheCase">-->
+<!--              <nz-option-->
+<!--                nzCustomContent-->
+<!--                *ngFor="let data of attorneyHandlingTheCase" [nzValue]="data.employeeId"-->
+<!--                nzLabel="{{data.fullName}}">-->
+<!--                <nz-divider nzType="vertical"></nz-divider>-->
+<!--                <strong>{{data.fullName}} {{data.branch}}</strong>-->
+<!--              </nz-option>-->
+<!--            </nz-select>-->
+<!--          </nz-form-control>-->
+<!--        </nz-form-item>-->
+<!--        <nz-form-item *ngIf="hasSupervisorPriVillage()">-->
+<!--          <nz-form-label nzRequired>Advocate</nz-form-label>-->
+<!--          <div formGroupName="advocate">-->
+<!--            <nz-form-control [nzSpan]="24" nzErrorTip="please select advocate! ">-->
+<!--              <nz-select class="input" formControlName="advocateId"-->
+<!--                         nzAllowClear-->
+<!--                         nzShowSearch-->
+<!--                         nzPlaceHolder="Write advocate">-->
+<!--                <nz-option-->
+<!--                  nzCustomContent-->
+<!--                  *ngFor="let data of advocate" [nzValue]="data.advocateId"-->
+<!--                  nzLabel="{{data.firstName}} {{data.lastName}}">-->
+<!--                  <nz-divider nzType="vertical"></nz-divider>-->
+<!--                  <strong>{{data.lastName}} {{data.remark}}</strong>-->
+<!--                </nz-option>-->
+<!--              </nz-select>-->
+<!--            </nz-form-control>-->
+<!--          </div>-->
+<!--        </nz-form-item>-->
+<!--        <nz-form-item>-->
+<!--          <nz-form-label>Plaintiff</nz-form-label>-->
+<!--          <div formGroupName="plaintiff">-->
+<!--            <div nz-row>-->
+<!--              <div nz-col nzSpan="11">-->
+<!--                <nz-form-item>-->
+<!--                  <nz-form-control [nzSpan]="24" nzErrorTip="Please write firstName! ">-->
+<!--                    <input class="input" nz-input formControlName="firstName"-->
+<!--                           placeholder="Plaintiff first name"/>-->
+<!--                  </nz-form-control>-->
+<!--                </nz-form-item>-->
+<!--              </div>-->
+<!--              <div nz-col nzSpan="2">-->
+<!--                <nz-divider nzType="vertical"></nz-divider>-->
+<!--              </div>-->
+<!--              <div nz-col nzSpan="11">-->
+<!--                <nz-form-item>-->
+<!--                  <nz-form-control [nzSpan]="24" nzErrorTip="Please write middleName! ">-->
+<!--                    <input class="input" nz-input formControlName="middleName"-->
+<!--                           placeholder="Plaintiff middle name"/>-->
+<!--                  </nz-form-control>-->
+<!--                </nz-form-item>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div nz-row>-->
+<!--              <div nz-col nzSpan="11">-->
+<!--                <nz-form-item>-->
+<!--                  <nz-form-control [nzSpan]="24" nzErrorTip="Please write lastName! ">-->
+<!--                    <input class="input" nz-input formControlName="lastName"-->
+<!--                           placeholder="Plaintiff last name"/>-->
+<!--                  </nz-form-control>-->
+<!--                </nz-form-item>-->
+<!--              </div>-->
+<!--              <div nz-col nzSpan="2">-->
+<!--                <nz-divider nzType="vertical"></nz-divider>-->
+<!--              </div>-->
+<!--              <div nz-col nzSpan="11">-->
+<!--                <nz-form-item>-->
+<!--                  <nz-form-control [nzSpan]="24" nzErrorTip="Please write accountNumber it should be 6 digits! ">-->
+<!--                    <input class="input" nz-input formControlName="accountNumber"-->
+<!--                           placeholder="Plaintiff account number"/>-->
+<!--                  </nz-form-control>-->
+<!--                </nz-form-item>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <nz-form-item>-->
+<!--              <nz-form-control [nzSpan]="24" nzErrorTip="Please write correct phone number like 09..! ">-->
+<!--                <input class="input" nz-input formControlName="phoneNumber" placeholder="09-xx-xx-xx-xx"/>-->
+<!--              </nz-form-control>-->
+<!--            </nz-form-item>-->
+<!--          </div>-->
+<!--        </nz-form-item>-->
+<!--        <nz-form-item>-->
+<!--          <nz-form-label nzRequired>Litigation Status</nz-form-label>-->
+<!--          <nz-form-control [nzSpan]="24" nzErrorTip="Please select Status! ">-->
+<!--            <nz-select class="input" formControlName="status"-->
+<!--                       nzAllowClear-->
+<!--                       nzShowSearch-->
+<!--                       nzPlaceHolder="Litigation Status">-->
+<!--              <nz-option nzCustomContent nzValue="Approved" nzLabel="Approved">Approved</nz-option>-->
+<!--              <nz-option nzCustomContent nzValue="Declined" nzLabel="Declined">Declined</nz-option>-->
+<!--              <nz-option nzCustomContent nzValue="Pending" nzLabel="Pending">Pending</nz-option>-->
+<!--            </nz-select>-->
+<!--          </nz-form-control>-->
+<!--        </nz-form-item>-->
+<!--        <button nz-button nzType="primary" [disabled]="!litigationForm.valid">Save</button>-->
+<!--      </div>-->
+<!--      <div nz-col nzSpan="2">-->
+<!--        <nz-divider nzType="vertical"></nz-divider>-->
+<!--      </div>-->
+<!--      <div nz-col nzSpan="11">-->
+<!--        <nz-form-item style="margin-top: 22px">-->
+<!--          <nz-form-control [nzSpan]="24">-->
+<!--            <label [ngModel]="isBankPlaintiff" nz-checkbox formControlName="isBankPlaintiff">-->
+<!--              isBankPlaintiff?</label>-->
+<!--          </nz-form-control>-->
+<!--        </nz-form-item>-->
+<!--        <div>-->
+<!--          <nz-form-item>-->
+<!--            <nz-form-label>Court Adjudicating</nz-form-label>-->
+<!--            <nz-form-control [nzSpan]="24" nzErrorTip="Please write court Adjudicating! ">-->
+<!--              <input class="input" nz-input formControlName="courtAdjudicating"-->
+<!--                     placeholder="Write court adjudicating here"/>-->
+<!--            </nz-form-control>-->
+<!--          </nz-form-item>-->
+<!--          <nz-form-item>-->
+<!--            <nz-form-label nzRequired>Case Stage</nz-form-label>-->
+<!--            <nz-form-control [nzSpan]="24" nzErrorTip="Please select case stage! ">-->
+<!--              <nz-select class="input" formControlName="caseStage"-->
+<!--                         nzAllowClear-->
+<!--                         nzShowSearch-->
+<!--                         nzPlaceHolder="Write case stage ">-->
+<!--                <nz-option nzCustomContent nzValue="TRIAL" nzLabel="TRIAL">TRIAL</nz-option>-->
+<!--                <nz-option nzCustomContent nzValue="PRE_TRIAL" nzLabel="PRE_TRIAL">PRE_TRIAL</nz-option>-->
+<!--                <nz-option nzCustomContent nzValue="POST_TRIAL" nzLabel="POST_TRIAL">POST_TRIAL</nz-option>-->
+<!--              </nz-select>-->
+<!--            </nz-form-control>-->
+<!--          </nz-form-item>-->
+<!--          <nz-form-item>-->
+<!--            <nz-form-label nzRequired>Case Type</nz-form-label>-->
+<!--            <div formGroupName="caseType">-->
+<!--              <nz-form-control [nzSpan]="24" nzErrorTip="please select case type! ">-->
+<!--                <nz-select class="input" formControlName="caseTypeId"-->
+<!--                           nzAllowClear-->
+<!--                           nzShowSearch-->
+<!--                           nzPlaceHolder="Write case type">-->
+<!--                  <nz-option-->
+<!--                    nzCustomContent-->
+<!--                    *ngFor="let data of caseType" [nzValue]="data.caseTypeId"-->
+<!--                    nzLabel="{{data.caseTypeName}}">-->
+<!--                    <nz-divider nzType="vertical"></nz-divider>-->
+<!--                    <strong>{{data.caseTypeName}} {{data.remark}}</strong>-->
+<!--                  </nz-option>-->
+<!--                </nz-select>-->
+<!--              </nz-form-control>-->
+<!--            </div>-->
+<!--          </nz-form-item>-->
+<!--        </div>-->
+<!--        <nz-form-item>-->
+<!--          <nz-form-label nzRequired>Intervene</nz-form-label>-->
+<!--          <div formGroupName="intervene">-->
+<!--            <nz-form-control [nzSpan]="24" nzErrorTip="please select intervene! ">-->
+<!--              <nz-select class="input" formControlName="interveneId"-->
+<!--                         nzAllowClear-->
+<!--                         nzShowSearch-->
+<!--                         nzPlaceHolder="Write intervene">-->
+<!--                <nz-option-->
+<!--                  nzCustomContent-->
+<!--                  *ngFor="let data of intervene" [nzValue]="data.interveneId"-->
+<!--                  nzLabel="{{data.firstName}} {{data.lastName}}">-->
+<!--                  <nz-divider nzType="vertical"></nz-divider>-->
+<!--                  <strong>{{data.firstName}}  {{data.remark}}</strong>-->
+<!--                </nz-option>-->
+<!--              </nz-select>-->
+<!--            </nz-form-control>-->
+<!--          </div>-->
+<!--        </nz-form-item>-->
+<!--        <nz-form-item>-->
+<!--          <nz-form-label>Defendant</nz-form-label>-->
+<!--          <div formGroupName="defendant">-->
+<!--            <div nz-row>-->
+<!--              <div nz-col nzSpan="11">-->
+<!--                <nz-form-item>-->
+<!--                  <nz-form-control [nzSpan]="24" nzErrorTip="Please write firstName! ">-->
+<!--                    <input class="input" nz-input formControlName="firstName" placeholder="Defendant first name"/>-->
+<!--                  </nz-form-control>-->
+<!--                </nz-form-item>-->
+<!--              </div>-->
+<!--              <div nz-col nzSpan="2">-->
+<!--                <nz-divider nzType="vertical"></nz-divider>-->
+<!--              </div>-->
+<!--              <div nz-col nzSpan="11">-->
+<!--                <nz-form-item>-->
+<!--                  <nz-form-control [nzSpan]="24" nzErrorTip="Please write middleName! ">-->
+<!--                    <input class="input" nz-input formControlName="middleName" placeholder="Defendant middle name"/>-->
+<!--                  </nz-form-control>-->
+<!--                </nz-form-item>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div nz-row>-->
+<!--              <div nz-col nzSpan="11">-->
+<!--                <nz-form-item>-->
+<!--                  <nz-form-control [nzSpan]="24" nzErrorTip="Please write lastName! ">-->
+<!--                    <input class="input" nz-input formControlName="lastName" placeholder="Defendant last name"/>-->
+<!--                  </nz-form-control>-->
+<!--                </nz-form-item>-->
+<!--              </div>-->
+<!--              <div nz-col nzSpan="2">-->
+<!--                <nz-divider nzType="vertical"></nz-divider>-->
+<!--              </div>-->
+<!--              <div nz-col nzSpan="11">-->
+<!--                <nz-form-item>-->
+<!--                  <nz-form-control [nzSpan]="24" nzErrorTip="Please write accountNumber it should be 6 digits! ">-->
+<!--                    <input class="input" nz-input formControlName="accountNumber"-->
+<!--                           placeholder="Defendant account number"/>-->
+<!--                  </nz-form-control>-->
+<!--                </nz-form-item>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <nz-form-item>-->
+<!--              <nz-form-control [nzSpan]="24" nzErrorTip="Please write correct phone number like 09..! ">-->
+<!--                <input class="input" nz-input formControlName="phoneNumber" placeholder="09-xx-xx-xx-xx"/>-->
+<!--              </nz-form-control>-->
+<!--            </nz-form-item>-->
+<!--          </div>-->
+<!--        </nz-form-item>-->
+<!--        <nz-form-item>-->
+<!--          <nz-form-label>Comment</nz-form-label>-->
+<!--          <nz-form-control [nzSpan]="24" nzErrorTip="Please write comment content! ">-->
+<!--            <textarea class="input" nz-input formControlName="content" placeholder="comment content..."></textarea>-->
+<!--          </nz-form-control>-->
+<!--        </nz-form-item>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </form>-->
+<!--</div>-->

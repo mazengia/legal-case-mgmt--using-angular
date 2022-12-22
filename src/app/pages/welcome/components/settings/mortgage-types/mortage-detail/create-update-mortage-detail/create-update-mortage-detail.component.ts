@@ -14,7 +14,7 @@ import {MortgageDetail} from "../../../../../../../models/mortgage-detail";
   styleUrls: ['./create-update-mortage-detail.component.scss']
 })
 export class CreateUpdateMortageDetailComponent implements OnInit {
-  radioValue = 'Machine';
+  selectedItemValue = 'Machine';
   mortageDetailForm!: FormGroup;
   pageNumber: number = 0;
   pageSize: number = 10;
@@ -48,8 +48,7 @@ export class CreateUpdateMortageDetailComponent implements OnInit {
       machineryType: [ ],
       shansiNumber: [ ],
       motorNumber: [ ],
-      plateNumber: [ ],
-      radioItem: [],
+      plateNumber: [ ]
     });
   }
 
@@ -100,14 +99,14 @@ export class CreateUpdateMortageDetailComponent implements OnInit {
       this.mortageDetailForm.controls['dateLegalNoticeServed'].patchValue("")
     }
 
-    if(this.radioValue=='Car'){
+    if(this.selectedItemValue=='Car'){
       this.mortageDetailForm.controls['plateNumber'].patchValue("")
       this.mortageDetailForm.controls['shansiNumber'].patchValue("")
       this.mortageDetailForm.controls['motorNumber'].patchValue("")
     }
-    if(this.radioValue=='Machine'){
+    if(this.selectedItemValue=='Machine'){
       this.mortageDetailForm.controls['machineryType'].patchValue("")
-    } if(this.radioValue=='Home'){
+    } if(this.selectedItemValue=='Home'){
       this.mortageDetailForm.controls['numberOfTitleIndeed'].patchValue("")
     }
     this.mortgageDetailService.createMortgageDetail(this.mortageDetailForm.value)
@@ -177,9 +176,8 @@ export class CreateUpdateMortageDetailComponent implements OnInit {
   collateralEstimated = (estimated:any) => {
    this.isCollateralEstimated=estimated;
   };
-  isRadioSelected = (item:any) => {
-    console.log(item)
-    this.radioValue=item;
+  isItemSelected = (item:any) => {
+    this.selectedItemValue=item;
   };
 
 

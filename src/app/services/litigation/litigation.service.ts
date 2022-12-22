@@ -21,6 +21,36 @@ export class LitigationService {
       .append('size', `${pageSize}`);
     return this.http.get<LitigationResponse>(`${BASE_URL}/litigations`, { params: params });
   };
+  getLitigationByBranchId = (
+    pageNumber?: number,
+    pageSize?: number,
+    ranchId?:any
+  ): Observable<LitigationResponse> => {
+    const params = new HttpParams()
+      .append('page', `${pageNumber}`)
+      .append('size', `${pageSize}`);
+    return this.http.get<LitigationResponse>(`${BASE_URL}/litigations/branch-id/${ranchId}`, { params: params });
+  };
+  findLitigationByAttorneyHandlingTheCase = (
+    pageNumber?: number,
+    pageSize?: number,
+    attorney?:any
+  ): Observable<LitigationResponse> => {
+    const params = new HttpParams()
+      .append('page', `${pageNumber}`)
+      .append('size', `${pageSize}`);
+    return this.http.get<LitigationResponse>(`${BASE_URL}/litigations/attorney/${attorney}`, { params: params });
+  };
+  findLitigationByStatus = (
+    pageNumber?: number,
+    pageSize?: number,
+    status?:any
+  ): Observable<LitigationResponse> => {
+    const params = new HttpParams()
+      .append('page', `${pageNumber}`)
+      .append('size', `${pageSize}`);
+    return this.http.get<LitigationResponse>(`${BASE_URL}/litigations/status/${status}`, { params: params });
+  };
 
   createLitigation = (litigation: Litigation): Observable<Litigation> => {
     return this.http.post<Litigation>(`${BASE_URL}/litigations`, { ...litigation });

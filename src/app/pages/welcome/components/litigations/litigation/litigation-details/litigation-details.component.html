@@ -17,6 +17,7 @@
     <div nz-col nzSpan="12">
       <nz-card nzTitle="Litigation" [nzBordered]="false">
         <p>Litigation: {{litigation?.litigationType}}  </p>
+        <p>Litigation-Status: {{litigation?.status}}  </p>
         <p>isBankPlaintiff: {{litigation?.isBankPlaintiff}}  </p>
         <p>fileNumber: {{litigation?.fileNumber}}  </p>
         <p>courtAdjudicating: {{litigation?.courtAdjudicating}}  </p>
@@ -30,7 +31,7 @@
           {{litigation?.caseType?.caseTypeName}}
         </p>
         <p>remark: {{litigation?.caseType?.remark }}</p>
-        <a (click)="openCaseDrawer(litigation.caseType?.caseTypeId)">Edit</a>
+        <a *ngIf="hasSupervisorPriVillage()" (click)="openCaseDrawer(litigation.caseType?.caseTypeId)">Edit</a>
       </nz-card>
     </div>
   </div>
@@ -77,7 +78,7 @@
                 <p>woredaOrKebele: {{litigation?.intervene?.interveneAddress.woredaOrKebele }}</p>
                 <p>houseNo: {{litigation?.intervene?.interveneAddress.houseNo}}</p>
             <ng-template #cardTitle>
-              <a (click)="openDrawerIntervene(litigation?.intervene?.interveneId)">
+              <a *ngIf="hasSupervisorPriVillage()" (click)="openDrawerIntervene(litigation?.intervene?.interveneId)">
                 Edit Intervene
               </a>
             </ng-template>
@@ -95,7 +96,7 @@
                 <p>date: {{litigation?.advocate?.date | date}}</p>
                 <p>remark: {{litigation?.advocate?.remark }}</p>
             <ng-template #card2Title>
-              <a  (click)="openDrawerAdvocate(litigation?.advocate.advocateId)">
+              <a *ngIf="hasSupervisorPriVillage()"  (click)="openDrawerAdvocate(litigation?.advocate.advocateId)">
                 Edit Advocate
               </a>
             </ng-template>
@@ -115,7 +116,7 @@
             <th nzAlign="center">Expense</th>
             <th nzAlign="center">Amount</th>
             <th nzAlign="center">Miscellaneous</th>
-            <th nzAlign="center">Action</th>
+            <th  *ngIf="hasAttorneyPriVillage()" nzAlign="center">Action</th>
           </tr>
           </thead>
           <tbody>
@@ -126,7 +127,7 @@
             <td nzAlign="center"> {{ data.expense?.expenseName  }}</td>
             <td nzAlign="center"> {{ data.amount }}</td>
             <td nzAlign="center"> {{ data.miscellaneous  }}</td>
-            <td nzAlign="center">
+            <td *ngIf="hasAttorneyPriVillage()" nzAlign="center">
               <a class="edit-btn" (click)="openDrawer(data.judicialAppointment?.appointmentId)"
                  nz-tooltip="edit-appointment">Edit</a>
               <nz-divider nzType="vertical"></nz-divider>
@@ -152,6 +153,47 @@
     </tr>
     </tbody>
   </nz-table>
+  <div *ngFor="let data of comment">
+    <div nz-row>
+      <div nz-col nzSpan="12">
+        <div *ngIf="data.c==username">
+          <nz-comment nzAuthor="{{data.created_by }} "
+                      nzDatetime="{{data.created_at}}">
+
+            <nz-avatar
+              nz-comment-avatar
+              nzIcon="user"
+            ></nz-avatar>
+            <nz-comment-content>
+              <p>
+                {{data.remark}}
+              </p>
+            </nz-comment-content>
+          </nz-comment>
+        </div>
+      </div>
+      <div nz-col nzSpan="12">
+        <div *ngIf="data.created_by!=username">
+          <nz-comment nzAuthor="{{data.created_by}}"
+                      nzDatetime="{{data.created_at}}">
+
+            <nz-avatar
+              nz-comment-avatar
+              nzIcon="user"
+            ></nz-avatar>
+            <nz-comment-content>
+              <p>
+                {{data.remark}}
+              </p>
+            </nz-comment-content>
+          </nz-comment>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
 </nz-card>
 
 

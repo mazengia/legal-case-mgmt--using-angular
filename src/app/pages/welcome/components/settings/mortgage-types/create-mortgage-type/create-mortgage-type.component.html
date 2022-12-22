@@ -5,11 +5,15 @@
   <nz-form-item>
     <nz-form-label> Mortgage-Type</nz-form-label>
     <nz-form-control [nzSpan]="24" nzErrorTip="Please input Case Type Name!">
-        <input
-          type="text"
-          nz-input
-          formControlName="mortgageTypeName"
-          placeholder="Mortgage Type Name"/>
+      <nz-select class="input"
+                 formControlName="mortgageTypeName"
+                 nzAllowClear
+                 nzShowSearch
+                 nzPlaceHolder="Mortgage property type ">
+        <nz-option nzCustomContent nzValue="Car" nzLabel="Car"> Car</nz-option>
+        <nz-option nzCustomContent nzValue="Home" nzLabel="Home"> Home</nz-option>
+        <nz-option nzCustomContent nzValue="Machine" nzLabel="Machine"> Machine</nz-option>
+      </nz-select>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>

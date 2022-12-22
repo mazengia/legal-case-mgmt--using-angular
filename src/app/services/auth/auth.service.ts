@@ -31,4 +31,5 @@ export class AuthService {
   getEmployeeId() {
     return (<any>this.getTokenDetails()).employeeID;
   }
+
 }

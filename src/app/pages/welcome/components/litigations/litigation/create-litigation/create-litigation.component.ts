@@ -28,7 +28,6 @@ export class CreateLitigationComponent implements OnInit {
   litigationForm!: FormGroup;
   pageNumber: number = 0;
   pageSize: number = 10;
-  customerData: any;
   accountNumber!: string;
   submitted = false;
   isBankPlaintiff = false;
@@ -41,13 +40,14 @@ export class CreateLitigationComponent implements OnInit {
   attorneyHandlingTheCase?: Employee[];
   branch?: Branch[];
   accessRoles: any;
+
   constructor(
     private formBuilder: FormBuilder,
     private caseTypeService: CaseTypeService,
     private interveneService: InterveneService,
     private advocateService: AdvocateService,
     private branchService: BranchService,
-    private authService:AuthService,
+    private authService: AuthService,
     private employeeService: EmployeeService,
     private customerService: CustomerService,
     private litigationService: LitigationService,
@@ -55,96 +55,105 @@ export class CreateLitigationComponent implements OnInit {
     private notificationService: NzNotificationService,
     private drawerRef: NzDrawerRef<string>
   ) {
-if(this.hasHrVillage()){
-  this.litigationForm = this.formBuilder.group({
-    litigationType: [null, Validators.required],
-    branch: this.formBuilder.group({
-      id: [null, [Validators.required]],
-    }),
-    plaintiff: this.formBuilder.group({
-      firstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
-      lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
-      middleName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
-      accountNumber: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required, Validators.maxLength(10),
-        Validators.minLength(10),
-        Validators.pattern('^([0]{1}[9]{1}[0-9]{8})$')]],
-    }),
-    defendant: this.formBuilder.group({
-      firstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
-      lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
-      middleName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
-      accountNumber: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required, Validators.maxLength(10),
-        Validators.minLength(10),
-        Validators.pattern('^([0]{1}[9]{1}[0-9]{8})$')]],
-    }),
-    courtAdjudicating: [null, [Validators.required]],
-    isBankPlaintiff: [''],
-    content: [null, [Validators.required]],
-    fileNumber: [null, [Validators.required]],
-    caseStage: [null, [Validators.required]],
-    attorneyHandlingTheCase: [null, [Validators.required]],
-    caseType: this.formBuilder.group({
-      caseTypeId: [null, [Validators.required]],
-    }),
-    advocate: this.formBuilder.group({
-      advocateId: [null, [Validators.required]],
-    }),
-    intervene: this.formBuilder.group({
-      interveneId: [null, [Validators.required]],
-    })
-  });
-}else {
-    this.litigationForm = this.formBuilder.group({
-      litigationType: [null, Validators.required],
-      branch: this.formBuilder.group({
-        id: [null, [Validators.required]],
-      }),
-      plaintiff: this.formBuilder.group({
-        firstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
-        lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
-        middleName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
-        accountNumber: ['', [Validators.required]],
-        phoneNumber: ['', [Validators.required, Validators.maxLength(10),
-          Validators.minLength(10),
-          Validators.pattern('^([0]{1}[9]{1}[0-9]{8})$')]],
-      }),
-      defendant: this.formBuilder.group({
-        firstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
-        lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
-        middleName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
-        accountNumber: ['', [Validators.required]],
-        phoneNumber: ['', [Validators.required, Validators.maxLength(10),
-          Validators.minLength(10),
-          Validators.pattern('^([0]{1}[9]{1}[0-9]{8})$')]],
-      }),
-      courtAdjudicating: [null, [Validators.required]],
-      isBankPlaintiff: [''],
-      content: [null, [Validators.required]],
-      fileNumber: [null, [Validators.required]],
-      caseStage: [null, [Validators.required]],
-      attorneyHandlingTheCase: [null, [Validators.required]],
-      caseType: this.formBuilder.group({
-        caseTypeId: [null, [Validators.required]],
-      }),
-      advocate:null,
-      intervene:null
-    });
-  }
+    if (this.hasMakerPriVillage()) {
+      this.litigationForm = this.formBuilder.group({
+        litigationType: [null, Validators.required],
+        branch: this.formBuilder.group({
+          id: [null, [Validators.required]],
+        }),
+        caseType: this.formBuilder.group({
+          caseTypeId: [null, [Validators.required]],
+        }),
+        plaintiff: this.formBuilder.group({
+          firstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+          lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+          middleName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+          accountNumber: ['', [Validators.required, Validators.maxLength(16),
+            Validators.minLength(16), Validators.pattern('^([0-9]{16})$')]],
+          phoneNumber: ['', [Validators.required, Validators.maxLength(10),
+            Validators.minLength(10),
+            Validators.pattern('^([0]{1}[9]{1}[0-9]{8})$')]],
+        }),
+        defendant: this.formBuilder.group({
+          firstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+          lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+          middleName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+          accountNumber: ['', [Validators.required, Validators.maxLength(16),
+            Validators.minLength(16), Validators.pattern('^([0-9]{16})$')]],
+          phoneNumber: ['', [Validators.required, Validators.maxLength(10),
+            Validators.minLength(10),
+            Validators.pattern('^([0]{1}[9]{1}[0-9]{8})$')]],
+        }),
+        // courtAdjudicating: [null, [Validators.required]],
+        // isBankPlaintiff: [''],
+        content: [null, [Validators.required]],
+        fileNumber: [null, [Validators.required]],
+        // caseStage: [null, [Validators.required]],
+        // attorneyHandlingTheCase: [null, [Validators.required]],
+        // caseType: this.formBuilder.group({
+        //   caseTypeId: [null, [Validators.required]],
+        // }),
+        // advocate: this.formBuilder.group({
+        //   advocateId: [null, [Validators.required]],
+        // }),
+        // intervene: this.formBuilder.group({
+        //   interveneId: [null, [Validators.required]],
+        // })
+        // status: [null, [Validators.required]],
+      });
+    }
+    if (this.hasApprovePriVillage()) {
+      this.litigationForm = this.formBuilder.group({
+        content: [null, [Validators.required]],
+        status: [null, [Validators.required]],
+        branch: this.formBuilder.group({
+          id: [null, [Validators.required]],
+        })
+      });
+    }
+    if (this.hasSupervisorPriVillage()) {
+      this.litigationForm = this.formBuilder.group({
+        branch: this.formBuilder.group({
+          id: [null, [Validators.required]],
+        }),
+        advocate: this.formBuilder.group({
+          advocateId: [null, [Validators.required]],
+        }),
+        intervene: this.formBuilder.group({
+          interveneId: [null, [Validators.required]],
+        }),
+        content: [null, [Validators.required]],
+        attorneyHandlingTheCase: [null, [Validators.required]]
+      });
+    }
+
+    if (this.hasAttorneyPriVillage()) {
+      this.litigationForm = this.formBuilder.group({
+        branch: this.formBuilder.group({
+          id: [null, [Validators.required]],
+        }),
+        courtAdjudicating: [null, [Validators.required]],
+        content: [null, [Validators.required]],
+        caseStage: [null, [Validators.required]]
+      });
+    }
   }
 
   ngOnInit(): void {
-    this.ongGetCaseTypes();
+    if (this.hasMakerPriVillage()) {
+      this.ongGetCaseTypes();
+    }
+    if (this.hasSupervisorPriVillage()) {
+      this.ongGetAdvocate();
+      this.ongGetIntervene();
+    }
+    if (this.hasApprovePriVillage()) {
+    }
     this.getBranches();
     this.getEmployees();
     this.isAddMode = !this.value;
     if (this.value) {
       this.getLitigationById();
-    }
-    if(this.hasHrVillage()){
-      this.ongGetAdvocate();
-      this.ongGetIntervene();
     }
   }
 
@@ -158,13 +167,40 @@ if(this.hasHrVillage()){
         }
       });
   }
-  hasHrVillage() {
+
+  hasApprovePriVillage() {
     this.accessRoles = this.authService.getUserRoles();
     if (this.accessRoles && this.accessRoles.includes("litigation-approve")) {
       return true;
     }
     return false;
   }
+
+  hasSupervisorPriVillage() {
+    this.accessRoles = this.authService.getUserRoles();
+    if (this.accessRoles && this.accessRoles.includes("litigation-supervisor")) {
+      return true;
+    }
+    return false;
+  }
+
+  hasAttorneyPriVillage() {
+    this.accessRoles = this.authService.getUserRoles();
+    if (this.accessRoles && this.accessRoles.includes("litigation-attorney")) {
+      return true;
+    }
+    return false;
+  }
+
+  hasMakerPriVillage() {
+    this.accessRoles = this.authService.getUserRoles();
+    if (this.accessRoles && this.accessRoles.includes("litigation-maker")) {
+      return true;
+    }
+    return false;
+  }
+
+
   onSubmit() {
     this.submitted = true;
     if (this.litigationForm.invalid) {
@@ -193,9 +229,9 @@ if(this.hasHrVillage()){
       }))
       .subscribe(
         (data) => {
-         let comments={
-            content:this.litigationForm.controls['content'].value,
-              litigation:{litigationId:data.litigationId}
+          let comments = {
+            content: this.litigationForm.controls['content'].value,
+            litigation: {litigationId: data.litigationId}
           }
           // @ts-ignore
           this.commentsService.createComment(comments).subscribe(
@@ -205,7 +241,7 @@ if(this.hasHrVillage()){
             (error) => {
               console.log(error)
             }
-          ) ;
+          );
           this.createNotification(
             'success',
             'Litigation  ',
@@ -237,9 +273,9 @@ if(this.hasHrVillage()){
       }))
       .subscribe(
         data => {
-          let comments={
-            content:this.litigationForm.controls['content'].value,
-            litigation:{litigationId:data.litigationId}
+          let comments = {
+            content: this.litigationForm.controls['content'].value,
+            litigation: {litigationId: data.litigationId}
           }
           // @ts-ignore
           this.commentsService.createComment(comments).subscribe(
@@ -249,7 +285,7 @@ if(this.hasHrVillage()){
             (error) => {
               console.log(error)
             }
-          ) ;
+          );
           this.createNotification(
             'success',
             'Litigation',
@@ -301,24 +337,7 @@ if(this.hasHrVillage()){
   };
   getEmployees = () => {
     this.employeeService.getEmployee().subscribe((res: any) => {
-      // console.log("res")
-      // console.log(res)
-      // console.log("res")
       this.attorneyHandlingTheCase = res?._embedded.employeeDTOes;
     });
-  };
-
-
-  search = (event: any) => {
-  };
-
-  onGetCustomerByAccountNumber = (accountNumber: any) => {
-    this.customerService
-      .finCustomerDetailsByAccountNumber(accountNumber)
-      .subscribe((res: any) => {
-        this.customerData = res;
-        console.log(res);
-        this.litigationForm.get('defendant')?.patchValue(this.customerData);
-      });
   };
 }

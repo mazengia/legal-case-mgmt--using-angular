@@ -39,10 +39,11 @@
     <thead>
     <tr>
       <th>#</th>
-      <th>Litigation Type</th>
-      <th>Court Adjudicating</th>
-      <th>Case Type</th>
-      <th>Case Stage</th>
+      <th>Litigation-Type</th>
+      <th>Litigation-Status</th>
+      <th>Court-Adjudicating</th>
+      <th>Case-Type</th>
+      <th>Case-Stage</th>
       <th>Branch</th>
       <th>Actions</th>
     </tr>
@@ -50,8 +51,8 @@
     <tbody>
     <tr *ngFor="let data of basicTable.data; let i=index">
       <td>{{ i + 1 }}</td>
-
       <td>{{ data.litigationType }}</td>
+      <td>{{ data.status }}</td>
       <td>
         <span>{{ data.courtAdjudicating }}</span>
       </td>
@@ -69,7 +70,7 @@
           Edit
         </a>
         <nz-divider nzType="vertical"></nz-divider>
-        <a *ngIf=" hasHrVillage() && data.caseStage == 'POST_TRIAL'" style="color: darkgoldenrod"
+        <a *ngIf=" hasAttorneyPriVillage() && data.caseStage == 'POST_TRIAL'" style="color: darkgoldenrod"
            (click)="openAppealDrawer(data.caseStage)">
           Appeal
         </a>
@@ -79,7 +80,7 @@
     <ng-template #Header>
       <div nz-row>
         <div nz-col [nzSpan]="6" [nzPush]="18">
-          <button
+          <button *ngIf="hasMakerPriVillage()"
             style="float: right"
             id="btnStyle"
             nz-button

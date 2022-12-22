@@ -27,7 +27,7 @@ export class ExpenseService {
     return this.http.get<Expense>(`${BASE_URL}/expense-types/${expenseId}`);
   };
 
-  updateExpense = (expenseId: number, expense: Expense): Observable<any> => {
+  updateExpense = (expenseId: any, expense: Expense): Observable<any> => {
     return this.http.put<Expense>(
       `${BASE_URL}/expense-types/${expenseId}`,
       expense

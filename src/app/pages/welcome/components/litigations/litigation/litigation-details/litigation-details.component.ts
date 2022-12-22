@@ -23,6 +23,7 @@ import {
 import {CreateCaseTypeComponent} from "../../../settings/case-type/create-case-type/create-case-type.component";
 import {CommentsService} from "../../../../../../services/comments/comments.service";
 import {Comments} from "../../../../../../models/comments";
+import {AuthService} from "../../../../../../services/auth/auth.service";
 
 @Component({
   selector: 'app-litigation-details',
@@ -47,7 +48,7 @@ export class LitigationDetailsComponent implements OnInit {
   username: any;
   totalElements = 0;
   litigationId: any;
-
+  accessRoles:any;
   constructor(
     private notification: NzNotificationService,
     private drawerService: NzDrawerService,
@@ -55,6 +56,7 @@ export class LitigationDetailsComponent implements OnInit {
     private litigationService: LitigationService,
     private commentsService: CommentsService,
     private customerService: ExpenseService,
+    private authService:AuthService,
     private expenseDetailService: ExpenseDetailService,
     private appointmentService: AppointmentService ) {
   }
@@ -72,6 +74,21 @@ export class LitigationDetailsComponent implements OnInit {
         this.litigation = res;
         console.log(this.litigation);
       })
+  }
+
+  hasSupervisorPriVillage() {
+    this.accessRoles = this.authService.getUserRoles();
+    if (this.accessRoles && this.accessRoles.includes("litigation-supervisor")) {
+      return true;
+    }
+    return false;
+  }
+  hasAttorneyPriVillage() {
+    this.accessRoles = this.authService.getUserRoles();
+    if (this.accessRoles && this.accessRoles.includes("litigation-attorney")) {
+      return true;
+    }
+    return false;
   }
   getCommentByLitigationId(id: any){
     this.commentsService.getCommentByLitigationId(id).subscribe(

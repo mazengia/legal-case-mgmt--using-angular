@@ -18,7 +18,7 @@
         <nz-form-label nzRequired>Mortgage Type</nz-form-label>
         <div formGroupName="mortgageType">
           <nz-form-control [nzSpan]="24" nzErrorTip="please select mortgageType! ">
-            <nz-select class="input" formControlName="mortgageTypeId"
+            <nz-select [(ngModel)]="selectedItemValue" (ngModelChange)="isItemSelected($event)" class="input" formControlName="mortgageTypeId"
                        nzAllowClear
                        nzShowSearch
                        nzPlaceHolder="mortgage type ">
@@ -33,13 +33,7 @@
           </nz-form-control>
         </div>
       </nz-form-item>
-      <nz-radio-group formControlName="radioItem" (ngModelChange)="isRadioSelected($event)" [(ngModel)]="radioValue">
-        <label nz-radio nzValue="Car">Car</label>
-        <label nz-radio nzValue="Home">Home</label>
-        <label nz-radio nzValue="Machine">Machine</label>
-      </nz-radio-group>
-
-      <div *ngIf="radioValue=='Car'">
+      <div *ngIf="selectedItemValue=='Car'">
         <nz-form-item>
           <nz-form-label>Plate Number</nz-form-label>
           <nz-form-control [nzSpan]="24" nzErrorTip="Please write plateNumber! ">
@@ -59,13 +53,13 @@
           </nz-form-control>
         </nz-form-item>
       </div>
-      <nz-form-item *ngIf="radioValue=='Machine'">
+      <nz-form-item *ngIf="selectedItemValue=='Machine'">
         <nz-form-label>machinery Type</nz-form-label>
         <nz-form-control [nzSpan]="24" nzErrorTip="Please write machineryType! ">
           <input class="input" nz-input placeholder="machinery type" formControlName="machineryType"/>
         </nz-form-control>
       </nz-form-item>
-      <nz-form-item *ngIf="radioValue=='Home'">
+      <nz-form-item *ngIf="selectedItemValue=='Home'">
         <nz-form-label>Number Of Title Indeed</nz-form-label>
         <nz-form-control [nzSpan]="24" nzErrorTip="Please write numberOfTitleIndeed! ">
           <input class="input" nz-input placeholder="Number Of Title Indeed" formControlName="numberOfTitleIndeed"/>
@@ -78,7 +72,7 @@
     <div nz-col nzSpan="11">
       <nz-form-item>
         <nz-form-label>Date Collateral Registered</nz-form-label>
-        <nz-form-control [nzSpan]="24" nzErrorTip="Please write date collateral registered! ">
+        <nz-form-control style="width: 100%" [nzSpan]="24" nzErrorTip="Please write date collateral registered! ">
           <nz-date-picker formControlName="dateCollateralRegistered" nzShowTime></nz-date-picker>
         </nz-form-control>
       </nz-form-item>

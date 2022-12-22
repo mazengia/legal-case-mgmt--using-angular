@@ -16,7 +16,7 @@ export class EmployeeService {
   }
 
   getEmployee(pageIndex: number = 0,
-              pageSize: number = 100000) {
+              pageSize: number = 100000000000) {
     const params = new HttpParams()
       .append('page', `${pageIndex}`)
       .append('size', `${pageSize}`);

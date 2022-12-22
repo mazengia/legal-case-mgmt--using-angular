@@ -106,6 +106,7 @@ import {NzToolTipModule} from "ng-zorro-antd/tooltip";
 import {NzRadioModule} from "ng-zorro-antd/radio";
 import {ForeClosureDetailComponent} from "./pages/foreClosure/foreclosuredetail/fore-closure-detail.component";
 import {CreateUpdateAppealComponent} from "./pages/welcome/appeal/create-update-appeal/create-update-appeal.component";
+import {NzCommentModule} from "ng-zorro-antd/comment";
 // ZORRO
 
 registerLocaleData(en);
@@ -148,7 +149,7 @@ registerLocaleData(en);
         NzStepsModule,
         OAuthModule.forRoot({
             resourceServer: {
-                allowedUrls: ['http://10.1.22.72:8083/*','http://10.1.12.73:8094/*', 'http://10.1.12.70:8083/*'],
+                allowedUrls: ['http://10.1.22.72:8083/*', 'http://10.1.12.73:8094/*', 'http://10.1.12.70:8083/*'],
                 sendAccessToken: true,
             },
         }),
@@ -157,6 +158,7 @@ registerLocaleData(en);
         NzCardModule,
         NzToolTipModule,
         NzRadioModule,
+        NzCommentModule,
     ],
   declarations: [
     AppComponent,

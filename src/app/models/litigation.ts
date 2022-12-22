@@ -12,6 +12,7 @@ export class Plaintiff {
   firstName?: string;
   middleName?: string;
   lastName?: string;
+  status?:string;
   accountNumber?: string;
   phoneNumber?: string;
 }
@@ -46,6 +47,7 @@ export class Litigation {
   isBankPlaintiff?: boolean;
   caseStage?: string;
   branch?: Branch;
+  status?:string;
   plaintiff?: Plaintiff;
   defendant?: Defendant;
   attorneyHandlingTheCase?: AttorneyHandlingTheCase;
