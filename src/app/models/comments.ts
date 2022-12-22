@@ -7,6 +7,8 @@ export class Comments {
   version?: number;
   commentId?: number;
   content?: string;
+  createdBy?:string;
+  createdAt?:string;
   litigation?: Litigation;
 }
 export class CommentResponse {

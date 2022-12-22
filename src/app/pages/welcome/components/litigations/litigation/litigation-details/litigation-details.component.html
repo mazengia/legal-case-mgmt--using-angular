@@ -36,7 +36,7 @@
     </div>
   </div>
   <nz-collapse>
-    <nz-collapse-panel  nzHeader="Plaintiff and Defendant">
+    <nz-collapse-panel nzHeader="Plaintiff and Defendant">
       <div nz-row>
         <div nz-col nzSpan="12">
           <nz-card [nzBordered]="false" nzTitle="Plaintiff">
@@ -68,15 +68,15 @@
       <div nz-row>
         <div nz-col nzSpan="11">
           <nz-card [nzBordered]="false" nzTitle="Intervene" [nzExtra]="cardTitle">
-                <p>Name:
-                  {{litigation?.intervene?.firstName}}
-                  {{litigation?.intervene?.lastName}}
-                </p>
-                <p>state: {{litigation?.intervene?.interveneAddress.state }}</p>
-                <p>city: {{litigation?.intervene?.interveneAddress.city }}</p>
-                <p>subCity: {{litigation?.intervene?.interveneAddress.subCity}}</p>
-                <p>woredaOrKebele: {{litigation?.intervene?.interveneAddress.woredaOrKebele }}</p>
-                <p>houseNo: {{litigation?.intervene?.interveneAddress.houseNo}}</p>
+            <p>Name:
+              {{litigation?.intervene?.firstName}}
+              {{litigation?.intervene?.lastName}}
+            </p>
+            <p>state: {{litigation?.intervene?.interveneAddress.state }}</p>
+            <p>city: {{litigation?.intervene?.interveneAddress.city }}</p>
+            <p>subCity: {{litigation?.intervene?.interveneAddress.subCity}}</p>
+            <p>woredaOrKebele: {{litigation?.intervene?.interveneAddress.woredaOrKebele }}</p>
+            <p>houseNo: {{litigation?.intervene?.interveneAddress.houseNo}}</p>
             <ng-template #cardTitle>
               <a *ngIf="hasSupervisorPriVillage()" (click)="openDrawerIntervene(litigation?.intervene?.interveneId)">
                 Edit Intervene
@@ -89,14 +89,14 @@
         </div>
         <div nz-col nzSpan="11">
           <nz-card [nzBordered]="false" nzTitle="Advocate" [nzExtra]="card2Title">
-                <p>Name:
-                  {{litigation?.advocate?.firstName}}
-                  {{litigation?.advocate?.lastName}}
-                </p>
-                <p>date: {{litigation?.advocate?.date | date}}</p>
-                <p>remark: {{litigation?.advocate?.remark }}</p>
+            <p>Name:
+              {{litigation?.advocate?.firstName}}
+              {{litigation?.advocate?.lastName}}
+            </p>
+            <p>date: {{litigation?.advocate?.date | date}}</p>
+            <p>remark: {{litigation?.advocate?.remark }}</p>
             <ng-template #card2Title>
-              <a *ngIf="hasSupervisorPriVillage()"  (click)="openDrawerAdvocate(litigation?.advocate.advocateId)">
+              <a *ngIf="hasSupervisorPriVillage()" (click)="openDrawerAdvocate(litigation?.advocate.advocateId)">
                 Edit Advocate
               </a>
             </ng-template>
@@ -116,7 +116,7 @@
             <th nzAlign="center">Expense</th>
             <th nzAlign="center">Amount</th>
             <th nzAlign="center">Miscellaneous</th>
-            <th  *ngIf="hasAttorneyPriVillage()" nzAlign="center">Action</th>
+            <th *ngIf="hasAttorneyPriVillage()" nzAlign="center">Action</th>
           </tr>
           </thead>
           <tbody>
@@ -141,58 +141,50 @@
     </nz-collapse-panel>
   </nz-collapse>
 
-  <nz-table #commentList [nzData]="comment">
-    <thead>
-    <tr>
-      <th nzAlign="center">Content</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let data of comment; let i = index">
-      <td nzAlign="center"> {{ data.content}} </td>
-    </tr>
-    </tbody>
-  </nz-table>
-  <div *ngFor="let data of comment">
-    <div nz-row>
-      <div nz-col nzSpan="12">
-        <div *ngIf="data.c==username">
-          <nz-comment nzAuthor="{{data.created_by }} "
-                      nzDatetime="{{data.created_at}}">
+  <nz-collapse>
+    <nz-collapse-panel nzHeader="Comments">
+      <div *ngFor="let data of comment">
+        <div nz-row>
+          <div nz-col nzSpan="6"></div>
+          <div nz-col nzSpan="6">
+            <div *ngIf="data.createdBy==username">
+              <nz-comment nzAuthor="{{data.createdBy }} "
+                          nzDatetime="{{data.createdAt|date}}">
 
-            <nz-avatar
-              nz-comment-avatar
-              nzIcon="user"
-            ></nz-avatar>
-            <nz-comment-content>
-              <p>
-                {{data.remark}}
-              </p>
-            </nz-comment-content>
-          </nz-comment>
+                <nz-avatar
+                  nz-comment-avatar
+                  nzIcon="user"
+                ></nz-avatar>
+                <nz-comment-content>
+                  <p>
+                    {{data.content}}
+                  </p>
+                </nz-comment-content>
+              </nz-comment>
+            </div>
+          </div>
+          <div nz-col nzSpan="6">
+            <div *ngIf="data.createdBy!=username">
+              <nz-comment nzAuthor="{{data.createdBy}}"
+                          nzDatetime="{{data.createdAt|date}}">
+
+                <nz-avatar
+                  nz-comment-avatar
+                  nzIcon="user"
+                ></nz-avatar>
+                <nz-comment-content>
+                  <p>
+                    {{data.content}}
+                  </p>
+                </nz-comment-content>
+              </nz-comment>
+            </div>
+          </div>
+          <div nz-col nzSpan="6"></div>
         </div>
       </div>
-      <div nz-col nzSpan="12">
-        <div *ngIf="data.created_by!=username">
-          <nz-comment nzAuthor="{{data.created_by}}"
-                      nzDatetime="{{data.created_at}}">
-
-            <nz-avatar
-              nz-comment-avatar
-              nzIcon="user"
-            ></nz-avatar>
-            <nz-comment-content>
-              <p>
-                {{data.remark}}
-              </p>
-            </nz-comment-content>
-          </nz-comment>
-        </div>
-      </div>
-    </div>
-
-
-  </div>
+    </nz-collapse-panel>
+  </nz-collapse>
 
 </nz-card>
 

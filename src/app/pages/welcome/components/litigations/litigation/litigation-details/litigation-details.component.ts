@@ -62,6 +62,8 @@ export class LitigationDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.username = (this.authService.getTokenDetails() as any).preferred_username;
+    // console.log("uname=",this.username)
     this.litigationId = this.activatedRoute.snapshot.paramMap.get('litigationId');
     this.getLitigationById(this.litigationId);
     this.findJudicialAppointmentByLitigationLitigationId(this.litigationId);
@@ -95,7 +97,7 @@ export class LitigationDetailsComponent implements OnInit {
       res => {
         // @ts-ignore
         this.comment = res._embedded.commentDtoes;
-        // console.log("comment",this.comment);
+        console.log("comment",this.comment);
       })
   }
 
