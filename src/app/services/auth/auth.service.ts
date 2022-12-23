@@ -29,6 +29,8 @@ export class AuthService {
   }
 
   getEmployeeId() {
+    // @ts-ignore
+    // console.log("this.getTokenDetails()",this.getTokenDetails().email)
     return (<any>this.getTokenDetails()).employeeID;
   }
 

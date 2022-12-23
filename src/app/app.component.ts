@@ -92,7 +92,7 @@ export class AppComponent {
       return null;
     }
 
-    return (cliams as any).given_name;
+    return (cliams as any).email;
   }
 
   public get fullName() {
@@ -105,6 +105,7 @@ export class AppComponent {
       .getEmployeeByEmployeeId(employeeId)
       .subscribe((data: any) => {
         this.branchName = data.branch.name;
+        // console.log("emil=",data.id)
         this.employeeId = data.id;
       });
   }
